@@ -1,0 +1,4 @@
+The matrix used in Ben or Tiwari interpolation is called Hankel's matrix.
+The rows are shifted 1 element to the right.
+Early termination
+Racing algorithms.

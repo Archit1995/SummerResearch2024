@@ -1,24 +1,3 @@
-# 1. Have a black box for f/g. Change black box implementation- it only takes in the point and the prime.
-Construct_Blackbox:=proc(f,g,vars)
-    local BB:
-    BB:=proc(point_,p)
-        local var,num,denom_,a,i:
-        var:=vars:
-        num:=f:
-        denom_:=g:
-        a:=num/denom_:
-        # print("a: ",a):
-        return Eval(a,{seq(var[i]=point_[i],i=1..numelems(point_))}) mod p: 
-    end proc:
-    return BB:
-end proc:
-generate_random_vector:=proc(n,p)
-    local r,i:
-    r:=rand(p):
-    return [seq(r(),i=1..n)]:
-end proc:
-
-# MQRFR(m,u,0,1,p)
 MQRFR:=proc(r0,r1,t0,t1,p)
     local r,t,q,i,f,g,qmax,lcg:
     r[0]:=r0:
@@ -65,10 +44,16 @@ MQRFR:=proc(r0,r1,t0,t1,p)
     # print("lcg= ",lcg):
     return f/lcg mod p,g/lcg mod p,qmax,lcg:# make g monic. Also add a check to see that g !=0
 end proc:
+generate_random_vector:=proc(n,p)# generate anchor points p_1..p_n and shift B_2..B_n, may be used 
+# to create  random exponents of anchor points. 
+    local r,i:
+    r:=rand(p):
+    return [seq(r(),i=1..n)]:
+end proc:
 # Monte Carlo algorithm for early termination separation
 Early_termination_seperation:=proc(B,p)
-    local r,u,f,g,dq,num_points,correct_degree,points,Y,m,check,lc_u,sigma_,shift_,alpha,phi_,nv,np,m_u,i,lcg:
-    r:=rand(p):
+    local r,u,f,g,dq,num_points,correct_degree,points,Y,m,check,lc_u,anchor_points,shift_,alpha,phi_,nv,np,m_u,i,lcg:
+    # r:=rand(p):
     num_points:=1:
     correct_degree:=true:
     while(correct_degree) do
@@ -77,17 +62,21 @@ Early_termination_seperation:=proc(B,p)
         # alpha:=[seq(i*100,i=1..num_points)]:
         alpha:=[seq(r(),i=1..num_points)]:
         # print("alpha: ",alpha):
-        sigma_:=generate_random_vector(numelems(vars),p):
-        # points:=[seq([seq(j+i,i=1..2)],j=0..num_points-1)]:
+        anchor_points:=generate_random_vector(numelems(vars),p):
+        print("anchor_points: ",anchor_points):
         shift_:=generate_random_vector(numelems(vars)-1,p):
+        print("shift_: ",shift_):
+        print("f(var[1],shift[1]*var[1]-shift[1]*anchor_points[1]+anchor_points[2]"): 
         # _phi:=[seq([seq(0,nv=1..num_var)],np=1..num_points)]:\
         # phi_:=convert(_phi,Array):
         # print("phi_: ",phi_):
         # phi_[np][1]=alpha[np]:
+        # f(x,y)=T(x,B2x-B2p1+p2)
+        # f(p1,p2)=T(p1)
         for np from 1 to num_points do 
             phi_[np][1]:=alpha[np]:
             for nv from 2 to num_var do 
-                phi_[np][2]:=shift_[nv-1]*alpha[np]-shift_[nv-1]*sigma_[1]+sigma_[2] mod p:
+                phi_[np][2]:=shift_[nv-1]*alpha[np]-shift_[nv-1]*anchor_points[1]+anchor_points[2] mod p:
             end do:
         end do:
         print("phi_: ",phi_):
@@ -114,58 +103,28 @@ Early_termination_seperation:=proc(B,p)
         end if:
         print("====================================================="):
     end do:
-    return f,g,lcg,sigma_,shift_:
+    return f,g,lcg,anchor_points,shift_:
 end proc:
 
-
-# Test 1 
-# vars:={x,y}:
-# p:=2^61-1:
-# num_var:=numelems(vars):
-# num_deg:=45:
-# denom_deg:=30:
-# ff:=randpoly(vars,sparse,degree=num_deg) mod p:
-# gg:=randpoly(vars,sparse,degree=denom_deg) mod p:
-# # gg:=gg/lcoeff(gg) mod p:
-# # print("ff ",ff):
-# # print("gg ",gg):
-# # degree n=70 and d=52 CAUSING PROBLEM
-# B:=Construct_Blackbox(ff,gg,vars):
-# print(B):
-# f,g,lc_g,sigma_,shift_:=Early_termination_seperation(B,p):
-# Phi:=shift_[1]*x-shift_[1]*sigma_[1]+sigma_[2] mod p:
-# f_x:=Expand(subs(y=Phi,ff)) mod p:
-# # print("f_x= ",f_x):
-# g_x:=Expand(subs(y=Phi,gg)) mod p:
-# print("lcoeff(gg)= ",lcoeff(gg) mod p):
-# print("f= ",f):
-# print("f_x= ",f_x):
-# print("g_x= ",g_x):
-# f_x:=f_x/lcoeff(g_x) mod p:
-# g_x:=g_x/lcoeff(g_x) mod p:
-# # print("lc_g= ",lc_g mod p):
-# # print("g_x= ",g_x):
-# # print("g= ",g):
-# print("checking numerator: ",f-f_x):
-# print("checking denominator: ",g-g_x):
-
-# test:=proc(num_deg,denom_deg,vars,p)
-#     ff:=randpoly(vars,sparse,degree=num_deg) mod p:
-#     gg:=randpoly(vars,sparse,degree=denom_deg) mod p:
-#     B:=Construct_Blackbox(ff,gg,vars):
-#     f,g,lc_g,sigma_,shift_:=Early_termination_seperation(B,p):
-#     Phi:=shift_[1]*x-shift_[1]*sigma_[1]+sigma_[2] mod p:
-#     f_x:=Expand(subs(y=Phi,ff)) mod p:
-#     g_x:=Expand(subs(y=Phi,gg)) mod p:
-#     f_x:=f_x/lcoeff(g_x) mod p:
-#     g_x:=g_x/lcoeff(g_x) mod p:
-#     print("checking numerator: ",f-f_x):
-#     print("checking denominator: ",g-g_x):
-# end proc:
-# vars:={x,y}:
-# num_var:=numelems(vars):
-# p:=2^31-1:
-# # Test 1
-# num_deg:=20:
-# denom_deg:=10:
-# test(num_deg,denom_deg,vars,p);
+test_separation:=proc(ff,gg,B,p)
+    # ff:=randpoly(vars,sparse,degree=num_deg) mod p:
+    # gg:=randpoly(vars,sparse,degree=denom_deg) mod p:
+    # B:=Construct_Blackbox(ff,gg,vars):
+    f,g,lc_g,anchor_points,shift_:=Early_termination_seperation(B,p):
+    Phi:=shift_[1]*x-shift_[1]*anchor_points[1]+anchor_points[2] mod p:
+    f_x:=Expand(subs(y=Phi,ff)) mod p:
+    g_x:=Expand(subs(y=Phi,gg)) mod p:
+    lc_g_x:=lcoeff(g_x):
+    f_x:=f_x/lc_g_x mod p:
+    g_x:=g_x/lc_g_x mod p:
+    print("leading coefficient of g: ",lc_g):
+    print("1/lc_g = ",1/lc_g mod p):
+    print("leading coefficient of g_x: ",lc_g_x):
+    print("lc_g*lc_g_x =    ",lc_g*lc_g_x mod p):
+    print("1/lc_g_x = ",1/lc_g_x mod p):
+    print("checking numerator: ",f-f_x):
+    print("checking denominator: ",g-g_x):
+    B_verify:=Construct_Blackbox(f,g,vars):
+    print("B_verify: ",B_verify):
+    
+end proc:

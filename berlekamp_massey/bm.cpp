@@ -39,21 +39,24 @@ std::vector<int> add(std::vector<int> a,std::vector<int> b){
         c_new.push_back(a[i]+b[i]);
     return c_new;
 }
-void display(std::vector<int>v, char name[]){
+void display(std::vector<int>v){
     // cout<<"In display(std::vector<int>v) \n";
+    cout<<"{";
     for (int i = 0; i < v.size(); i++)
     {
-        printf("%s[%d]= %d ",name,i,v[i]);
+        printf("%d,",v[i]);
     }
+    cout<<"}"<<endl;
     printf("\n");
 }
-void display(int* v,int size,char name[]){
+void display(int* v,int size){
     // printf("In display(int* v) \n");
     // cout<<"v.size()= "<<sizeof(v)<<endl;
+    cout<<"{";
     for (int i=0;i<size;i++){
-        printf("%s[%d]= %d ",name,i,v[i]);
+        printf("%d ",v[i]);
     }   
-    printf("\n");
+    cout<<"}"<<endl;
 }
 
 std::vector<int> failure(std::vector<int>coeff, int* seq, int findex,int index,int del){
@@ -113,44 +116,32 @@ int lrr(std::vector<int> coeff,int* seq,int index){
     return sum;
     }
 }
-int main(){
-    cout<<"In main"<<endl;
-    int N=10;
+
+std::vector<int> berlekamp_massey(int*s, int N){
+    cout<<"In berlekamp_massey"<<endl;
     int f=0;
-int s[N]={1,2,4,8,13,20,28,215,757,2186};
-display(s,N,"s");
-vector<int>c;
-vector<int>old_c;
-vector<int>temp_c;
-cout<<"old_c length= "<<old_c.size()<<endl;
+    display(s,N);
+    vector<int>c;
+    vector<int>old_c;
+    vector<int>temp_c;
+    cout<<"old_c length= "<<old_c.size()<<endl;
+    old_c.push_back(0);
+    try{
+        c.insert(c.begin(),0);
+        cout<<"c[1] "<<c[1]<<endl;
+        throw 20;
+    }
+    catch(int err){
+        cout<<err<<endl;
+    }
 
-// cout<<__cplusplus;
-old_c.push_back(0);
-
-// cout<<c.begin()<<endl;
-// cout<<"c[0] "<<c[0]<<endl;
-try{
-    c.insert(c.begin(),0);
-    cout<<"c[1] "<<c[1]<<endl;
-    throw 20;
-}
-catch(int err){
-    cout<<err<<endl;
-}
-
-for (int i = 0; i < N ; i++)
-{
-
-    // if(i==5){
-    //     break;
-    // }
-
+    for (int i = 0; i < N ; i++){
     printf("_______________________________________________________________________\n");
     printf("In for loop. i= %d \n",i);
     // cout<<"s["<<i<<"]= "<<s[i]<<" "<<endl;
     // printf("old_c \n");
-    display(old_c,"old_c");
-    display(c,"c");
+    display(old_c);
+    display(c);
     int temp=lrr(c,s,i);
     cout<<"temp= "<<temp<<endl;
     int delta=s[i]-temp;
@@ -166,30 +157,33 @@ for (int i = 0; i < N ; i++)
         temp_c=failure(old_c,s,f,i,delta);
         f=i;
         cout<<"temp_c.size()= "<<temp_c.size()<<endl;
-        display(temp_c,"temp_c");
-        display(c,"c");
+        display(temp_c);
+        display(c);
         old_c=c;
         c=add(c,temp_c);
-        display(c,"c");
-
+        display(c);
         }
     }
-    else{
+    else
         continue;
-    
-
     }
-    
+    c.erase(c.begin());
+    return c;
+}
+int main(){
+    int N=10;
+    int s[N]={1,2,4,8,13,20,28,215,757,2186};
+    display(s,N);
+    vector<int>rr=berlekamp_massey(s,N);
+    display(rr);
+    return 0;
 }
 
-return 0;
-}
 // There exists 2 global sequences c and c_old and a local sequence d consrucuted from c_old
 // c is the current sequence of coefficients c=c+d
 // Note: we use c_old to construct d such that lrr(d,f+1)=delta, 
 // Case 1: i=f 
 // Case 2: i=f+1
 // Case 3 : i>f+1
-
 
 

@@ -56,16 +56,17 @@ Early_termination_seperation:=proc(B,p)
     # r:=rand(p):
     num_points:=1:
     correct_degree:=true:
+    # anchor_points:=generate_random_vector(numelems(vars),p):
+    # print("anchor_points: ",anchor_points):
+    shift_:=generate_random_vector(numelems(vars)-1,p):
+    print("shift_: ",shift_):
     while(correct_degree) do
         print("num_points: ",num_points):
         r:=rand(p):
-        # alpha:=[seq(i*100,i=1..num_points)]:
         alpha:=[seq(r(),i=1..num_points)]:
-        # print("alpha: ",alpha):
+        print("alpha: ",alpha):
         anchor_points:=generate_random_vector(numelems(vars),p):
         print("anchor_points: ",anchor_points):
-        shift_:=generate_random_vector(numelems(vars)-1,p):
-        print("shift_: ",shift_):
         print("f(var[1],shift[1]*var[1]-shift[1]*anchor_points[1]+anchor_points[2]"): 
         # _phi:=[seq([seq(0,nv=1..num_var)],np=1..num_points)]:\
         # phi_:=convert(_phi,Array):
@@ -76,17 +77,23 @@ Early_termination_seperation:=proc(B,p)
         for np from 1 to num_points do 
             phi_[np][1]:=alpha[np]:
             for nv from 2 to num_var do 
-                phi_[np][2]:=shift_[nv-1]*alpha[np]-shift_[nv-1]*anchor_points[1]+anchor_points[2] mod p:
+                phi_[np][2]:=shift_[nv-1]*alpha[np]-shift_[nv-1]*anchor_points[1]^np+anchor_points[2]^np mod p:
             end do:
         end do:
-        print("phi_: ",phi_):
-        Y:=[seq(B(phi_[i],p),i=1..num_points)]:
+        _phi:=[seq(convert(phi_[i],list),i=1..num_points)]:
+        print("_phi: ",_phi):
+        # print("phi_[1]: ",):
+        
+        Y:=[seq(B(_phi[i],p),i=1..num_points)]:
+        # if(num_points=16)then break: end if:
         # Y:=[B(phi_[1],p)]:
-        # print("Y: ",Y):
+        print("Y: ",Y):
+        Phi:=shift_[1]*x-shift_[1]*anchor_points[1]+anchor_points[2] mod p:
 
         m:=Expand(product(x-alpha[i],i=1..num_points)) mod p:
+        print("m: ",m):
         u:=Interp(alpha,Y,x)mod p:
-        # print("u: ",u):
+        print("u: ",u):
         # checking:=[seq(Eval(u,x=alpha[i]) mod p,i=1..num_points)]:
         # print("Y: ",Y):
         # print("checking: ",checking):
@@ -96,6 +103,7 @@ Early_termination_seperation:=proc(B,p)
         # print("f= ",f):
         # print("g= ",g):
         # print("lcg= ",lcg):
+        if num_points=16 then break: end if:
         if dq > 1 then 
             break:
         else 

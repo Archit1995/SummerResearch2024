@@ -1,0 +1,225 @@
+%   DOCUMENT CLASS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Use the `sfuthesis` class to format your thesis.
+%
+%   For more information about thesis formatting requirements, go to
+%   http://www.lib.sfu.ca/help/publish/thesis or ask a thesis advisor at the
+%   SFU Research Commons.
+
+
+\documentclass{sfuthesis}
+
+
+
+%   DOCUMENT METADATA  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Fill in the following information for the title page and declaration of
+%   committee page. Please review the Declaration of Committee page
+%   instructions on the library's thesis website before completing this page:
+%   https://www.lib.sfu.ca/help/publish/thesis/format/declaration-committee
+
+%   Choose the \faculty entry below from the following list:
+%
+%       - Faculty of Applied Sciences
+%       - Faculty of Arts and Social Sciences
+%       - Beedie School of Business
+%       - Faculty of Communication, Art and Technology
+%       - Faculty of Education
+%       - Faculty of Environment
+%       - Faculty of Health Sciences
+%       - Faculty of Science
+
+\title{An example of a thesis on the subject of your degree}
+\thesistype{Thesis}
+\author{Stuart Arthur Dent}
+\previousdegrees{%
+    M.Sc., Wossamotta University, 1963\\
+    B.Sc., Unseen University, 1836}
+\degree{Doctor of Philosophy}
+\department{Department of Inadvisably Applied Mathematics}
+\faculty{Faculty of Example Names}
+\copyrightyear{2021}
+\semester{Fall 2021}
+
+
+%   You may include up to six keywords or phrases. Keywords should be separated
+%   with semicolons. No punctuation at the end.
+\keywords{thesis template; Simon Fraser University; \LaTeX; time travel paradoxes}
+
+\committee{
+    \chair{Pamela Isely}{Assistant Professor, Computing Science}
+    \member{Emmett Brown}{Supervisor \\ Professor, Computing Science}
+    \member{Bonnibel Bubblegum}{Committee Member \\ Associate Professor, Computing Science}
+    \member{James Moriarty}{Committee Member \\ Adjunct Professor, Computing Science}
+    \member{Kaylee Frye}{Examiner \\ Assistant Professor, Engineering Science}
+    \member{Hubert J.\ Farnsworth}{External Examiner \\ Professor \\ Department of Quantum Fields \\ Mars University}
+}
+
+
+
+%   PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Add any packages you need for your thesis here.
+%   You don't need to call the following packages, which are already called in
+%   the sfuthesis class file:
+%
+%   - appendix
+%   - etoolbox
+%   - fontenc
+%   - geometry
+%   - lmodern
+%   - nowidow
+%   - setspace
+%   - tocloft
+%
+%   If you call one of the above packages (or one of their dependencies) with
+%   options, you may get a "Option clash" LaTeX error. If you get this error,
+%   you can fix it by removing your copy of \usepackage and passing the options
+%   you need by adding
+%
+%       \PassOptionsToPackage{<options>}{<package>}
+%
+%   before \documentclass{sfuthesis}.
+%
+%   The following packages are a few suggestions you might find useful.
+%
+%   (1) amsmath and amssymb are essential if you have math in your thesis;
+%       they provide useful commands like ``blackboard bold'' symbols and
+%       environments for aligning equations.
+%   (2) amsthm includes allows you to easily change the style and numbering of
+%       theorems. It also provides an environment for proofs.
+%   (3) graphicx allows you to add images with \includegraphics{filename}.
+%   (4) hyperref turns your citations and cross-references into clickable
+%       links, and adds metadata to the compiled PDF.
+%   (5) pdfpages lets you import pages of external PDFs using the command
+%       \includepdf{filename}. You will need to do this if your research
+%       requires an Ethics Statement.
+%
+% \usepackage{subfiles}% used to decompose a large latex document into multiple 
+\usepackage{amsmath}                            % (1)
+\usepackage{amssymb}                            % (1)
+\usepackage{amsthm}                             % (2)
+\usepackage{graphicx}                           % (3)
+\usepackage[pdfborder={0 0 0}]{hyperref}        % (4)
+\usepackage{cite}
+% \usepackage{pdfpages}                         % (5)
+% ...
+% ...
+% ...
+% ... add your own packages here!
+
+
+
+
+%   OTHER CUSTOMIZATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Add any packages you need for your thesis here. We've started you off with
+%   a few suggestions.
+%
+%   (1) Use a single word space between sentences. If you disable this, you
+%       will have to manually control spacing around abbreviations.
+%   (2) Correct the capitalization of "Chapter" and "Section" if you use the
+%       \autoref macro from the `hyperref` package.
+%   (3) The LaTeX thesis template defaults to one-and-a-half line spacing. If
+%       your supervisor prefers double-spacing, you can redefine the
+%       \defaultspacing command.
+%
+
+\frenchspacing                                    % (1)
+\renewcommand*{\chapterautorefname}{Chapter}      % (2)
+\renewcommand*{\sectionautorefname}{Section}      % (2)
+\renewcommand*{\subsectionautorefname}{Section}   % (2)
+% \renewcommand{\defaultspacing}{\doublespacing}  % (3)
+% ...
+% ...
+% ...
+% ... add your own customizations here!
+
+
+
+
+%   FRONTMATTER  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Title page, committee page, abstract, dedication, acknowledgements, table
+%   of contents, etc.
+%
+%   If your research requires an Ethics Statement, download the pdf from
+%   https://www.lib.sfu.ca/help/publish/thesis/regulations#ethics-statement
+%   to your thesis folder, then uncomment the appropriate lines below.
+
+\begin{document}
+
+\frontmatter
+\maketitle{}
+\makecommittee{}
+
+%\addtoToC{Ethics Statement}%
+%\includepdf[pagecommand={\thispagestyle{plain}}]{ethics_statement_piii.pdf}%
+%\clearpage
+
+\begin{abstract}
+Abstract paragraphs should be unindented. Master's abstracts are limited to 150 words; the limit is 350 words for doctoral abstracts. Abstract text must fit on a single page.
+\end{abstract}
+
+
+\begin{dedication}
+This is an optional page. Use your choice of paragraph style for text on this page.
+\end{dedication}
+
+
+\begin{acknowledgements}
+This is an optional page. Use your choice of paragraph style for text on this page.
+\end{acknowledgements}
+
+\addtoToC{Table of Contents}%
+\tableofcontents%
+\clearpage
+
+%   This is an optional page. Remove the following lines if you don't have any tables.
+\addtoToC{List of Tables}%
+\listoftables%
+\clearpage
+
+%   This is an optional page. Remove the following lines if you don't have any figures.
+\addtoToC{List of Figures}%
+\listoffigures%
+\clearpage
+
+
+
+
+
+%   MAIN MATTER  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Start writing your thesis --- or start \include ing chapters --- here.
+%
+
+\mainmatter%
+\include{chapter1/chapter1}
+
+
+
+%   BACK MATTER  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   References and appendices. Appendices come after the bibliography and
+%   should be in the order that they are referred to in the text.
+%
+%   If you include figures, etc. in an appendix, be sure to use
+%
+%       \caption[]{...}
+%
+%   to make sure they are not listed in the List of Figures.
+%
+
+\backmatter%
+    \addtoToC{Bibliography}
+    \bibliographystyle{plain}
+    \bibliography{citation}
+
+\begin{appendices} % optional
+\chapter{Code}
+
+Appendices should be used for supplemental information that does not form part of the main research. Remember that figures and tables in appendices should not be listed in the List of Figures or List of Tables.
+
+\end{appendices}
+\end{document}

@@ -1,0 +1,18 @@
+\chapter{Introduction}
+\section{Blackboxes and Evaluation homomorphism}
+\subsection{Blackboxes}
+\begin{definition}
+A blackbox is a function that takes an input and produces an output. The internal workings of the function are not known
+ to the user. The user can only interact with the blackbox by providing inputs and observing the outputs.
+\end{definition}
+\subsection{Evaluation homomorphism}
+\begin{definition}
+Let $K$ be a field and $K[x] \in K(x)$ be the ring of polynomials and field of rational functions respectively.
+Let $\alpha \in K$ be a point in the field. The evaluation homomorphism is a map
+\[
+\begin{array}{c r l l }
+\phi: & K[x] & \longrightarrow & K[x]/(x-\alpha) \cong K \\
+& f(x) & \longmapsto & f(\alpha)
+\end{array}
+\]
+\end{definition}    

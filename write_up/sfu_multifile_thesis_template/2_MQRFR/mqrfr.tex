@@ -1,0 +1,159 @@
+\chapter{Maximal Quotient Rational Function Reconstruction}
+\section{Univariate Rational function reconstruction}
+We are given a black box for a rational function $F(x)=\frac{f(x)}{g(x)} \in K(x)$
+where $f(x),g(x) \in K[x]$ and $g(x) \neq 0$. We need to recover the polynomials $f(x),g(x)$ upto 
+a constant factor.
+We can evaluate the black box at $n$ distinct points $\alpha_{1},\dots,\alpha_{n}$ to gets
+ the values $y_{1},\dots,y_{n}$.
+\subsection{Interpolation}
+Given a set of points 
+
+\subsection{Extended Euclidean Algorithm}
+
+\begin{algorithm}
+\caption{Extended Euclidean Algorithm}
+\begin{algorithmic}[1]
+  \State $r_{0} \gets f$,\quad$s_{0} \gets 1$, \quad$t_{0} \gets 0$
+  \State $r_{1} \gets g$, \quad $s_{1}\gets 0$,\quad$t_{1} \gets 1$
+  \State i=1
+  \While{$r_{i} \neq 0$} do 
+  \State $q_{i} \gets r_{i-1}/r_{i}$
+  \State $r_{i+1} \gets r_{i-1}-q_{i}r_{i}$
+  \State $s_{i+1} \gets s_{i-1}-q_{i}s_{i}$
+  \State $t_{i+1} \gets t_{i-1}-q_{i}t_{i}$
+  \State $i \gets i+1$
+  \EndWhile
+  \State $l \gets  i-1$\\
+  return $r_{l},s_{l},t_{l} \in K[x]$
+  \end{algorithmic}
+\end{algorithm}
+
+\[\frac{f}{g}= \polylongdiv{f}{g}\]
+\begin{theorem}Bezout's identity
+\[
+\text{Let } f,g \in K[x] \text{ such that } f,g \neq 0
+\]
+\[
+\text{Let } d=gcd(f,g) \text{ then } \exists s,t \in K[x] \text{ such that }
+\]
+\[
+s_{i}f+t_{i}g=d
+\]
+\[
+\text{when  }gcd(f,g) = 1 \implies s_{l}f+t_{l}g=1
+\]
+\[
+\implies t_{l}g \equiv 1 \mod f \implies t_{l} = \frac{1}{g} \mod f
+\]
+\end{theorem}
+\subsection{Chinese Remainder Theorem}
+
+\begin{theorem}\cite{dummit2003abstract}
+  Let $I_{1},I_{2},..,I_{k}$ be ideals in a ring $R$.
+The map 
+\[
+\begin{array}{c r l l }
+\phi: & R & \longrightarrow & R/I_{1} \times R/I_{2} \times \dots \times R/I_{k} \\
+& r & \longmapsto & (r+I_{1},r+I_{2},\dots,r+I_{k})
+
+\end{array}
+\]
+is a ring homomorphism with kernel $I_{1} \cap I_{2} \cap \dots \cap I_{k}$. If for each $i,j \in \{1,2,\dots,k\}$ with
+$i \neq j$,the ideals $I_{i}, I_{j}$ are called comaximal and the map $\phi$ is surjective. Moreover,
+\[
+I_{1} \cap I_{2} \cap \dots \cap I_{k}=I_{1}I_{2}\dots I_{k} 
+\]
+\[
+\implies R/(I_{1}I_{2}\dots I_{k})=R/(I_{1}\cap I_{2}\cap \dots\cap I_{k})   \cong R/I_{1} \times R/I_{2} \times \dots \times R/I_{k}.
+\]
+\end{theorem}
+
+ \subsection{Chinese remainder theorem and evaluating black box for polynomials}
+ We know the following result from algebra that,
+
+ \begin{theorem} 
+  Let $K[x]$ be a polynomial ring over a field $K$ and let $I \subset K[x]$ be an ideal of the ring 
+  then $K[x]/I$ is a field if and only if $I$ is a maximal ideal.
+  \end{theorem}
+ Given a black box $B$ for a polynomial $f(x) \in K[x]$ and $x=\alpha \in K$ 
+ we can evaluate $f(\alpha)$ by querying the black box $B$ at $\alpha$.
+ 
+ \[
+ \begin{array}{c r l l }
+ \phi: & K[x] & \longrightarrow & K[x]/(x-\alpha) \\
+  & f(x) & \longmapsto & f(\alpha)
+ \end{array}
+ \]
+ Thus, evaluating the polynomial at n points is querying the black box at n points
+  $\alpha_{1},\dots,\alpha_{n}$ is the following homomorphism.
+  \[
+  \begin{array}{c r l l }
+  \phi: & K[x] & \longrightarrow & K[x]/(x-\alpha_{1}) \times K[x]/(x-\alpha_{2}) \times \dots \times K[x]/(x-\alpha_{n}) \\
+   & f(x) & \longmapsto & (f(\alpha_{1}),f(\alpha_{2}),\dots,f(\alpha_{n})) 
+    
+  \end{array}
+  \]
+From the Chinese remainder theorem, we know that 
+\[
+K[x]/(x-\alpha_{1}) \times K[x]/(x-\alpha_{2}) \times \dots \times K[x]/(x-\alpha_{n}) \cong
+ K[x]/((x-\alpha_{1})(x-\alpha_{2})\dots(x-\alpha_{n}))
+\]
+
+\[
+\text{Let } \begin{bmatrix}
+    \alpha_{1}, \dots,\alpha_{n} 
+\end{bmatrix}\in K^n
+\] such that 
+\[
+\alpha_{i}\neq\alpha_{j} \forall i\neq j\text{ and }n >0.
+\]
+\[
+\text{Let } F(x)=\frac{f(x)}{g(x)} \in K(x), \text{ where }f(x),g(x) \in K[x],\]
+
+\[
+\text{Let } y_{i}=F(\alpha_{i})=\frac{f(\alpha_{i})}{g(\alpha_{i})}, \forall 1 \leq i 
+\leq n, \text{ such that } g(\alpha_{i})\neq 0.
+\]
+
+\[\
+\exists! \Space u(x) \in K[x] \text{ of degree} < n \text { such that } 
+u(\alpha_{i})=y_{i}
+\]
+\[
+\implies u(x) \equiv y_{i} \mod (x-\alpha_{i})
+\]
+\[
+\implies F(x)=\frac{f(x)}{g(x)} \equiv u(x) \mod(x-\alpha_{i})
+\]
+\[
+\text{Let } \overline{m}(x)=\prod_{i=1}^{n}(x- \alpha_{i})
+\]
+\subsection{Main idea}
+
+\begin{enumerate}
+    \item We are given the black box of rational polynomial $F(x) \in K(x)$.
+    We have the option to choose $n$ distinct points $\alpha_{1},\dots,\alpha_{n}$
+    ,such that $n > degree_numerator+ degree_denominator$ 
+    and evaluate the black box at these points to get $y_{1},\dots,y_{n}$.
+    \item Construct two polynomials $m,u$ out of these two sets of points.
+    \item $m(x)=\prod_{i=1}^{n}(x-\alpha_{i})$ is the Chinese remainder theorem 
+    polynomial.
+    \item $u(x)= Interpolation(\alpha_{i},y_{i})$. Note that the degree of
+     $u(x)=n-1$ and the degree of $m(x)=n$.
+     \item We take these two polynomials $m,u$ and apply the extended euclidean 
+      algorithm to get $f(x),g(x) \implies f,g$ appear as remainder and 
+      coefficient in the division algorithm.
+      \item We can think of any rational function $\frac{f}{g} $as members of an equivalence 
+      class.(localization?) with other elements. 
+      \item What MQRFR says is that the $f=r_{i}$nd $g=t_{i}$ for the $i^{th}$
+      iteration of the extended euclidean algorithm  such that
+    $deg (q_{i})$ is max. 
+    \item There does seem to be some relationship between Univariate rational
+    functions, the interpolated polynomial $u$
+    the product polynomial $m$ and the extended euclidean algorithm(m,u).  
+      
+
+      \item CRT from 265 Dummit and Foote.     
+      \item                
+\end{enumerate}
+

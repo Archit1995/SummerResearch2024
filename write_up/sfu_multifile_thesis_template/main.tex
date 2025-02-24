@@ -44,7 +44,7 @@
 
 %   You may include up to six keywords or phrases. Keywords should be separated
 %   with semicolons. No punctuation at the end.
-\keywords{thesis template; Simon Fraser University; \LaTeX; time travel paradoxes}
+\keywords{thesis template; Simon Fraser University; \LaTeX\@ time travel paradoxes}
 
 \committee{
     \chair{Pamela Isely}{Assistant Professor, Computing Science}
@@ -102,6 +102,9 @@
 \usepackage{graphicx}                           % (3)
 \usepackage[pdfborder={0 0 0}]{hyperref}        % (4)
 \usepackage{cite}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{polynom}
 % \usepackage{pdfpages}                         % (5)
 % ...
 % ...
@@ -128,7 +131,13 @@
 \frenchspacing                                    % (1)
 \renewcommand*{\chapterautorefname}{Chapter}      % (2)
 \renewcommand*{\sectionautorefname}{Section}      % (2)
-\renewcommand*{\subsectionautorefname}{Section}   % (2)
+\renewcommand*{\subsectionautorefname}{Section} 
+\newcommand{\Space}{\text{ }}  % (2)
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}{Definition}[section]
+
 % \renewcommand{\defaultspacing}{\doublespacing}  % (3)
 % ...
 % ...
@@ -195,8 +204,9 @@ This is an optional page. Use your choice of paragraph style for text on this pa
 %
 
 \mainmatter%
-\include{chapter1/chapter1}
-
+\include{1_chapter1/chapter1}
+\include{2_MQRFR/mqrfr}
+\include{3_BenOr_Tiwari/benOr_tiwari}
 
 
 %   BACK MATTER  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

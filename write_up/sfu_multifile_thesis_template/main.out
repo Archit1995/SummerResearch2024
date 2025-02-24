@@ -6,5 +6,17 @@
 \BOOKMARK [0][-]{section*.10}{List of Tables}{}% 6
 \BOOKMARK [0][-]{section*.11}{List of Figures}{}% 7
 \BOOKMARK [0][-]{chapter.1}{Introduction}{}% 8
-\BOOKMARK [0][-]{section*.12}{Bibliography}{}% 9
-\BOOKMARK [0][-]{appendix.a.A}{Appendix Code}{}% 10
+\BOOKMARK [1][-]{section.1.1}{Blackboxes and Evaluation homomorphism}{chapter.1}% 9
+\BOOKMARK [2][-]{subsection.1.1.1}{Blackboxes}{section.1.1}% 10
+\BOOKMARK [2][-]{subsection.1.1.2}{Evaluation homomorphism}{section.1.1}% 11
+\BOOKMARK [0][-]{chapter.2}{Maximal Quotient Rational Function Reconstruction}{}% 12
+\BOOKMARK [1][-]{section.2.1}{Univariate Rational function reconstruction}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.1.1}{Interpolation}{section.2.1}% 14
+\BOOKMARK [2][-]{subsection.2.1.2}{Extended Euclidean Algorithm}{section.2.1}% 15
+\BOOKMARK [2][-]{subsection.2.1.3}{Chinese Remainder Theorem}{section.2.1}% 16
+\BOOKMARK [2][-]{subsection.2.1.4}{Chinese remainder theorem and evaluating black box for polynomials}{section.2.1}% 17
+\BOOKMARK [2][-]{subsection.2.1.5}{Main idea}{section.2.1}% 18
+\BOOKMARK [0][-]{chapter.3}{Ben-Or and Tiwari's Multivariate Polynomial Interpolation}{}% 19
+\BOOKMARK [1][-]{section.3.1}{Introduction}{chapter.3}% 20
+\BOOKMARK [0][-]{section*.12}{Bibliography}{}% 21
+\BOOKMARK [0][-]{appendix.a.A}{Appendix Code}{}% 22

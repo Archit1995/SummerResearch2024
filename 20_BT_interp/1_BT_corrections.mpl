@@ -24,6 +24,9 @@ end proc:
 # 3. Generating a list of list powers of prime. [[2^0,3^0,5^0],[2^1,3^1,5^1],[2^2,3^2,5^2],..., [2^(2T-1),3^(2T-1),5^(2T-1)]]
 generate_prime_powers:=proc(T,prime_points,num_var,p)
     local i,j:
+    print("In generate_prime_powers");
+    print("T=",T);
+    print("prime_points=",prime_points);
     return modp([seq([seq(prime_points[j]^i,j = 1..num_var)], i = 0..2*T-1)],p):
 end proc:  
 
@@ -156,9 +159,11 @@ num_var:=2:
 vars:={x,y}:
 prime_points:=generate_evaulation_primes(num_var):
 prime_points:
-p:=2^31-1:
+# p:=2^31-1:
+p:=19:
 # f:=randpoly(vars,sparse,degree=19) mod p:
-f:=randpoly(vars,sparse,degree=4) mod p:
+# f:=randpoly(vars,sparse,degree=4) mod p:
+f:=x*y+1;
 B:=Construct_Blackbox(f,vars);
 print(B);
 T:=4:
@@ -176,3 +181,12 @@ coeff_:= Zippel_Vandermonde_solver(Y,terms,Roots_,Lambda,p):
 f;
 f1:=construct_final_polynomial(coeff_,Monomials);
 f1-f;
+g:=x+y:
+Bg:=Construct_Blackbox(g,vars);
+terms_g,Lambda_g,R_g,Y_g:=get_num_terms_lambda_roots(Bg,T,prime_points,num_var,p):
+Roots_g := [ seq(r[1], r in R_g ) ]:
+Monomials_g:=generate_monomials(Roots_g,num_var,prime_points,vars):
+coeff_g:= Zippel_Vandermonde_solver(Y_g,terms_g,Roots_g,Lambda_g,p):
+g1:=construct_final_polynomial(coeff_g,Monomials_g);
+g1;
+g1-g;

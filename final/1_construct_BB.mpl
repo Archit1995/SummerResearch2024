@@ -1,4 +1,4 @@
-Construct_Blackbox:=proc(f,g,vars)
+Construct_Rational_Blackbox:=proc(f,g,vars)
     local BB:
     BB:=proc(point_,p)
         local var,num,denom_,a,v;

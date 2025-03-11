@@ -68,10 +68,16 @@ end proc:
 
 BMEA := proc(v::list,p::posint,Z::name) # Might need correction because roots of lambda polynomial are not factors of 2,3,5 for all degrees
   local n,m,R0,R1,V0,V1,i:
+  print("In BMEA");
+  print("v=",v);    
   n := iquo( nops(v), 2 ):
+  print("n=",n);
   m := 2*n-1:
+  print("m=",m);
   R0 := Z^(2*n):
+  print("R0=",R0);
   R1 := add( v[m+1-i]*Z^i, i=0..m ):
+  print("R1=",R1);
 # lprint("R0=",R0):
 # lprint("R1=",R1):
   V0 := 0:
@@ -85,7 +91,7 @@ BMEA := proc(v::list,p::posint,Z::name) # Might need correction because roots of
 # lprint("V1=",V1):
   od:
   i := 1/lcoeff(V1,Z) mod p:
-  i*V1 mod p:
+  return i*V1 mod p:
 end:
 
 generate_monomials:=proc(roots_,num_var,prime_points,vars)# needs correction- We are getting roots of lambda polynomial that are not 
@@ -128,6 +134,11 @@ end proc:
 Zippel_Vandermonde_solver:=proc(y::list,terms::integer,roots_::list,lambda_,p::integer)# Correct so far. 
     local M,fin_coeff,q,q_lambda_inv,V_inv_b,i,j:
     M:=lambda_ mod p:
+    print("In Zippel_Vandermonde_solver"):
+    print("y=",y):
+    print("terms=",terms):
+    print("roots_=",roots_):
+    print("lambda_=",lambda_):
     # print("M=",M):
     # print("roots=",roots_):
     fin_coeff:=Vector(terms,0):
@@ -160,10 +171,12 @@ vars:={x,y}:
 prime_points:=generate_evaulation_primes(num_var):
 prime_points:
 # p:=2^31-1:
-p:=19:
+p:=811:
 # f:=randpoly(vars,sparse,degree=19) mod p:
 # f:=randpoly(vars,sparse,degree=4) mod p:
-f:=x*y+1;
+# f:=x*y+1;
+f:=x^3*y^3+x^2*y^2+x*y+1:
+# gg:=x^2+y^2+x+y+3:
 B:=Construct_Blackbox(f,vars);
 print(B);
 T:=4:
@@ -172,21 +185,25 @@ terms,Lambda,R,Y:=get_num_terms_lambda_roots(B,T,prime_points,num_var,p):
 # Lambda is the lambda polynomial
 # R is the roots of the lambda polynomial
 # Y is the evaluations of the polynomial at the prime points
+print("R=",R):
 Roots_ := [ seq(r[1], r in R ) ]:
+print("Roots_=",Roots_):
 Monomials:=generate_monomials(Roots_,num_var,prime_points,vars):
 coeff_:= Zippel_Vandermonde_solver(Y,terms,Roots_,Lambda,p):
-
+print("coeff_=",coeff_):    
 # a:=-62*x^2*z^3+97*x*y^3*z-73*y*z^4-56*x*y*z^2 +87*x*y mod p:
 # a:=2*x*y+3*z+1 mod p:
 f;
 f1:=construct_final_polynomial(coeff_,Monomials);
 f1-f;
-g:=x+y:
-Bg:=Construct_Blackbox(g,vars);
-terms_g,Lambda_g,R_g,Y_g:=get_num_terms_lambda_roots(Bg,T,prime_points,num_var,p):
-Roots_g := [ seq(r[1], r in R_g ) ]:
-Monomials_g:=generate_monomials(Roots_g,num_var,prime_points,vars):
-coeff_g:= Zippel_Vandermonde_solver(Y_g,terms_g,Roots_g,Lambda_g,p):
-g1:=construct_final_polynomial(coeff_g,Monomials_g);
-g1;
-g1-g;
+# g:=x+y:
+# Bg:=Construct_Blackbox(g,vars);
+
+# terms_g,Lambda_g,R_g,Y_g:=get_num_terms_lambda_roots(Bg,T,prime_points,num_var,p):
+
+# Roots_g := [ seq(r[1], r in R_g ) ]:
+# Monomials_g:=generate_monomials(Roots_g,num_var,prime_points,vars):
+# coeff_g:= Zippel_Vandermonde_solver(Y_g,terms_g,Roots_g,Lambda_g,p):
+# g1:=construct_final_polynomial(coeff_g,Monomials_g);
+# g1;
+# g1-g;

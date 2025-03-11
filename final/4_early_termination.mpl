@@ -1,7 +1,15 @@
-early_termination_exponent_generator:=proc(T,prime_points,num_var,p)
+
+early_termination:=proc(function)
     local i,j:
-    print("In early_termination_exponent_generator");
-    print("T=",T);
-    print("prime_points=",prime_points);
-    return modp([seq([seq(prime_points[j]^i,j = 1..num_var)], i = 0..2*T-1)],p):
+    if function = mqrfr then 
+        # print(function):
+    end if:
 end proc:  
+
+# handler:=proc(function)
+#      if function = F then 
+#          print("function is F");
+#      elif function = G then 
+#          print("G");
+#      end if;
+#  end proc:

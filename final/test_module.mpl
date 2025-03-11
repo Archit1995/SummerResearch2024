@@ -1,5 +1,7 @@
+read "./1_construct_BB.mpl":
 read "./2_mqrfr.mpl":
-# f:=:
+
+# f:=
 # g:=x+2:
 # B:=f/g:
 p:=19:

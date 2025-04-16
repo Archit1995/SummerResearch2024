@@ -18,5 +18,7 @@
 \contentsline {subsection}{\numberline {2.1.5}Main idea}{4}{subsection.2.1.5}%
 \contentsline {chapter}{\numberline {3}Ben-Or and Tiwari's Multivariate Polynomial Interpolation}{6}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Introduction}{6}{section.3.1}%
-\contentsline {chapter}{Bibliography}{7}{section*.12}%
-\contentsline {chapter}{Appendix \numberline {A}Code}{8}{appendix.a.A}%
+\contentsline {chapter}{\numberline {4}Multivariate Rational function interpolation}{8}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{8}{section.4.1}%
+\contentsline {chapter}{Bibliography}{10}{section*.12}%
+\contentsline {chapter}{Appendix \numberline {A}Code}{11}{appendix.a.A}%

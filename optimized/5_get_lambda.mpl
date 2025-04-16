@@ -45,7 +45,6 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p)# Needs correction find a way
             c:=1/eval(f,x=0) mod p;
             print("f= ",f):
             print("g= ",g):
-            print("=memo[j][1]=",memo[j][1]):
             num_eval:=eval(f,x=memo[j][1])*c mod p:
             print("num_eval=",num_eval):
             num_vals:=[op(num_vals),num_eval]:

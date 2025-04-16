@@ -1,0 +1,66 @@
+\chapter{Multivariate Rational function interpolation}
+\section{Introduction}
+
+
+\begin{algorithm}
+    \caption{Multivariate rational function interpolation}
+    \begin{algorithmic}[1]
+      \Require Black box for rational function $\frac{ff(x_{1}, x_2, \dots, x_n)}{gg(x_1, x_2, \dots, x_n)}, p$, where $ff,gg \in K(x_1, x_2, \dots, x_n)$.
+      \While{true}
+      \State $num \gets [ \text{  }]$
+      \State $den \gets [\text{  }  ]$
+      \State $T \gets 4$\
+      
+      \For{$i\gets 0 \text{ to } T$}
+      \State $\Sigma \gets [[2^i,3^i,\dots, \Psi^{i}]]$, where $\sigma_{i} \gets [2^i,3^i,\dots, \Psi^{i}] \in \mathbb{Z}^{n}_{p}$
+      \While {true} 
+      \State $t \gets T$
+    %   ,\quad$s_{0} \gets 1$, \quad$t_{0} \gets 0$
+    %   \State $r_{1} \gets g$, \quad $s_{1}\gets 0$,\quad$t_{1} \gets 1$
+    %   \State $\alpha \gets$rand(p)
+
+      \State Pick random vector $\alpha_{i} =[\alpha_{i1},\dots,\alpha_{it}] \in \mathbb{Z}^{t}_{p}$
+      \State Pick random vector $\beta_{i}=[\beta_{i1},\dots,\beta_{i(n-1)}] \in \mathbb{Z}^{n-1}_{p}$
+     
+      \State $m_{i}(x)=\prod_{k=1}^{t} (x-\alpha_{ik})$, where $m_{i}(x) \in \mathbb{Z}_{p}[x]$.
+    \State $[[\alpha_{ik},\phi(\alpha_{ik})]] \text{ where }  [\alpha_{ik},\phi(\alpha_{ik})]\in \mathbb{Z}^{n}_{p} 
+     \text{ and }\phi(x) \gets \beta_{ij}(x-\sigma_{i1})+\sigma_{i(j+1)}, \text{ } \forall \text{ }1 \leq j \leq n-1$  
+      \State $Y_{i} \gets [y_{i},\dots,y_{it}], \text{ where }y_{ik} \gets B(\alpha_{ik},\phi(\alpha_{ik}),p)$ $\forall \text{ }1\leq k \leq t$
+      \State $u_{i}(x) \gets Interpolate(\alpha_{i},Y_{i},x ) \text{mod p}$
+      \State $f_{i}(x),g_{i}(x),deg\_q_{i} \gets MQRFR(m_{i},u_{i}) \text{mod p}$
+      \If{$deg\_q_{i} > 1 $}  
+      \State  $num.insert(f_{i}(\sigma_{i1})) \text{ mod p}$
+      \State  $den.insert(g_{i}(\sigma_{i1})) \text{ mod p} $
+      \State break
+      \Else 
+        \State $t \gets 2t$
+        \EndIf 
+      \EndWhile
+
+    \EndFor
+     \State \textbf{Construct minimum characateristic polynomial using Berlekamp-Massey algorithm}
+    \State $\Lambda_{n} \gets Berlekamp\_Massey(num,p)$
+    \State $\Lambda_{d} \gets Berlekamp\_Massey(den,p)$
+    \State \textbf{Find number of terms in denominator and numerator}
+    \State $terms_{n} \gets \text{degree}(\Lambda_{n})$
+    \State $terms_{d} \gets \text{degree}(\Lambda_{d})$ 
+    \State \textbf{ Factor $\Lambda_{n}(z)$ and $\Lambda_{d}(z)$  to find roots}
+    \State $roots_{n} \gets \text{ROOTS}(\Lambda_{n})$
+    \State $roots_{d} \gets \text{ROOTS}(\Lambda_{d})$
+    \State \textbf{Check if number of terms and roots are equal}
+    \If{$terms_{n} \neq roots_{n}$ or $terms_{d} \neq roots_{d}$}
+        \State  $T \gets 2T$ 
+        \Else 
+        \State break
+    \EndIf
+    \EndWhile
+    \State \textbf{Recover monomials from roots using trial division}
+    
+    \State \textbf{Recover coefficients via Zippel Vandermonde solver}
+    \State $coeff_n \gets$ Zippel\_Vandermonde\_solver($num,terms_{n},Roots_{n},\Lambda_{n},p$)
+    \State $coeff_d \gets$  Zippel\_Vandermonde\_solver($den,terms_{d},Roots_{d},\Lambda_{d},p$)
+
+
+    
+    \end{algorithmic}
+\end{algorithm}

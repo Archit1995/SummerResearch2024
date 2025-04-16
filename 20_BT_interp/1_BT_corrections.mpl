@@ -139,21 +139,22 @@ Zippel_Vandermonde_solver:=proc(y::list,terms::integer,roots_::list,lambda_,p::i
     print("terms=",terms):
     print("roots_=",roots_):
     print("lambda_=",lambda_):
-    # print("M=",M):
-    # print("roots=",roots_):
+    print("M=",M):
+    print("roots=",roots_):
     fin_coeff:=Vector(terms,0):
     for i from 1 to terms do
         q:=quo(M,Z-roots_[i],Z):
-        # print("q=",q):
+        print("q=",q):
         q_lambda_inv:= 1/ Eval(q,Z=roots_[i]) mod p:
-        # print("q_lambda_inv=",q_lambda_inv):
+        print("q_lambda_inv=",q_lambda_inv):
         V_inv_b:=0:
         for j from 1 to terms do
             V_inv_b:=V_inv_b+coeff(q,Z,j-1)*y[j] mod p:
         end do:
+        print("V_inv_b=",V_inv_b):
         fin_coeff[i]:=V_inv_b*q_lambda_inv mod p:
     end do:
-    # print("fin_coeff=",fin_coeff):
+    print("fin_coeff=",fin_coeff):
     return convert(fin_coeff,list):
 end proc:
 
@@ -170,12 +171,14 @@ num_var:=2:
 vars:={x,y}:
 prime_points:=generate_evaulation_primes(num_var):
 prime_points:
-# p:=2^31-1:
-p:=811:
+p:=2^31-1:
+# p:=811:
 # f:=randpoly(vars,sparse,degree=19) mod p:
 # f:=randpoly(vars,sparse,degree=4) mod p:
 # f:=x*y+1;
-f:=x^3*y^3+x^2*y^2+x*y+1:
+# f:=x+y;
+f:=x^2+y^2+x+y+3:
+# f:=x^3*y^3+x^2*y^2+x*y+1:
 # gg:=x^2+y^2+x+y+3:
 B:=Construct_Blackbox(f,vars);
 print(B);

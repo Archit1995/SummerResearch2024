@@ -4,3 +4,58 @@ Ben-Or Tiwari is an multivariate interpolation algorithm that interpolates
 all the variables of the polynomial simultaneously as opposed to Zippel's multivariate
 interpolation algorithm which interpolates the variables one by one. 
 
+
+\begin{algorithm}
+    \caption{Ben-Or \& Tiwari Multivariate Interpolation}
+    \begin{algorithmic}[1]
+    \Require Black-box function $f$ (evaluates the target polynomial), number of variables $n$, degree bound $D$, finite field $\mathbb{Z}_(p)$ 
+    \Ensure Sparse polynomial $P(x_1, x_2, \dots, x_n)$ as a list of $[\text{coefficient}, \text{exponents}]$ pairs.
+    
+    \State $T_{\max} \gets (D+1)^n$  \Comment{Upper bound on number of terms}
+    \State $m \gets 2 \cdot T_{\max}$  \Comment{Number of evaluation points}
+    
+    \State \textbf{Step 2: Generate evaluation points}
+    \State $evaluations \gets$ empty list
+    \For{$k \gets 1$ to $m$}
+        \State $x_k \gets [\alpha^{k^i} \text{ for } i = 1 \dots n]$
+        \State $v_k \gets f(x_k)$
+        \State Append $v_k$ to $evaluations$
+    \EndFor
+    
+    \State \textbf{Step 3: Construct minimum characateristic polynomial using Berlekamp-Massey algorithm}
+    \State $\Lambda \gets Berlekamp\_Massey(evaluations,p)$
+    
+    \State \textbf{Step 5: Factor $\Lambda(z)$ to find roots}
+    \State $roots \gets \text{FIND\_ROOTS}(\Lambda)$
+    
+    \State \textbf{Step 6: Recover exponents from roots}
+    \State $terms \gets$ empty list
+    \For{each root in $roots$}
+        \State $exponents \gets \text{TRIAL\_DIVISION}(root, n)$
+        \State Append $exponents$ to $terms$
+    \EndFor
+    
+    \State \textbf{Step 7: Recover coefficients via linear system}
+    \State $A \gets \text{CONSTRUCT\_VANDERMONDE\_MATRIX}(terms, evaluations)$
+    \State $b \gets evaluations[1 \dots T_{\max}]$
+    \State $coefficients \gets \text{SOLVE\_LINEAR\_SYSTEM}(A, b)$
+    
+    \State \textbf{Step 8: Validate with additional evaluations}
+    \State $validated \gets \text{TRUE}$
+    \For{$k \gets m+1$ to $m+10$}
+        \State $x_k \gets [f(\alpha)^{k^i} \text{ for } i = 1 \dots n]$
+        \If{$f(x_k) \neq \text{EVALUATE\_POLYNOMIAL}(terms, coefficients, x_k)$}
+            \State $validated \gets \text{FALSE}$
+            \State \textbf{break}
+        \EndIf
+    \EndFor
+    
+    \If{not $validated$}
+        \State Increase $T_{\max}$ and restart
+    \EndIf
+    
+    \State \Return $\text{SPARSE\_POLYNOMIAL}(terms, coefficients)$
+    \end{algorithmic}
+    \end{algorithm}
+    
+    

@@ -1,3 +1,4 @@
+# read "./projection_phi.mpl":
 # anchor points=[[2,3],[4,9],[8,27],[16,81],[32,243]...]:
 # Shift=[5]
 evaluation_num_den:=proc(B,anchor_points,shift_,num_var,p)
@@ -20,13 +21,14 @@ evaluation_num_den:=proc(B,anchor_points,shift_,num_var,p)
         m:=expand(product(x-alpha[i],i=1..T)) mod p:
         print("m: ",m):
         # Y:= shift[1]*(alpha[1]-anchor_points[1])+anchor_points[2] mod p:
-        for np from 1 to T do # projection ring_homomorphism
-            phi_[np][1]:=alpha[np]:
-            for nv from 2 to num_var do 
-                phi_[np][2]:=shift_[nv-1]*alpha[np]-shift_[nv-1]*anchor_points[1]+anchor_points[2] mod p:
-            end do:
-        end do:
-        _phi:=[seq(convert(phi_[i],list),i=1..T)]:
+        # for np from 1 to T do # projection ring_homomorphism
+        #     phi_[np][1]:=alpha[np]:
+        #     for nv from 2 to num_var do 
+        #         phi_[np][2]:=shift_[nv-1]*alpha[np]-shift_[nv-1]*anchor_points[1]+anchor_points[2] mod p:
+        #     end do:
+        # end do:
+        # _phi:=[seq(convert(phi_[i],list),i=1..T)]:
+        _phi:=projection_image_phi(num_var,alpha,shift_,anchor_points,p,T):
         print("_phi: ",_phi):
         Y:=[seq(B(_phi[i],p),i=1..T)]:
         print("Y: ",Y):
@@ -36,7 +38,7 @@ evaluation_num_den:=proc(B,anchor_points,shift_,num_var,p)
         f,g,dq,lcg:=MQRFR(m,u,0,1,p):
         # print("dq: ",dq):
         if dq > 1 then 
-
+            
             break:
         else 
             print("MQRFR failed. Trying again with more points"):
@@ -44,6 +46,6 @@ evaluation_num_den:=proc(B,anchor_points,shift_,num_var,p)
         end if:
         print("====================================================="):
     end do:
-    return f,g,lcg:
+    return f,g,lcg,T:
 end proc:
     # We need to calculate m, y and u  

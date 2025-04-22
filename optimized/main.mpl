@@ -1,5 +1,6 @@
 read "./0_data_gen.mpl":
 read "./1_construct_BB.mpl":
+read "./projection_phi.mpl":
 read "./2_mqrfr.mpl":
 read "./3_eval.mpl":
 read "./4_BMEA.mpl":
@@ -17,6 +18,10 @@ test:=8:
 B:=Construct_Rational_Blackbox(ff,gg,vars):
 anchor_point:=[2,3]:
 shift_:=[10]:
+# Get degree of the polynomials and number of points
+# We need sigma=[sig1,sig2,...sign], beta=[beta1,beta2,...beta_n-1]
+# get_degree(B,sigma,beta,p) 
+
 terms_num,terms_den,lambda_num,lambda_den,R_num,R_den,num_vals,den_vals:=get_lambda(B,anchor_point,shift_,T,num_var,p):
 Roots_num := [ seq(r[1], r in R_num ) ]:
 Roots_den := [ seq(r[1], r in R_den ) ]:

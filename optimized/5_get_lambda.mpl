@@ -10,7 +10,7 @@ end proc:
 get_lambda:=proc(B,anchor_point,shift_,T,num_var,p)# Needs correction find a way to keep roots in mem for t 
 # and t+1 to check if the number of roots is equal to the number of terms. 
     print("In get_lambda");
-    local t,flag,Y,Lambda,terms,R:
+    local t,flag,Y,Lambda,terms,R,num_points:
     # f:=f*c mod p:
     # g:=g*c mod p:
     # Note: t_old =1 to 2*t was causing an error in Zippel VanderMonde Solver. 
@@ -28,7 +28,7 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p)# Needs correction find a way
         print("i=",i):
         print("t=",t):
         print("t_old=",t_old):  
-        print("anchor_points: ",anchor_points):
+        print("anchor_points: ",anchor_point):
         # [2^j,3^j]
         # for ii from t_old to 2*t do 
         for ii from t_old to 2*t-1 do 
@@ -38,10 +38,12 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p)# Needs correction find a way
         # break;
         # anchor_points:=[op(anchor_points),[seq(modp(anchor_point[ii]^i,p),ii=1..num_var)]]:
         print("numelems(memo) = ",numelems(memo));
+        # get degree here 
         for j from 1 to numelems(memo) do 
             print("Back in get_lambda j=",j):
             # f,g,lg:=evaluation_num_den(B,memo[j][1],shift_,num_var,p):
-            f,g,lg:=evaluation_num_den(B,memo[j],shift_,num_var,p):  
+            f,g,lg,num_points:=evaluation_num_den(B,memo[j],shift_,num_var,p): 
+            print("num_points= ",num_points): 
             c:=1/eval(f,x=0) mod p;
             print("f= ",f):
             print("g= ",g):

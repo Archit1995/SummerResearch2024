@@ -1,5 +1,3 @@
-read "./2_mqrfr.mpl":
-
 generate_random_vector:=proc(n,p)# generate anchor points p_1..p_n and shift B_2..B_n, may be used 
 # to create  random exponents of anchor points. 
     local r,i:

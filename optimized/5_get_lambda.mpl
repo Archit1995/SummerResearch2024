@@ -19,6 +19,7 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p)# Needs correction find a way
     # anchor_points:=generate_powers(t_old,t,anchor_point,num_var,p):
     memo:=[]:
     i:=1;
+    num_points:=t:
     # counter:=0;
     while true do
         num_vals:=[];
@@ -39,11 +40,18 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p)# Needs correction find a way
         # anchor_points:=[op(anchor_points),[seq(modp(anchor_point[ii]^i,p),ii=1..num_var)]]:
         print("numelems(memo) = ",numelems(memo));
         # get degree here 
-        for j from 1 to numelems(memo) do 
+        f,g,lg,num_points:=evaluation_num_den(B,memo[1],shift_,num_var,p,num_points): 
+        c:=1/eval(f,x=0) mod p;
+        num_eval:=eval(f,x=memo[1][1])*c mod p:
+        num_vals:=[op(num_vals),num_eval]:
+        den_eval:=eval(g,x=memo[1][1])*c mod p:
+        den_vals:=[op(den_vals),den_eval]:
+        print("num_points= ",num_points): 
+        for j from 2 to numelems(memo) do 
             print("Back in get_lambda j=",j):
             # f,g,lg:=evaluation_num_den(B,memo[j][1],shift_,num_var,p):
-            f,g,lg,num_points:=evaluation_num_den(B,memo[j],shift_,num_var,p): 
-            print("num_points= ",num_points): 
+            f,g,lg:=evaluation_num_den(B,memo[j],shift_,num_var,p,num_points): 
+            
             c:=1/eval(f,x=0) mod p;
             print("f= ",f):
             print("g= ",g):

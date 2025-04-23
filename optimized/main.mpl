@@ -10,7 +10,7 @@ read "./7_zippel_vandermonde_solve.mpl":
 read "./8_construct_final_polynomial.mpl":
 
 
-num_var,vars,p,T,ff,gg:=data_generator(1):
+num_var,vars,p,T,ff,gg:=data_generator(3):
 print("p=",p):
 print("ff= ",ff):
 print("gg= ",gg):
@@ -25,7 +25,7 @@ shift_:=[10]:
 terms_num,terms_den,lambda_num,lambda_den,R_num,R_den,num_vals,den_vals:=get_lambda(B,anchor_point,shift_,T,num_var,p):
 Roots_num := [ seq(r[1], r in R_num ) ]:
 Roots_den := [ seq(r[1], r in R_den ) ]:
-print("Roots_=",Roots_):
+
 num_mono:= generate_monomials(Roots_num,num_var,anchor_point,vars):
 print("num_mono: ",num_mono):
 den_mono:= generate_monomials(Roots_den,num_var,anchor_point,vars):
@@ -41,7 +41,8 @@ num:= construct_final_polynomial(coeff_num,num_mono):
 den:= construct_final_polynomial(coeff_den,den_mono):
 print("num: ",num):
 print("den: ",den):
-
+print("num= ",num*(1/lcoeff(den)) mod p):
+print("den= ",den*(1/lcoeff(den)) mod p):
 # Ben Or Tiwari
 # If u
 

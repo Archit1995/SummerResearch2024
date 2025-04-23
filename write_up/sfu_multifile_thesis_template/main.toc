@@ -3,8 +3,8 @@
 \contentsline {chapter}{Dedication}{iv}{section*.6}%
 \contentsline {chapter}{Acknowledgements}{v}{section*.8}%
 \contentsline {chapter}{Table of Contents}{vi}{section*.9}%
-\contentsline {chapter}{List of Tables}{vii}{section*.10}%
-\contentsline {chapter}{List of Figures}{viii}{section*.11}%
+\contentsline {chapter}{List of Tables}{viii}{section*.10}%
+\contentsline {chapter}{List of Figures}{ix}{section*.11}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Blackboxes and Evaluation homomorphism}{1}{section.1.1}%
 \contentsline {subsection}{\numberline {1.1.1}Blackboxes}{1}{subsection.1.1.1}%

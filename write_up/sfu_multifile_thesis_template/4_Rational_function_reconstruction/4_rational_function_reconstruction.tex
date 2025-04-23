@@ -1,11 +1,12 @@
 \chapter{Multivariate Rational function interpolation}
 \section{Introduction}
 
-
+\setK
 \begin{algorithm}
     \caption{Multivariate rational function interpolation}
     \begin{algorithmic}[1]
-      \Require Black box for rational function $\frac{ff(x_{1}, x_2, \dots, x_n)}{gg(x_1, x_2, \dots, x_n)}, p$, where $ff,gg \in K(x_1, x_2, \dots, x_n)$.
+      \State \textbf{Input:} Modular black box, B for rational function $\frac{ff(x_{1}, x_2, \dots, x_n)}{gg(x_1, x_2, \dots, x_n)}, p$,\\
+       where $ff,gg \in K[x_1, x_2, \dots, x_n]$.
       \While{true}
       \State $num \gets [ \text{  }]$
       \State $den \gets [\text{  }  ]$
@@ -23,9 +24,10 @@
       \State Pick random vector $\beta_{i}=[\beta_{i1},\dots,\beta_{i(n-1)}] \in \mathbb{Z}^{n-1}_{p}$
      
       \State $m_{i}(x)=\prod_{k=1}^{t} (x-\alpha_{ik})$, where $m_{i}(x) \in \mathbb{Z}_{p}[x]$.
-    \State $[[\alpha_{ik},\phi(\alpha_{ik})]] \text{ where }  [\alpha_{ik},\phi(\alpha_{ik})]\in \mathbb{Z}^{n}_{p} 
-     \text{ and }\phi(x) \gets \beta_{ij}(x-\sigma_{i1})+\sigma_{i(j+1)}, \text{ } \forall \text{ }1 \leq j \leq n-1$  
-      \State $Y_{i} \gets [y_{i},\dots,y_{it}], \text{ where }y_{ik} \gets B(\alpha_{ik},\phi(\alpha_{ik}),p)$ $\forall \text{ }1\leq k \leq t$
+    % \State $[[\alpha_{ik},\phi(\alpha_{ik})]] \text{ where }  [\alpha_{ik},\phi(\alpha_{ik})]\in \mathbb{Z}^{n}_{p} 
+    %  \text{ and }\phi(x) \gets \beta_{ij}(x-\sigma_{i1})+\sigma_{i(j+1)}, \text{ } \forall \text{ }1 \leq j \leq n-1$  
+    %   \State $Y_{i} \gets [y_{i},\dots,y_{it}], \text{ where }y_{ik} \gets B(\alpha_{ik},\phi(\alpha_{ik}),p)$ 
+    %   $\forall \text{ }1\leq k \leq t$
       \State $u_{i}(x) \gets Interpolate(\alpha_{i},Y_{i},x ) \text{mod p}$
       \State $f_{i}(x),g_{i}(x),deg\_q_{i} \gets MQRFR(m_{i},u_{i}) \text{mod p}$
       \If{$deg\_q_{i} > 1 $}  

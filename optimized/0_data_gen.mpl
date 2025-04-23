@@ -10,12 +10,12 @@ data_generator:=proc(test_case)
     if (test_case = 1) then #working 
         ff:=x*y+1:
         gg:=x+y:
-    elif (test_case = 2) then #working DOESNT WORK for ff:= x^2*y^2+3
-        ff:=x^2*y^2+1:
+    elif (test_case = 2) then #working for ff:= x^2*y^2+3, we do not get a monic denominator- Why?
+        ff:=x^2*y^2+3:
         gg:=x^2+y^2+3:
-    elif (test_case = 3) then #NOT working
-        ff:=x^2*y^2+x+y+1:
-        gg:=x^2+y^2+x+y+3:
+    elif (test_case = 3) then #NOT working num_evals are not matching -Why?
+        ff:=x^2*y^2+x+y+1:# 4 terms 
+        gg:=x^2+y^2+x+y+3:# 5 terms
     elif (test_case = 4) then
         ff:=x^3*y^3+x^2*y^2+x*y+1:
         gg:=x^2+y^2+x+y+3:

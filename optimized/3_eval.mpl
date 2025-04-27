@@ -15,7 +15,7 @@ evaluation_num_den:=proc(B,anchor_points,shift_,num_var,p,num_points)
 # we need to come up with some values of alpha
         # alpha:=[seq(i-1,i=1..T)]:
         r:=rand(p):
-        alpha:=[seq(r(),i=1..T)]:
+        alpha:=[seq(r()+r() mod p,i=1..T)]:
         print("alpha: ",alpha):
         # print("alpha[1]: ",alpha[1]):
         m:=expand(product(x-alpha[i],i=1..T)) mod p:
@@ -35,7 +35,12 @@ evaluation_num_den:=proc(B,anchor_points,shift_,num_var,p,num_points)
         u:=Interp(alpha,Y,x)mod p:
        
         print("u: ",u):
+
         f,g,dq,lcg:=MQRFR(m,u,0,1,p):
+        
+
+
+
         # print("dq: ",dq):
         if dq > 1 then 
             
@@ -47,9 +52,15 @@ evaluation_num_den:=proc(B,anchor_points,shift_,num_var,p,num_points)
         print("====================================================="):
     end do:
     if num_points <> T then  
+    print("====================================================="):
         return f,g,lcg,T:
+        # return m,u,f,g,lcg,T:
+
     else
+    print("====================================================="):
     return f,g,lcg:
+    # Checking for Ratrecon
+        # return m,u,f,g,lcg:
     end if:
 end proc:
     # We need to calculate m, y and u  

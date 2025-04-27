@@ -1,0 +1,10 @@
+with(NumberTheory):
+p:=2^31-1;
+MultiplicativeOrder(ratio_,p);
+r:=rand(p);
+a:=r();
+b:=r();
+MultiplicativeOrder(a,p);
+MultiplicativeOrder(b,p);
+MultiplicativeOrder(a*b,p);
+MultiplicativeOrder(a^2,p);

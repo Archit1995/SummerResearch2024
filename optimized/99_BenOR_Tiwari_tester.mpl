@@ -175,9 +175,11 @@ end proc:
 # prime_points:=generate_evaulation_primes(num_var):
 
 # p:=2^31-1:
+c:=721695324:
 num_var,vars,p,T,ff,g:=data_generator(3):
 prime_points:=generate_evaulation_primes(num_var):
-f:=ff:
+f:=ff*c mod p:
+print("f= ",f):
 # f:=g:
 B:=Construct_Blackbox(f,vars);
 

@@ -22,7 +22,7 @@ get_lambda:=proc(num_,den_,T,anchor_points,num_var,p)# Needs correction find a w
         if nops(R)<terms[i] then 
             t:=t*2:
         # else 
-        elif terms[i-1]=terms[i] and terms[i] = nops(R) then 
+        elif terms[i]=terms[i+1] and terms[i] = nops(R) then 
             # print("IN TERMINATION oF GET_NUM_TERMS_LAMBDA_ROOTS");
                 return terms[i],Lambda,R,Y:
         end if: 

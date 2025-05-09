@@ -36,8 +36,8 @@ data_generator:=proc(test_case)
         ff:=x^23*y^13+x^6*y^7+x*y+1:
         gg:=x^12+y^32+x^4+y^7+3:            
     elif (test_case = 9) then
-        ff:=randpoly([x,y],terms =11) mod p;
-        gg:=randpoly([x,y],terms =15) mod p;
+        ff:=randpoly([x,y,z],terms =31) mod p;
+        gg:=randpoly([x,y,z],terms =7) mod p;
         gg:=gg/lcoeff(gg,order=grlex(x,y)) mod p:
     elif (test_case = 10) then
         ff:=x^2+y^2+89456*x+12413*y+9367823:

@@ -77,24 +77,24 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p,test_case)# Needs correction 
             # y= shift_[1]*(x-memo[1][1])+memo[1][2]:
             true_f:=simplify(subs(y=shift_[1]*(x-memo[1][1])+memo[1][2],ff))mod p:
             true_g:=simplify(subs(y=shift_[1]*(x-memo[1][1])+memo[1][2],gg))mod p:
-            print("true f = ",true_f):
-            print("true g = ",true_g):
-            print("true num value= ",eval(true_f,x=memo[1][1]) mod p):
-            print("true den value= ",eval(true_g,x=memo[1][1]) mod p):
+            # print("true f = ",true_f):
+            # print("true g = ",true_g):
+            # print("true num value= ",eval(true_f,x=memo[1][1]) mod p):
+            # print("true den value= ",eval(true_g,x=memo[1][1]) mod p):
             # print("true num = ",simplify(subs(y=shift_[1]*(x-memo[1][1])+memo[1][2],ff)) mod p):
             # print("true den = ",simplify(subs(y=shift_[1]*(x-memo[1][1])+memo[1][2],gg)) mod p):
-            print("--------------------------------------"):
-            print("f= ",f):
-            print("g= ",g):
-            print("lg= ",lg):
-            print("c = 1/f(0) = ",c):
-            print("f*c mod p= ",f*c mod p):
-            print("g*c mod p= ",g*c mod p):
+            # print("--------------------------------------"):
+            # print("f= ",f):
+            # print("g= ",g):
+            # print("lg= ",lg):
+            # print("c = 1/f(0) = ",c):
+            # print("f*c mod p= ",f*c mod p):
+            # print("g*c mod p= ",g*c mod p):
             # print("MultiplicativeOrder(lg,p)=",MultiplicativeOrder(lg,p)):
-            print("num_eval= ",num_eval):
-            print("den_eval= ",den_eval):
-            print("raw_num= ",raw_num):
-            print("raw_den= ",raw_den):
+            # print("num_eval= ",num_eval):
+            # print("den_eval= ",den_eval):
+            # print("raw_num= ",raw_num):
+            # print("raw_den= ",raw_den):
             num_points:=deg_num+deg_den+2:
             true_num:=[op(true_num),eval(ff,{x=memo[1][1],y=memo[1][2]}) mod p]:
             true_den:=[op(true_den),eval(gg,{x=memo[1][1],y=memo[1][2]}) mod p]:
@@ -102,9 +102,9 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p,test_case)# Needs correction 
             # den_ratios:=[op(den_ratios),den_eval/raw_den[1] mod p]:
             num_ratios:=[op(num_ratios),raw_num[1]/true_num[1] mod p]:
             den_ratios:=[op(den_ratios),raw_den[1]/true_den[1] mod p]: 
-            print("num_ratios= ",num_ratios):
-            print("den_ratios= ",den_ratios):
-            print("f(0) = ",1/c mod p);
+            # print("num_ratios= ",num_ratios):
+            # print("den_ratios= ",den_ratios):
+            # print("f(0) = ",1/c mod p);
             # For this to work dq in 3_eval.mpl needs to be > 1 on line 40
             print("num_points= ",num_points): 
         end if:
@@ -117,7 +117,7 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p,test_case)# Needs correction 
             f,g,lg:=evaluation_num_den(B,memo[j],shift_,num_var,p,num_points): 
             # Ratrecon 
             # m,u,f,g,lg:=evaluation_num_den(B,memo[1],shift_,num_var,p,num_points): 
-            c:=1/eval(f,x=0) mod p;
+            # c:=1/eval(f,x=0) mod p;
             # ratrecon_result:=Ratrecon(u, m, x,deg_num,deg_den, 'nn', 'dd') mod p:
             # print("ratrecon result = ",ratrecon_result):
             # print("nn = ", nn);
@@ -127,25 +127,25 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p,test_case)# Needs correction 
             # y= shift_[1]*(x-memo[1][1])+memo[1][2]:
             true_f:=simplify(subs(y=shift_[1]*(x-memo[j][1])+memo[j][2],ff))mod p:
             true_g:=simplify(subs(y=shift_[1]*(x-memo[j][1])+memo[j][2],gg))mod p:
-            print("true f = ",true_f):
-            print("true g = ",true_g):
-            print("true num value= ",eval(true_f,x=memo[j][1]) mod p):
-            print("true den value= ",eval(true_g,x=memo[j][1]) mod p):
+            # print("true f = ",true_f):
+            # print("true g = ",true_g):
+            # print("true num value= ",eval(true_f,x=memo[j][1]) mod p):
+            # print("true den value= ",eval(true_g,x=memo[j][1]) mod p):
 
-            print("--------------------------------------"):
-            print("c = 1/f(0) = ",c):
-            print("f*c mod p= ",f*c mod p):
-            print("g*c mod p= ",g*c mod p):
-            print("f= ",f):
-            print("g= ",g):
-            print("gcd = ",Gcd(f,g) mod p);
+            # print("--------------------------------------"):
+            # print("c = 1/f(0) = ",c):
+            # print("f*c mod p= ",f*c mod p):
+            # print("g*c mod p= ",g*c mod p):
+            # print("f= ",f):
+            # print("g= ",g):
+            # print("gcd = ",Gcd(f,g) mod p);
             # _resultant:=Resultant(f,g,x) mod p:
             # print("Resultant= ",_resultant):
-            print("lg= ",lg):
+            # print("lg= ",lg):
             # print("MultiplicativeOrder(lg,p)=",MultiplicativeOrder(lg,p)):
-            print("c= ",c):
-            print("lg/ratio_= ",lg/num_ratios[1] mod p):
-            print("ratio/lg= ",num_ratios[1]/lg mod p):
+            # print("c= ",c):
+            # print("lg/ratio_= ",lg/num_ratios[1] mod p):
+            # print("ratio/lg= ",num_ratios[1]/lg mod p):
             # print("shift/lg= ",shift_[1]/lg mod p):
             # print("shift*lg= ",shift_[1]*lg mod p):
 
@@ -153,16 +153,16 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p,test_case)# Needs correction 
             if numerator_failure then 
                 # print("numerator_failure= ",numerator_failure):
                 num_eval:=eval(f,x=memo[j][1]):
-                print("num_eval=",num_eval):
+                # print("num_eval=",num_eval):
                 num_vals:=[op(num_vals),num_eval]:
-                print("num_vals= ",num_vals):
+                # print("num_vals= ",num_vals):
                 raw_num:=[op(raw_num),eval(f,x=memo[j][1]) mod p]:
                 true_num:=[op(true_num),eval(ff,{x=memo[j][1],y=memo[j][2]}) mod p]:
-                print("raw_num= ",raw_num):
-                print("true_num= ",true_num):
-                num_ratios:=[op(num_ratios),raw_num[j]/true_num[j] mod p]:
-                print("num_ratios= ",num_ratios):
-                print("f(0) = ",1/c mod p);
+                # print("raw_num= ",raw_num):
+                # print("true_num= ",true_num):
+                # num_ratios:=[op(num_ratios),raw_num[j]/true_num[j] mod p]:
+                # print("num_ratios= ",num_ratios):
+                # print("f(0) = ",1/c mod p);
                 # print("f(1) = ",eval(f,x=1) mod p);
             end if:
 
@@ -172,14 +172,14 @@ get_lambda:=proc(B,anchor_point,shift_,T,num_var,p,test_case)# Needs correction 
                 den_eval:=eval(g,x=memo[j][1]):
                 # print("den_eval=",den_eval):
                 den_vals:=[op(den_vals),den_eval]:               
-                print("den_vals= ",den_vals):
+                # print("den_vals= ",den_vals):
                 true_den:=[op(true_den),eval(gg,{x=memo[j][1],y=memo[j][2]}) mod p]:
                 raw_den:=[op(raw_den),eval(g,x=memo[j][1]) mod p]:
-                print("raw_den= ",raw_den):
-                print("true_den= ",true_den):
+                # print("raw_den= ",raw_den):
+                # print("true_den= ",true_den):
                 den_ratios:=[op(den_ratios),raw_den[j]/true_den[j] mod p]: 
-                print("den_ratios= ",den_ratios):
-                print("f(0) = ",1/c mod p);
+                # print("den_ratios= ",den_ratios):
+                # print("f(0) = ",1/c mod p);
             end if:
 
             print("________________________________________________________________"):

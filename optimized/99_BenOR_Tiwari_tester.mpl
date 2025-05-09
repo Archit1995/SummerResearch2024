@@ -54,16 +54,17 @@ get_num_terms_lambda_roots:=proc(B,T,prime_points,num_var,p)# Needs correction f
         print("R=",R):
         print("num of roots of lambda=",nops(R)):
         # if i=1 then 
-        if nops(R)<terms[i] then 
+        if nops(R)<terms[i] or terms[i] <> terms [i-1]   then 
             t:=t*2:
         # else 
         # elif terms[i-1]=terms[i] and terms[i] = nops(R) then
-        elif terms[i] = nops(R) then 
+        elif terms[i] = nops(R) and terms[i] = terms [i-1] then 
             print("IN TERMINATION oF GET_NUM_TERMS_LAMBDA_ROOTS");
                 return terms[i],Lambda,R,Y:
         end if: 
         # end if:
         i:=i+1:
+        # if i = 5 then break end if:
     end do:
     print("terms=",terms[i]):
 end proc:
@@ -175,10 +176,11 @@ end proc:
 # prime_points:=generate_evaulation_primes(num_var):
 
 # p:=2^31-1:
-c:=721695324:
-num_var,vars,p,T,ff,g:=data_generator(3):
+# c:=721695324:
+num_var,vars,p,T,ff,g:=data_generator(9):
 prime_points:=generate_evaulation_primes(num_var):
-f:=ff*c mod p:
+# f:=ff*c mod p:
+f:=g:
 print("f= ",f):
 # f:=g:
 B:=Construct_Blackbox(f,vars);

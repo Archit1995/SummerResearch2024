@@ -1,0 +1,5 @@
+We are given a system of equations in n variables, x1..xn and m parameters, y1,..,ym
+The objective is to solve the system of linear equations
+We create the Augmented matrix [A|b] and row reduce the Augmented matrix RREF([A|b])
+RREF(b) will contain the solution
+

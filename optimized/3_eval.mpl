@@ -29,12 +29,12 @@ evaluation_num_den:=proc(B,anchor_points,shift_,num_var,p,num_points)
         # end do:
         # _phi:=[seq(convert(phi_[i],list),i=1..T)]:
         _phi:=projection_image_phi(num_var,alpha,shift_,anchor_points,p,T):
-        print("_phi: ",_phi):
+        # print("_phi: ",_phi):
         Y:=[seq(B(_phi[i],p),i=1..T)]:
-        print("Y: ",Y):
+        # print("Y: ",Y):
         u:=Interp(alpha,Y,x)mod p:
        
-        print("u: ",u):
+        # print("u: ",u):
 
         f,g,dq,lcg:=MQRFR(m,u,0,1,p):
         

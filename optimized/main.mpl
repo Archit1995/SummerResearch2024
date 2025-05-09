@@ -9,7 +9,7 @@ read "./6_generate_monomials.mpl":
 read "./7_zippel_vandermonde_solve.mpl":
 read "./8_construct_final_polynomial.mpl":
 
-test_case:=1:
+test_case:=9:
 num_var,vars,p,T,ff,gg:=data_generator(test_case):
 print("p=",p):
 print("ff= ",ff):
@@ -46,8 +46,11 @@ num:= construct_final_polynomial(coeff_num,num_mono):
 den:= construct_final_polynomial(coeff_den,den_mono):
 # print("num: ",num):
 # print("den: ",den):
-print("num= ",num*(1/lcoeff(den)) mod p):
-print("den= ",den*(1/lcoeff(den)) mod p):
+den_lc:=lcoeff(den,order=grlex(x,y)):
+den_lc_inv:=1/den_lc mod p:
+print("den_lc: ",den_lc):
+print("num= ",num*den_lc_inv mod p):
+print("den= ",den*den_lc_inv mod p):
 # print("shift_: ",shift_[1]):
 # print("ratio_: ",ratio_):
 # print("1/ratio_: ",1/ratio_ mod p):

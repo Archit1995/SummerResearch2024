@@ -12,7 +12,7 @@ read "./8_construct_final_polynomial.mpl":
 
 test_case:="rand":
 # test_case:="numerator_zero":
-# test_case:=1:
+
 num_var:=7:
 num_terms:=10:
 den_terms:=21:

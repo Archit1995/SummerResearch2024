@@ -12,10 +12,13 @@ read "./8_construct_final_polynomial.mpl":
 
 test_case:="rand":
 # test_case:="numerator_zero":
-
-num_var:=7:
-num_terms:=10:
-den_terms:=21:
+# THis is not working. Monomials are reconstructed properly but the coefficients are not. Not working for 25 variables. Try increasing prime. 
+# num_var:=23:
+# num_terms:=1432:
+# den_terms:=1747:
+num_var:=10:
+num_terms:=17:
+den_terms:=11:
 vars,p,T,ff,gg:=data_generator(test_case,num_var,num_terms,den_terms):
 print("vars=",vars):
 print("p=",p):
@@ -23,8 +26,12 @@ print("p=",p):
 
 B:=Construct_Rational_Blackbox(ff,gg,vars):
 Numerator,Denominator:=MRFI(B,num_var,vars,p):
-print("ff= ",ff mod p):
-print("gg= ",gg):
-print("__________________________________________"):
-print("Numerator= ",Numerator-ff):
-print("Denominator= ",Denominator-gg):
+# print("ff= ",ff mod p):
+# print("gg= ",gg):
+# print("__________________________________________"):
+r:=rand(p):
+test_point:=[seq(r(),i=1..num_var)]:
+
+print("checking "):
+Eval(Numerator/Denominator ,{seq(vars[v]=test_point[v],v=1..num_var)}) mod p-B(test_point,p);
+

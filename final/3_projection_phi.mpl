@@ -1,6 +1,6 @@
 projection_image_phi:=proc(num_var,alpha,beta_,sigma_,p,T)
     print("In projection_image_phi");
-    local phi_,nv,np:
+    local phi_,nv,np,i:
         for np from 1 to T do # projection ring_homomorphism
             phi_[np][1]:=alpha[np]:
             for nv from 2 to num_var do 

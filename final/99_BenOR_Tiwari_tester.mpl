@@ -1,4 +1,4 @@
-read "./0_data_gen.mpl":
+read "./TESTCASE_GENERATOR.mpl":
 with(ArrayTools):
 Construct_Blackbox:=proc(f,vars)
     local BB:
@@ -148,11 +148,15 @@ Zippel_Vandermonde_solver:=proc(y::list,terms::integer,roots_::list,lambda_,p::i
     fin_coeff:=Vector(terms,0):
     for i from 1 to terms do
         q:=quo(M,Z-roots_[i],Z):
-        print("q=",q):
+        # print("q=",q):
         q_lambda_inv:= 1/ Eval(q,Z=roots_[i]) mod p:
-        print("q_lambda_inv=",q_lambda_inv):
+        # print("q_lambda_inv=",q_lambda_inv):
         V_inv_b:=0:
         for j from 1 to terms do
+            # print("j=",j):
+            # print("coeff(q,Z,j-1)=",coeff(q,Z,j-1)):
+            # print("y[j]=",y[j]):
+            # print("coeff(q,Z,j-1)*y[j]=",coeff(q,Z,j-1)*y[j] mod p):
             V_inv_b:=V_inv_b+coeff(q,Z,j-1)*y[j] mod p:
         end do:
         print("V_inv_b=",V_inv_b):
@@ -171,29 +175,26 @@ construct_final_polynomial:=proc(coeff_,Monomials)
     return f:
 end proc:
 
-# num_var:=2:
-# vars:={x,y}:
-# prime_points:=generate_evaulation_primes(num_var):
-
-# p:=2^31-1:
-# c:=721695324:
-num_var,vars,p,T,ff,g:=data_generator(9):
+test_case:="rand":
+# num_var:=30:
+# num_terms:=32:
+# den_terms:=44:
+num_var:=21:
+num_terms:=1033:
+den_terms:=11:
+vars,p,T,ff,gg:=data_generator(test_case,num_var,num_terms,den_terms):
 prime_points:=generate_evaulation_primes(num_var):
-# f:=ff*c mod p:
-f:=g:
+f:=ff:
 print("f= ",f):
-# f:=g:
 B:=Construct_Blackbox(f,vars);
 
 terms,Lambda,R,Y:=get_num_terms_lambda_roots(B,T,prime_points,num_var,p):
-# Terms is the number of terms in the polynomial
-# Lambda is the lambda polynomial
-# R is the roots of the lambda polynomial
-# Y is the evaluations of the polynomial at the prime points
+
 print("R=",R):
 Roots_ := [ seq(r[1], r in R ) ]:
 print("Roots_=",Roots_):
 Monomials:=generate_monomials(Roots_,num_var,prime_points,vars):
+print("Monomials=",Monomials):
 coeff_:= Zippel_Vandermonde_solver(Y,terms,Roots_,Lambda,p):
 print("coeff_=",coeff_):    
 # a:=-62*x^2*z^3+97*x*y^3*z-73*y*z^4-56*x*y*z^2 +87*x*y mod p:

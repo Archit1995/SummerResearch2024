@@ -1,0 +1,133 @@
+B:= proc()   local i,C; b := [1,2,3]; for i to 3 do C[i] := proc() b[i] end; od; C end;
+Warning, (in B) `b` is implicitly declared local
+        B := proc() local i, C, b; b := [1, 2, 3]; for i to 3 do C[i] := proc() b[i] end proc end do; C end proc
+
+> C :=  B();
+                                                         C := C
+
+> B:= proc()   local i,C; C := Array(1..3); b := [1,2,3]; for i to 3 do C[i] := proc() b[i] end; od; C end;
+Warning, (in B) `b` is implicitly declared local
+B := proc()
+local i, C, b;
+    C := Array(1 .. 3); b := [1, 2, 3]; for i to 3 do C[i] := proc() b[i] end proc end do; C
+end proc
+
+> C :=  B();
+                        C := [proc() b[i] end proc, proc() b[i] end proc, proc() b[i] end proc]
+
+> B:= proc()   local i,C; C := Array(1..3); b := [1,2,3,4]; for i to 3 do C[i] := proc() b[i] end; od; C end;
+Warning, (in B) `b` is implicitly declared local
+B := proc()
+local i, C, b;
+    C := Array(1 .. 3); b := [1, 2, 3, 4]; for i to 3 do C[i] := proc() b[i] end proc end do; C
+end proc
+
+> C :=  B();
+                        C := [proc() b[i] end proc, proc() b[i] end proc, proc() b[i] end proc]
+
+> f := C[1];
+                                                       f := C[1]
+
+> f();
+                                                           4
+
+> f := C[2];
+                                                       f := C[2]
+
+> f();
+                                                           4
+
+> B:= proc()   local i,C; C := Array(1..3); b := [1,2,3,4]; R\
+>  := Array(1..3); for i to 3 do C[i] := proc() b[i] end; R[i] := C[i](); od; R end;
+Warning, (in B) `b` is implicitly declared local
+Warning, (in B) `R` is implicitly declared local
+B := proc()
+local i, C, b, R;
+    C := Array(1 .. 3);
+    b := [1, 2, 3, 4];
+    R := Array(1 .. 3);
+    for i to 3 do C[i] := proc() b[i] end proc; R[i] := C[i]() end do;
+    R
+end proc
+
+> B();
+                                                       [1, 2, 3]
+
+> B:= proc()   local i,C; C := Array(1..3); b := [1,2,3,4]; R\
+>  := Array(1..3);  C := proc() b[i] end; for i to 3 do R[i] := C[i](); od; R end;
+Warning, (in B) `b` is implicitly declared local
+Warning, (in B) `R` is implicitly declared local
+B := proc()
+local i, C, b, R;
+    C := Array(1 .. 3);
+    b := [1, 2, 3, 4];
+    R := Array(1 .. 3);
+    C := proc() b[i] end proc;
+    for i to 3 do R[i] := C[i]() end do;
+    R
+end proc
+
+> B();
+                                                       [1, 2, 3]
+
+> 
+> f := proc(x) option remember; print(HERE);  x^2 end;
+                                f := proc(x) option remember; print(HERE); x^2 end proc
+
+> f(4);
+                                                          HERE
+
+                                                           16
+
+> f(4);
+                                                           16
+
+> f(5);
+                                                          HERE
+
+                                                           25
+
+> f(7);
+                                                          HERE
+
+                                                           49
+
+> f(4);
+                                                           16
+
+> f(5);
+                                                           25
+
+> eval(f);
+                                   proc(x) option remember; print(HERE); x^2 end proc
+
+> op(3,%);
+                                                        remember
+
+> op(4,%%);
+                                            table([4 = 16, 5 = 25, 7 = 49])
+
+> B := proc(Y,p) option remember; print(Y); Y[1..2] end;
+                             B := proc(Y, p) option remember; print(Y); Y[1 .. 2] end proc
+
+> B([1,2,3],5);
+                                                       [1, 2, 3]
+
+                                                         [1, 2]
+
+> B([1,2,3], 5);
+                                                         [1, 2]
+
+> B([2,3,5], 5);
+                                                       [2, 3, 5]
+
+                                                         [2, 3]
+
+> B([2,3,5], 5);
+                                                         [2, 3]
+
+> B([2,3,5], 7);
+                                                       [2, 3, 5]
+
+                                                         [2, 3]
+

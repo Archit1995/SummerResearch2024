@@ -3,3 +3,13 @@ The objective is to solve the system of linear equations
 We create the Augmented matrix [A|b] and row reduce the Augmented matrix RREF([A|b])
 RREF(b) will contain the solution
 
+Note, the entries of augmented matrix and the coefficient matrix are in K[y1,...,ym] 
+
+Input to black box,points [alpha1,..,alpha_m]
+Output: Det(A(alpha1,..,alpha_m))
+Rough Pseudocode.
+Input: Black box to augmented matrix [A|b] \in K[y1,..ym]
+Output: Det of Augmented matrix 
+Step1 Feed Random points to augmented matrix BB.
+Step2 Get [y_i]
+

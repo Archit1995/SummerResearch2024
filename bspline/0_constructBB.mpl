@@ -7,15 +7,17 @@ Constuct_Sys_Blackbox:=proc(System,Vars,params)
 		Soln:=get_eqn(Sys,Vars):
 		# Soln:=solve(Sys,Vars):
 		# print("Soln ",Soln);
-		unordered_soln:=convert(Soln,list);
-		soln:=reording(unordered_soln,nops(Sys));
-		return [seq(eval(op(2,soln[i]),{seq(var[v]=point_[v],v=1..numelems(point_))}),i=1..nops(Sys))] mod p;
+		unordered_soln:=convert(Soln,list):
+		soln:=reording(unordered_soln,nops(Sys)):
+		# print("soln ",soln);
+		return [seq(eval(op(2,soln[i]),{seq(var[v]=point_[v],v=1..numelems(point_))}),i=1..nops(Sys))] mod p:
 		# return [seq(eval(op(2,soln[i]),{seq(var[v]=point_[v],v=1..numelems(point_))}),i=1..nops(Sys))];
 		# return [seq(0_constructBB)]
 	end proc:
 	return Lin_BB:
 end proc:
-get_eqn:=proc(Sys,vars)option remember;
+# Solves the system of equations. 
+get_eqn:=proc(Sys,vars)option remember:
 	print("in get_eqn"):
 	return solve(Sys,Vars):
 end proc:

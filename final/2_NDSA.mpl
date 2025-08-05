@@ -12,6 +12,7 @@ NDSA:=proc(B,sigma_,beta_,num_var,p,num_points)
         m:=expand(product(x-alpha[i],i=1..T)) mod p:
         # print("m: ",m):
         _phi:=projection_image_phi(num_var,alpha,beta_,sigma_,p,T):
+        print("_phi: ",_phi):
         Y:=[seq(B(_phi[i],p),i=1..T)]:
         u:=Interp(alpha,Y,x)mod p:
         f,g,dq,lcg:=MQRFR(m,u,0,1,p):

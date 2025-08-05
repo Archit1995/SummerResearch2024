@@ -1,6 +1,8 @@
 MQRFR:=proc(r0,r1,t0,t1,p)
     print("In MQRFR"):
     local r,t,q,i,f,g,qmax,lcg:
+    print("r0: ",r0):
+    print("r1: ",r1):
     r[0]:=r0:
     r[1]:=r1:
     t[0]:=t0:
@@ -12,6 +14,8 @@ MQRFR:=proc(r0,r1,t0,t1,p)
     while r[i] <> 0 do
     #  1. find quotient and remainder
     q[i]:= Quo(r[i-1],r[i],x,'r[i+1]') mod p:
+    # print("q[",i,"]=",q[i]):
+    # print("r[",i+1,"]=",r[i+1]):
     if degree(q[i],x)> qmax then 
         qmax:=degree(q[i],x):
         f:=r[i]:
@@ -22,6 +26,7 @@ MQRFR:=proc(r0,r1,t0,t1,p)
     if qmax <=1 or gcd(f,g) <> 1 or g = 0 then 
         FAIL:
     end if:
+    # print("__________________________________________"):
     end do:
     lcg:=lcoeff(g):
     return f/lcg mod p,g/lcg mod p,qmax,lcg :

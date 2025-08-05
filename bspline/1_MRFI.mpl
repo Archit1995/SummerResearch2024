@@ -12,18 +12,50 @@ MRFI:=proc(B,num_vars::integer,vars::list,p::integer)
     num_points_mqrfr:=0:
     numerator_done:=false:
     denominator_done:=false:
+    
     T:=4:
     # T_old:=0:
     T_old:=1:
-    
-    f,g,lg,num_points_mqrfr:=NDSA(B,[seq(1,i=1..num_vars)],shift_,num_vars,p,T): 
-    num_eval:=eval(f,x=1):
-    num:=[op(num),num_eval]:
-    den_eval:=eval(g,x=1):
-    den:=[op(den),den_eval]:
-    deg_num:=degree(f,x):
-    deg_den:=degree(g,x):
-    num_points_mqrfr:=deg_num+deg_den+2:
+    # print(NDSA(B,[seq(1,i=1..num_vars)],shift_,num_vars,p,T)):
+    print("Before NDSA call"):
+
+        print("=== NDSA CALL START ==="):
+        ndsa_return := NDSA(B,[seq(1,i=1..num_vars)],shift_,num_vars,p,T):
+        print("=== NDSA Return Value ==="):
+        print(ndsa_return):
+        
+        # Properly unpack the returned values
+        mqrfr_results := ndsa_return[1]:
+        num_points_mqrfr := ndsa_return[2]:
+        lin_sys := ndsa_return[3]:
+        
+        print("=== Unpacked Values ==="):
+        print("mqrfr_results := ", mqrfr_results):
+        print("num_points_mqrfr := ", num_points_mqrfr):
+        print("lin_sys := ", lin_sys):
+   
+
+    if lin_sys = false then 
+        f:=mqrfr_results[1]:
+        g:=mqrfr_results[2]:
+        lg:=mqrfr_results[3]:
+        deg_num:=degree(f,x):
+        deg_den:=degree(g,x):
+        num_points_mqrfr:=deg_num+deg_den+2:
+        num_eval:=eval(f,x=1):
+        num:=[op(num),num_eval]:
+        den_eval:=eval(g,x=1):
+        den:=[op(den),den_eval]:
+    else
+        print("in lin_sys = true"): 
+        f:=mqrfr_results[1][1]:
+        g:=mqrfr_results[2][1]:
+        lg:=mqrfr_results[3][1]:
+        deg_num:=degree(f,x):
+        deg_den:=degree(g,x):
+        num_points_mqrfr:=T:
+    end if:
+
     print("num_points_mqrfr = ",num_points_mqrfr):
     # print("den= ",den):
     # print("num= ",num):
@@ -33,7 +65,11 @@ MRFI:=proc(B,num_vars::integer,vars::list,p::integer)
         for j from T_old to 2*T-1 do     
             sigma_:=[op(sigma_),[seq(Primes[i]^j mod p,i=1..nops(Primes))]]:
             print("sigma_[",j,"]=",sigma_[j]):
-            f,g,lg:=NDSA(B,sigma_[j],shift_,num_vars,p,num_points_mqrfr): 
+            # f,g,lg:=NDSA(B,sigma_[j],shift_,num_vars,p,num_points_mqrfr): 
+            mqrfr_results:=NDSA(B,sigma_[j],shift_,num_vars,p,num_points_mqrfr): 
+            f:=mqrfr_results[1]:
+            g:=mqrfr_results[2]:
+            lg:=mqrfr_results[3]:
             if not(numerator_done) then 
                 num_eval:=eval(f,x=sigma_[j][1]):
                 num:=[op(num),num_eval]:

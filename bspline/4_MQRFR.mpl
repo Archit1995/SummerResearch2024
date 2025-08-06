@@ -1,8 +1,8 @@
 MQRFR:=proc(r0,r1,t0,t1,p)
     print("In MQRFR"):
     local r,t,q,i,f,g,qmax,lcg:
-    print("r0: ",r0):
-    print("r1: ",r1):
+    # print("r0: ",r0):
+    # print("r1: ",r1):
     r[0]:=r0:
     r[1]:=r1:
     t[0]:=t0:

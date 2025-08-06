@@ -52,15 +52,15 @@ NDSA:=proc(B,sigma_,beta_,num_var,p,num_points)
             print("dq: ",dq):
 
         end if:
-        print("result: ",result):
+        # print("result: ",result):
         if  dq > 1 then  
             print("Termination condition met"):          
             if num_points <> T then  
                 print("in num_points <> T"):
-                print("Returning: result=", result, " T=", T, " lin_sys=", lin_sys):
+                # print("Returning: result=", result, " T=", T, " lin_sys=", lin_sys):
                 return result,T,lin_sys:
             else
-                return result,lin_sys: 
+                return result: 
             end if:
         else 
             print("MQRFR failed. Trying again with more points"):

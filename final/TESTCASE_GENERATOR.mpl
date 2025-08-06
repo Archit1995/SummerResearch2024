@@ -8,11 +8,11 @@ data_generator := proc(test_case)
     if nargs = 1 then
         var := [x, y, z]:
         print("In nargs = 1 ");
-        if test_case:="bspline" then 
+        if test_case = "bspline" then 
             ff:=-2*x^2*y^2-2*x*y^3+x^3+3*y^3+7*x^2-x*y-7*y^2:
             gg:=-x^2*y^5-x*y^6+y^6+x^3+y^3+x^2-x*y-y^2:
             var:=[x,y]:
-        elif if test_case = 1 then
+        elif test_case = 1 then
             print("In test_case = 1 ");
             ff := x*y + 3*z:
             gg := x + y*z:
@@ -25,9 +25,7 @@ data_generator := proc(test_case)
         elif test_case = 99 then
             ff := randpoly([x, y, z], degree = 99) mod p:
             gg := randpoly([x, y, z], terms = 7) mod p:
-        else
-            error "Unknown test_case for nargs=1: %1", test_case;
-        end if;
+        end if:
     elif nargs > 1 then
         print("In nargs > 1 ");
         print("test_case =", args[1]);
@@ -39,12 +37,7 @@ data_generator := proc(test_case)
         if test_case = "rand" then
             ff := randpoly(var, terms = args[3]) mod p:
             gg := randpoly(var, terms = args[4]) mod p:
-        else
-            error "Unknown test_case for nargs>1: %1", test_case;
         end if;
-
-    else
-        error "Invalid number of arguments: %1", nargs;
     end if:
 
     # **THIS** returns a 5-value sequence, so you can unpack it:

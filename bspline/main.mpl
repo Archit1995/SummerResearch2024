@@ -5,8 +5,10 @@ read "./Kaltofen_Yang_header.mpl":
 read "query_BB.mpl":
 read "./get_u.mpl":
 read "./print_soln.mpl":
+read "./update_buffers.mpl":
 # Sys,Vars,params,p:=get_data("bspline"):
 Sys,Vars,params,p:=get_data("small_Sys"):
+# Sys,Vars,params,p:=get_data("small_sys_low_deg"):
 print("Sys: ",Sys);
 # Vars:=reordering(Var,nops(Sys)):
 print_soln(Sys,Vars,params):
@@ -18,7 +20,7 @@ nparam:=nops(params);
 LBB:=Constuct_Sys_Blackbox(Sys,Vars,params):
 
 
-MRFI(LBB,nparam,params,p):
+MRFI(LBB,nparam,nvar,params,p):
 # sigma_:=[]:
 # Primes:=[seq(ithprime(i),i=1..nparam)]:
 # for j from 1 to 4 do 

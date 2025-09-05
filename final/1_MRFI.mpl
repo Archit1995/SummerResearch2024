@@ -85,7 +85,10 @@ MRFI:=proc(B,num_vars::integer,vars::list,p::integer)
     end do:
     Roots_num := [ seq(r[1], r in R_num ) ]:
     Roots_den := [ seq(r[1], r in R_den ) ]:
-    
+    print("---------------------------------------------");
+    print("Roots_num: ",Roots_num):
+    print("Roots_den: ",Roots_den):
+    print("---------------------------------------------");
     num_mono:= generate_monomials(Roots_num,num_var,Primes,vars):
     print("num_mono: ",num_mono):
     den_mono:= generate_monomials(Roots_den,num_var,Primes,vars):

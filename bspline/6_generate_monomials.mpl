@@ -2,7 +2,9 @@ generate_monomials:=proc(roots_,num_var,prime_points,vars)# needs correction- We
     # factors of 2,3 and 5;
     local m,mm,i,j,counter,M_,rem: 
     M_:=Vector(numelems(roots_),0):
+    print("In generate_monomials"):
     print("roots_=",roots_):
+    print("vars=",vars):
     print("prime_points=",prime_points):
     print("r=",numelems(roots_)):
     for i from 1 to  numelems(roots_) do # each root
@@ -12,7 +14,7 @@ generate_monomials:=proc(roots_,num_var,prime_points,vars)# needs correction- We
         print("roots_[i]=",roots_[i]):
         for j from 1 to numelems(prime_points) do #  each prime
             counter:=0:
-            print("j=",j):
+            print("prime=",j):
             while mm mod prime_points[j] = 0 do #repeated division
                 print("sigma=",prime_points[j]):
                 mm:=iquo(mm,prime_points[j],'rem'):

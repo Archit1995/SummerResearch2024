@@ -23,8 +23,11 @@ NDSA:=proc(B,sigma_,beta_,num_var,p,num_points)
         print("_phi: ",_phi):
         Y:=[seq(B(_phi[i],p),i=1..T)]:
         M:=convert(Y,Matrix):
+        # print("M: ",M):
        
         row,col:=Dimension(M):
+        print("row: ",row):
+        print("col: ",col):
         print("Y: ",Y):
         if row =1 then 
             u:=Interp(alpha,Y,x)mod p:

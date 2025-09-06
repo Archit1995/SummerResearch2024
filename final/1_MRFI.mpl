@@ -32,21 +32,21 @@ MRFI:=proc(B,num_vars::integer,vars::list,p::integer)
         for j from T_old to 2*T-1 do     
             sigma_:=[op(sigma_),[seq(Primes[i]^j mod p,i=1..nops(Primes))]]:
             print("sigma_[",j,"]=",sigma_[j]):
-            # try
-            #     _out := [ NDSA(B, sigma_[j], shift_, num_vars, p, num_points_mqrfr) ]:
-            #     if nops(_out) = 3 then
-            #         f:=_out[1];g:=_out[2];lg:=_out[3];
-            #     elif nops(_out) = 4 then
-            #         f:=_out[1];g:=_out[2];lg:=_out[3];
-            #         num_points_mqrfr:=_out[4];
-            #     else
-            #         error "NDSA returned %1 values; expected at least 3", nops(_out);
-            #     end if;
-            # catch:
-            #     error "NDSA failed: %1", lasterror();
-            # end try;
+            try
+                _out := [ NDSA(B, sigma_[j], shift_, num_vars, p, num_points_mqrfr) ]:
+                if nops(_out) = 3 then
+                    f:=_out[1];g:=_out[2];lg:=_out[3];
+                elif nops(_out) = 4 then
+                    f:=_out[1];g:=_out[2];lg:=_out[3];
+                    num_points_mqrfr:=_out[4];
+                else
+                    error "NDSA returned %1 values; expected at least 3", nops(_out);
+                end if;
+            catch:
+                error "NDSA failed: %1", lasterror();
+            end try;
 
-            f,g,lg:=NDSA(B,sigma_[j],shift_,num_vars,p,num_points_mqrfr): 
+            # f,g,lg:=NDSA(B,sigma_[j],shift_,num_vars,p,num_points_mqrfr): 
 
 
 

@@ -7,6 +7,7 @@ generate_monomials:=proc(roots_,num_var,prime_points,vars)# needs correction- We
     print("r=",numelems(roots_)):
     for i from 1 to  numelems(roots_) do # each root
         print("i=",i):
+        if(roots_[i]=0)then print("roots_[",i,"] = 0"):return FAIL: end if:
         mm:=roots_[i]:
         m:=1:
         print("roots_[i]=",roots_[i]):

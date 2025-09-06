@@ -1,0 +1,159 @@
+    |\^/|     Maple 2023 (X86 64 LINUX)
+._|\|   |/|_. Copyright (c) Maplesoft, a division of Waterloo Maple Inc. 2023
+ \  MAPLE  /  All rights reserved. Maple is a trademark of
+ <____ ____>  Waterloo Maple Inc.
+      |       Type ? for help.
+> read "./TESTCASE_GENERATOR.mpl":
+> read "./0construct_BB.mpl":
+> read "./1_MRFI.mpl":
+> read "./2_NDSA.mpl":
+> read "./3_projection_phi.mpl":
+> read "./4_MQRFR.mpl":
+> read "./5_BMEA.mpl":
+> read "./6_generate_monomials.mpl":
+> read "./7_zippel_vandermonde_solve.mpl":
+> read "./8_construct_final_polynomial.mpl":
+
+
+
+# test_case:="numerator_zero":
+# THis is not working. Monomials are reconstructed properly but the coefficients are not. Not working for 25 variables. Try increasing prime. 
+# num_var:=23:
+# num_terms:=1432:
+# den_terms:=1747:
+# test_case:="rand":
+# num_var:=10:
+# num_terms:=17:
+# den_terms:=11:
+# vars,p,T,ff,gg:=data_generator(test_case,num_var,num_terms,den_terms):
+> test_case:="bspline_small_sys_low_deg2":
+# test_case:="bspline":
+> vars,p,T,ff,gg:=data_generator(test_case):
+                              "In data_generator"
+
+                                  "nargs =", 1
+
+                  "test_case =", "bspline_small_sys_low_deg2"
+
+                                "In nargs = 1 "
+
+> num_var:=nops(vars):
+> print("vars=",vars):
+                               "vars=", [y1, y2]
+
+> print("p=",p):
+                                "p=", 2147483647
+
+> print("T=",T):
+                                    "T=", 4
+
+> print("ff=",ff mod p):
+                       6                3                2
+              "ff=", y2  + 2147483645 y2  + 2147483642 y2  + 6 y1
+
+> print("gg=",gg mod p):
+                         6                5     3     2                2
+  "gg=", 2147483646 y1 y2  + 2147483646 y2  + y2  + y1  + 2147483646 y2  + y1
+
+
+
+> B:=Construct_Rational_Blackbox(ff,gg,vars):
+> Numerator,Denominator:=MRFI(B,num_var,vars,p):
+                                   "In MRFI"
+
+                           "In projection_image_phi"
+
+"_phi: ", [[1163738604, 931211600], [1338242525, 47536505],
+
+    [730218227, 380688921], [1090808408, 729255143]]
+
+                 "MQRFR failed. Trying again with more points"
+
+                           "In projection_image_phi"
+
+"_phi: ", [[1880059839, 2102603171], [1403387915, 738217500],
+
+    [1898667970, 773150975], [1136957300, 1477604578], [499651159, 784358555],
+
+    [837865670, 1242516526], [405621834, 1536267166], [244797833, 2116474011]]
+
+                 "MQRFR failed. Trying again with more points"
+
+                           "In projection_image_phi"
+
+"_phi: ", [[1618188852, 516406232], [402709182, 1145014205],
+
+    [2086334497, 1853626015], [1782470095, 1940011978],
+
+    [2117086665, 1215779783], [1845878451, 1541078234], [1869985269, 529733608],
+
+    [1353886018, 1651759272], [1939941922, 1026203396], [1894877543, 552825],
+
+    [1985217135, 1858106220], [1779550549, 667719534], [943705252, 1294173718],
+
+    [2021861425, 747155289], [413226163, 1529566647], [431905977, 1653605223]]
+
+                           "num_points_mqrfr = ", 13
+
+                                    "T=", 4
+
+                                  "T_old=", 1
+
+                           "sigma_[", 1, "]=", [2, 3]
+
+                           "In projection_image_phi"
+
+"_phi: ", [[403979895, 1884486213], [1218794424, 1465913691],
+
+    [41089818, 417295208], [1475418211, 230649075], [966062836, 1582218198],
+
+    [1423657309, 1599635502], [1200558094, 1006201641], [362558163, 54274165],
+
+    [1103210843, 2098841208], [1799526231, 992097940], [31462160, 109986184],
+
+    [1337802392, 1776361505], [411703669, 466445979]]
+
+                 "MQRFR failed. Trying again with more points"
+
+                           "In projection_image_phi"
+
+"_phi: ", [[306760990, 945519488], [956008193, 5102942],
+
+    [851514251, 1194560887], [1820416152, 1265879202], [1580489947, 1020845116],
+
+    [1557866572, 562903544], [1535323318, 5880112], [1277654157, 1392101368],
+
+    [66487173, 1851361622], [2067144090, 1605813449], [2088492024, 2061558378],
+
+    [1930662365, 2081268604], [1221720797, 1100301557],
+
+    [1478221925, 1182118241], [1335544936, 114382924], [1493490454, 404929005],
+
+    [1470482468, 1261578600], [445930365, 1032435035], [1769922382, 321399559],
+
+    [406131379, 1832369627], [273442052, 161550402], [571663969, 1314114155],
+
+    [231266657, 41073846], [1051655557, 146376837], [396609224, 638932872],
+
+    [1280879304, 2127583256]]
+
+memory used=2.8MB, alloc=40.3MB, time=0.04
+Error, (in MRFI) mismatched multiple assignment of 3 variables on the left side
+and 4 values on the right side |1_MRFI.mpl:35|
+# print("ff= ",ff mod p):
+# print("gg= ",gg):
+# print("__________________________________________"):
+> r:=rand(p):
+> test_point:=[seq(r(),i=1..num_var)]:
+
+> print("checking "):
+                                  "checking "
+
+> Eval(Numerator/Denominator ,{seq(vars[v]=test_point[v],v=1..num_var)}) mod p-B(test_point,p);
+                             Numerator
+                            ----------- - 150558681
+                            Denominator
+
+
+> quit
+memory used=2.9MB, alloc=40.3MB, time=0.04

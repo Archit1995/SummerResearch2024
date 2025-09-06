@@ -21,7 +21,7 @@ read "./8_construct_final_polynomial.mpl":
 # num_terms:=17:
 # den_terms:=11:
 # vars,p,T,ff,gg:=data_generator(test_case,num_var,num_terms,den_terms):
-test_case:=1:
+test_case:="bspline_small_sys_low_deg2":
 # test_case:="bspline":
 vars,p,T,ff,gg:=data_generator(test_case):
 num_var:=nops(vars):

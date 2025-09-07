@@ -175,17 +175,21 @@ construct_final_polynomial:=proc(coeff_,Monomials)
     return f:
 end proc:
 
-test_case:="rand":
+test_case:="bspline_small_sys_low_deg2":
+vars,p,T,ff,gg:=data_generator(test_case):
+num_var:=nops(vars):
 # num_var:=30:
 # num_terms:=32:
 # den_terms:=44:
-num_var:=21:
-num_terms:=1033:
-den_terms:=11:
-vars,p,T,ff,gg:=data_generator(test_case,num_var,num_terms,den_terms):
+# num_var:=21:
+# num_terms:=1033:
+# den_terms:=11:
+# vars,p,T,ff,gg:=data_generator(test_case,num_var,num_terms,den_terms):
 prime_points:=generate_evaulation_primes(num_var):
 f:=ff:
+# f:=gg:
 print("f= ",f):
+print("vars= ",vars):
 B:=Construct_Blackbox(f,vars);
 
 terms,Lambda,R,Y:=get_num_terms_lambda_roots(B,T,prime_points,num_var,p):
@@ -201,7 +205,7 @@ print("coeff_=",coeff_):
 # a:=2*x*y+3*z+1 mod p:
 f;
 f1:=construct_final_polynomial(coeff_,Monomials);
-f1-f;
+f1-f mod p;
 # g:=x+y:
 # Bg:=Construct_Blackbox(g,vars);
 

@@ -69,16 +69,33 @@ MRFI:=proc(B,num_vars::integer,vars::list,p::integer)
             lambda_num := BMEA(num,p,Z):
             terms_num:=degree(lambda_num,Z):
             R_num := Roots(lambda_num) mod p:
-            # print("lambda_num= ",lambda_num):
+            print("lambda_num= ",lambda_num):
             print("terms_num[i]= ",terms_num):
+            
             print("R_num= ",R_num):
+            if R_num[1][1]=0 then 
+                R_num:= remove(x->x=[0,1],R_num):
+                terms_num:=terms_num-1:
+                lambda_num:=quo(lambda_num,Z,Z) mod p:
+                print("lambda_num after removing 0 root= ",lambda_num):
+            end if: 
+            print("R_num= ",R_num):
+
         end if:
         if not(denominator_done) then 
             lambda_den := BMEA(den,p,Z):
-            # print("lambda_den= ",lambda_den): 
+            print("lambda_den= ",lambda_den): 
             terms_den:=degree(lambda_den,Z):
             print("terms_den[i]= ",terms_den):
             R_den := Roots(lambda_den) mod p:
+            if R_den[1][1]=0 then 
+                R_den:= remove(x->x=[0,1],R_den):
+                terms_den:=terms_den-1:
+                lambda_den:=quo(lambda_den,Z,Z) mod p:
+                print("lambda_den after removing 0 root= ",lambda_den):
+            end if: 
+            
+
             print("R_den= ",R_den):
         end if:
 

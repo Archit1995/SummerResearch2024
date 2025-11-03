@@ -9,11 +9,11 @@ read "./update_buffers.mpl":
 # Sys,Vars,params,p:=get_data("bspline"):
 Sys,Vars,params,p:=get_data("small_Sys"):
 # Sys,Vars,params,p:=get_data("small_sys_low_deg"):
-print("Sys: ",Sys);
+lprint("Sys: ",Sys);
 # Vars:=reordering(Var,nops(Sys)):
 print_soln(Sys,Vars,params):
-print("Vars: ",Vars);
-print("params: ",params);
+lprint("Vars: ",Vars);
+lprint("params: ",params);
 nvar:=nops(Vars);
 nparam:=nops(params);
 
@@ -25,14 +25,14 @@ MRFI(LBB,nparam,nvar,params,p):
 # Primes:=[seq(ithprime(i),i=1..nparam)]:
 # for j from 1 to 4 do 
 #     sigma_:=[op(sigma_),[seq(Primes[i]^j mod p,i=1..nops(Primes))]]:
-#     # print("sigma_: ",sigma_[j]);
-#     print("LBB: ",LBB(sigma_[j],p)):
+#     # lprint("sigma_: ",sigma_[j]);
+#     lprint("LBB: ",LBB(sigma_[j],p)):
 #     memo:=op(4,eval(LBB));
-#     print("memo: ",memo):
-#     print("__________________________________"):
+#     lprint("memo: ",memo):
+#     lprint("__________________________________"):
 # end do:
 # Y:=query_BB(LBB,1,sigma_,p):
-# print("Y: ",Y):
+# lprint("Y: ",Y):
 
 
 # This should give the value of the first variable in the first polynomial evaluated at the point sigma_[1].:
@@ -43,5 +43,5 @@ MRFI(LBB,nparam,nvar,params,p):
 # op(4,eval(LBB))[sigma_[j],p][i] =xi=fi(y1..ym)/gi(y1..ym)
 # op(4,eval(LBB))[sigma_[1],p][1];
 # for i from 1 to nops(eval(LBB)) do 
-#     print("i =",i,"op(i) = ",);
+#     lprint("i =",i,"op(i) = ",);
 # end do;

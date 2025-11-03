@@ -16,6 +16,10 @@ MQRFR:=proc(r0,r1,t0,t1,p)
         qmax:=degree(q[i],x):
         f:=r[i]:
         g:=t[i]:
+        print("r[",i-1,"]=",r[i-1]):
+        print("q[",i,"]=",q[i]):
+        print("f=",f):
+        print("g=",g):
     end if:
     t[i+1]:=Expand(t[i-1]-q[i]*t[i])mod p:
     i:=i+1:

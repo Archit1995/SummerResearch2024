@@ -21,7 +21,9 @@ read "./8_construct_final_polynomial.mpl":
 # num_terms:=17:
 # den_terms:=11:
 # vars,p,T,ff,gg:=data_generator(test_case,num_var,num_terms,den_terms):
-test_case:="bspline_small_sys_low_deg2":
+# test_case:="bspline_small_sys_low_deg2":
+# test_case:="bspline_small_sys_low_deg3":
+test_case:=3:
 # test_case:="rand":
 vars,p,T,ff,gg:=data_generator(test_case):
 num_var:=nops(vars):
@@ -34,9 +36,9 @@ print("gg=",gg mod p):
 
 B:=Construct_Rational_Blackbox(ff,gg,vars):
 Numerator,Denominator:=MRFI(B,num_var,vars,p):
-# print("ff= ",ff mod p):
-# print("gg= ",gg):
-# print("__________________________________________"):
+print("ff= ",ff mod p):
+print("gg= ",gg):
+print("__________________________________________"):
 r:=rand(p):
 test_point:=[seq(r(),i=1..num_var)]:
 

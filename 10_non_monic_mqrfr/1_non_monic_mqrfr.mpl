@@ -13,9 +13,35 @@ Construct_Blackbox:=proc(f,g,vars)
     end proc:
     return BB:
 end proc:
+EEA:=proc(r0,r1,t0,t1,p)
+ local r,t,q,i,f,g,qmax:
+    print("In EEA"):
+    r[0]:=r0:
+    r[1]:=r1:
+    t[0]:=t0:
+    t[1]:=t1:
+    print("t[",1,"]=",t[1]):
+    f:=r0:
+    g:=t1:
+    i:=1:
+    while degree(r[i],x) > 0 do
+    #  1. find quotient and remainder
+    q[i]:= Quo(r[i-1],r[i],x,'r[i+1]') mod p:
+    print("r[",i-1,"]=",r[i-1]):
+    print("q[",i,"]=",q[i]):
+    t[i+1]:=Expand(t[i-1]-q[i]*t[i])mod p:
+    i:=i+1:
+    print("r[",i,"]=",r[i]):
+    # print("q[",i,"]=",q[i]):
+    print("t[",i,"]=",t[i]):
+    end do:
+
+end proc:
+
 
 # MQRFR(m,u,0,1,p)
 MQRFR:=proc(r0,r1,t0,t1,p)
+    print("MQRFR"):
     local r,t,q,i,f,g,qmax:
     r[0]:=r0:
     r[1]:=r1:
@@ -53,8 +79,8 @@ MQRFR:=proc(r0,r1,t0,t1,p)
     #     r[i+1]:=r[i+1]/rho mod p:
     #     t[i+1]:=t[i+1]/rho mod p:
     # end if:
-    #  print("f=",f):
-    #  print("g=",g):
+     print("f=",f):
+     print("g=",g):
     #  print("______________________________________"):
     i:=i+1:
     if qmax <=1 or gcd(f,g) <> 1 then 
@@ -69,25 +95,29 @@ end proc:
 Early_termination_MQRFR:=proc(B,p)
     local r,u,f,g,dq,num_points,correct_degree,points,Y,m:
     r:=rand(p):
-    num_points:=1:
+    # num_points:=1:
+    num_points:=5:
     correct_degree:=true:
     while(correct_degree) do 
         #  deg m = d > N+M
         #  1. generate the points
         # point_:=[seq(1..num_points)]:
         print("num_points= ",num_points):
-        points:=[seq(r(),i=1..num_points)]:
+        # points:=[seq(r(),i=1..num_points)]:
+        points:=[seq(i,i=1..num_points)]:
         # points:=[seq(i,i=1..num_points)]:
-        # print("points= ",points):
+        print("points= ",points):
         # break:
-        Y:=[seq(B(points[i],p),i=1..num_points)]:
+        # Y:=[seq(B(points[i],p),i=1..num_points)]:
+        Y:=[55, 36, 15, 33, 95]:
         # y:=[seq(B(i,p),i=points)]:
-        # print("y= ",y):
+        print("y= ",Y):
         m:=Expand(product(x-points[i],i=1..numelems(points))) mod p:
         print("m= ",m):
         u:=Interp(points,Y,x)mod p:# will be replaced by T(x,beta2*x-beta2*sig1+sig2) in seperation algorithm
         # where sig=[sig1,sig2] is the evaluation vector and beta=[beta1,beta2] is a random vector.  
-        # print("u= ",u):
+        print("u= ",u):
+        # EEA(m,u,0,1,p): break;
         if u = 0 then 
             f:=0;
             g:=1;
@@ -108,18 +138,26 @@ end proc:
 
 
 
-p:=2^31-1:
-num_deg:=17:
-denom_deg:=15:
-f0:=randpoly(x,degree=num_deg):
+p:=107:
+num_deg:=1:
+denom_deg:=2:
+# f0:=randpoly(x,degree=num_deg) mod p:
+f0:=3*x^2+1:
+f1:=x+7:
+# f0:=3*x^2+4:
+# f1:=x+1:
 #  lc_f0:=lcoeff(f0):
 #  f0:=f0/lc_f0 mod p:
-f1:=randpoly(x,degree=denom_deg):
+# f1:=randpoly(x,degree=denom_deg) mod p:
+print("f0= ",f0);
+
 lc_f1:=lcoeff(f1):
 f1:=f1/lc_f1 mod p:
+print("f1= ",f1);
 vars:={x}:
 B:=Construct_Blackbox(f0,f1,vars):
 print(B);
+# EEA(B,p);
 f,g:=Early_termination_MQRFR(B,p):
 print("f= ",f):
 print("g= ",g):

@@ -3,5 +3,5 @@ print_soln:=proc(System,Vars,params)
 	Soln:=get_eqn(Sys,Vars):
 	unordered_soln:=convert(Soln,list):
 	soln:=reording(unordered_soln,nops(Sys)):
-	print("soln ",soln);
+	lprint("soln ",soln);
 end proc:

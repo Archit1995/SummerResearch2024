@@ -5,7 +5,9 @@ MRFI:=proc(B,num_vars::integer,vars::list,p::integer)
     print("In MRFI"):
     r_:=rand(p):
     Primes:=[seq(ithprime(i),i=1..num_vars)]:
-    shift_:=[seq(r_(),i=1..num_vars-1)]:
+    # shift_:=[seq(r_(),i=1..num_vars-1)]:
+    shift_:=[7]:
+    print("shift =",shift_):
     sigma_:=[]:
     num:=[]:
     den:=[]:
@@ -52,12 +54,18 @@ MRFI:=proc(B,num_vars::integer,vars::list,p::integer)
 
             if not(numerator_done) then 
                 num_eval:=eval(f,x=sigma_[j][1]):
-                num:=[op(num),num_eval]:
+                print("f=" ,f):
+                print("sigma_[",j,"][1]= ",sigma_[j][1]):
+                print("num_eval= ",num_eval):
+                num:=[op(num),num_eval]mod p:
                 # print("num= ",num):
             end if:
             if not(denominator_done) then 
                 den_eval:=eval(g,x=sigma_[j][1]):
-                den:=[op(den),den_eval]:               
+                print("g=" ,g):
+                print("sigma_[",j,"][1]= ",sigma_[j][1]):
+                print("den_eval= ",den_eval):
+                den:=[op(den),den_eval]mod p:               
                 # print("den= ",den):
             end if:
 
@@ -69,24 +77,24 @@ MRFI:=proc(B,num_vars::integer,vars::list,p::integer)
             lambda_num := BMEA(num,p,Z):
             terms_num:=degree(lambda_num,Z):
             R_num := Roots(lambda_num) mod p:
-            print("lambda_num= ",lambda_num):
-            print("terms_num[i]= ",terms_num):
+            lprint("lambda_num= ",lambda_num):
+            lprint("terms_num[i]= ",terms_num):
             
-            print("R_num= ",R_num):
+            lprint("R_num= ",R_num):
             if R_num[1][1]=0 then 
                 R_num:= remove(x->x=[0,1],R_num):
                 terms_num:=terms_num-1:
                 lambda_num:=quo(lambda_num,Z,Z) mod p:
-                print("lambda_num after removing 0 root= ",lambda_num):
+                lprint("lambda_num after removing 0 root= ",lambda_num):
             end if: 
-            print("R_num= ",R_num):
+            lprint("R_num= ",R_num):
 
         end if:
         if not(denominator_done) then 
             lambda_den := BMEA(den,p,Z):
-            print("lambda_den= ",lambda_den): 
+            lprint("lambda_den= ",lambda_den): 
             terms_den:=degree(lambda_den,Z):
-            print("terms_den[i]= ",terms_den):
+            lprint("terms_den[i]= ",terms_den):
             R_den := Roots(lambda_den) mod p:
             if R_den[1][1]=0 then 
                 R_den:= remove(x->x=[0,1],R_den):

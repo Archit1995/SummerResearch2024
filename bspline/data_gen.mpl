@@ -11,7 +11,7 @@ get_data:=proc(test_case)
 
     
     elif test_case ="small_Sys" then
-         Sys:={x1+y1*x2+y2^2*x3-1,y2^3*x1+x2+y1*x3-2,x1-x2+y2^3*x3-7}:
+         Sys:={x1+y1*x2+y1-3,y2*x1+x2+y1-1}:
         
     end if:
     Vars := { seq(   x||i, i=1..nops(Sys) )}:

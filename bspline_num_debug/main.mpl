@@ -16,11 +16,11 @@ read "./helpers.mpl":
 # Sys, Vars, params, p := get_data("example"):
 # Sys, Vars, params, p := get_data("small_Sys"):
 # Sys, Vars, params, p := get_data("small_sys_low_deg"):
-Sys, Vars, params, p := get_data("bspline"):
-# Sys, Vars, params, p := get_data("vector_example"):
+# Sys, Vars, params, p := get_data("bspline"):
+Sys, Vars, params, p := get_data("vector_example"):
 print("System"):
-# lprint("Eq 1=:", Sys[1]):
-# lprint("Eq 2=:", Sys[2]):
+lprint("Eq 1=:", Sys[1]):
+lprint("Eq 2=:", Sys[2]):
 lprint("Variables:", Vars):
 lprint("Parameters:", params):
 lprint("Prime:", p):
@@ -29,8 +29,8 @@ num_eqn := nops(Vars):
 print("Number of equations:", num_eqn):
 print("Number of parameters:", num_vars):
 # Create black box
-B := Constuct_Sys_Blackbox(Sys, Vars, params):
-# B:= Constuct_Vector_Blackbox(Sys, Vars, params):
+# B := Constuct_Sys_Blackbox(Sys, Vars, params):
+B:= Constuct_Vector_Blackbox(Sys, Vars, params):
 # print("B[2,3] =",B([2,3], p)):
 
 

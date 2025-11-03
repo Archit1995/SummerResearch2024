@@ -341,7 +341,7 @@ MRFI_Vector:=proc(B, num_vars::integer, num_eqn::integer, vars::list, p::integer
         T_old := 2*T:
         T := T*2:
         print("______________________________________________________________________________"):
-        if( T > 2^5) then break; end if; # Safety break to avoid infinite loops during testing
+        if( T > 2^3) then break; end if; # Safety break to avoid infinite loops during testing
     end do:
     
     # Extract roots and build polynomials

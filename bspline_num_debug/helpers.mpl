@@ -39,9 +39,9 @@ get_u:=proc(M,col,alpha,p)
 end proc:
 
 Deterministic_get_u:=proc(M,col,alpha,p)
-    # print("In get_u deterministic"):
+    print("In get_u deterministic"):
     F:=convert(M[..,col][..numelems(alpha)],list);
-    # print("F: ",F);
+    print("F: ",F);
     U:=Interp(alpha,F,x) mod p;
     return U;        
 end proc:

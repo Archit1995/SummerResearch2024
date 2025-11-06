@@ -168,5 +168,10 @@ MRFI:=proc(B,num_vars::integer,vars::list,p::integer)
     # print("den_lc= ",den_lc):
     # print("den_lc_inv= ",den_lc_inv):
     # return num*den_lc_inv mod p, den*den_lc_inv mod p:
+    coeff_num:=coeff_num*(1/coeff_den[-1]) mod p:
+    coeff_den:=coeff_den*(1/coeff_den[-1]) mod p:
+   
+    # print("Normalized coeff_den: ",coeff_den):
+    # print("Normalized coeff_num: ",coeff_num):
     return coeff_num,coeff_den, num_mono, den_mono:
 end proc:

@@ -1,0 +1,616 @@
+    |\^/|     Maple 2023 (X86 64 LINUX)
+._|\|   |/|_. Copyright (c) Maplesoft, a division of Waterloo Maple Inc. 2023
+ \  MAPLE  /  All rights reserved. Maple is a trademark of
+ <____ ____>  Waterloo Maple Inc.
+      |       Type ? for help.
+> read "./TESTCASE_GENERATOR.mpl":
+> with(ArrayTools):
+> Construct_Blackbox:=proc(f,vars)
+>     local BB:
+>     BB:=proc(point_,p)
+>         local u,v;
+>         var:=vars:
+>         a:=f:
+>         return Eval(a,{seq(var[v]=point_[v],v=1..numelems(point_))}) mod p:
+>     end proc:
+>     return BB:
+> end proc:
+Warning, (in BB) `var` is implicitly declared local
+|99_BenOR_Tiwari_tester.mpl:7|
+Warning, (in BB) `a` is implicitly declared local |99_BenOR_Tiwari_tester.mpl:8|
+
+# 2. Generating a prime for each variable 
+> generate_evaulation_primes:=proc(n)
+>     local p,m,i:
+>     m:=1:
+>     p:=Vector(n,0):
+>     for i from 1 to n do 
+>         p[i]:=nextprime(m):
+>         m:=p[i]:
+>     end do:
+> return convert(p,list):
+
+> end proc:   
+# 3. Generating a list of list powers of prime. [[2^0,3^0,5^0],[2^1,3^1,5^1],[2^2,3^2,5^2],..., [2^(2T-1),3^(2T-1),5^(2T-1)]]
+> generate_prime_powers:=proc(T,prime_points,num_var,p)
+>     local i,j:
+>     print("In generate_prime_powers");
+>     print("T=",T);
+>     print("prime_points=",prime_points);
+>     return modp([seq([seq(prime_points[j]^i,j = 1..num_var)], i = 0..2*T-1)],p):
+> end proc:  
+
+# 4. get number of terms, lambda polynomial, and roots of lambda polynomial 
+> get_num_terms_lambda_roots:=proc(B,T,prime_points,num_var,p)# Needs correction find a way to keep roots in mem for t 
+# and t+1 to check if the number of roots is equal to the number of terms. 
+>     print("In get_num_terms_lambda_roots");
+>     local t,flag,prime_powers,Y,Lambda,terms,R:
+>     t:=T:
+>     i:=1;
+>     while true do 
+>         print("i=",i):
+>         print("t=",t):
+>         prime_powers:=generate_prime_powers(t,prime_points,num_var,p):
+>         print("prime_powers=",prime_powers):
+>         Y:=[seq(B(prime_powers[p_p],p),p_p=1..numelems(prime_powers))]:
+>         print("Y=",Y):
+>         Lambda := BMEA(Y,p,Z):
+>         print("Lambda=",Lambda):
+>         terms[i]:=degree(Lambda,Z):
+>         print("terms=",terms[i]):
+>         R := Roots(Lambda) mod p:
+>         print("R=",R):
+>         print("num of roots of lambda=",nops(R)):
+>         # if i=1 then 
+>         if nops(R)<terms[i] or terms[i] <> terms [i-1]   then 
+>             t:=t*2:
+>         # else 
+>         # elif terms[i-1]=terms[i] and terms[i] = nops(R) then
+>         elif terms[i] = nops(R) and terms[i] = terms [i-1] then 
+>             print("IN TERMINATION oF GET_NUM_TERMS_LAMBDA_ROOTS");
+>                 return terms[i],Lambda,R,Y:
+>         end if: 
+>         # end if:
+>         i:=i+1:
+>         # if i = 5 then break end if:
+>     end do:
+>     print("terms=",terms[i]):
+> end proc:
+Warning, (in get_num_terms_lambda_roots) `i` is implicitly declared local
+|99_BenOR_Tiwari_tester.mpl:41|
+Warning, (in get_num_terms_lambda_roots) `p_p` is implicitly declared local
+|99_BenOR_Tiwari_tester.mpl:47|
+
+
+> BMEA := proc(v::list,p::posint,Z::name) # Might need correction because roots of lambda polynomial are not factors of 2,3,5 for all degrees
+>   local n,m,R0,R1,V0,V1,i:
+>   print("In BMEA");
+>   print("v=",v);    
+>   n := iquo( nops(v), 2 ):
+>   print("n=",n);
+>   m := 2*n-1:
+>   print("m=",m);
+>   R0 := Z^(2*n):
+>   print("R0=",R0);
+>   R1 := add( v[m+1-i]*Z^i, i=0..m ):
+>   print("R1=",R1);
+# lprint("R0=",R0):
+# lprint("R1=",R1):
+>   V0 := 0:
+>   V1 := 1:
+>   while n <= degree(R1,Z) do
+>      R0,R1 := R1,Rem(R0,R1,Z,'Q') mod p:
+# lprint("R0=",R0):
+# lprint("R1=",R1):
+>      V0,V1 := V1,Expand(V0-Q*V1) mod p:
+# lprint("V0=",V0):
+# lprint("V1=",V1):
+>   od:
+>   i := 1/lcoeff(V1,Z) mod p:
+>   return i*V1 mod p:
+> end:
+
+> generate_monomials:=proc(roots_,num_var,prime_points,vars)# needs correction- We are getting roots of lambda polynomial that are not 
+>     # factors of 2,3 and 5;
+>     local m,mm,i,j,counter,M_: 
+>     M_:=Vector(numelems(roots_),0):
+>     print("r=",numelems(roots_)):
+>     for i from 1 to  numelems(roots_) do # each root
+>         print("i=",i):
+>         mm:=roots_[i]:
+>         m:=1:
+>         print("roots_[i]=",roots_[i]):
+>         for j from 1 to numelems(prime_points) do #  each prime
+>             counter:=0:
+>             print("j=",j):
+>             while mm mod prime_points[j] = 0 do #repeated division
+>                 print("prime_points[j]=",prime_points[j]):
+>                 mm:=iquo(mm,prime_points[j]):
+>                 print("mm=",mm):
+>                 counter:=counter+1:
+>                 print("counter=",counter):
+>                 print("================================================"):
+>             end do:
+>             m:=m*vars[j]^counter:# each monomial
+>             print("m=",m):
+>             print("-----------------------------------------------------------------"):
+>         end do:
+>         print("m=",m):
+>         print("i=",i):
+>         M_[i]:=m:
+>         print("M[i]=",M_[i]):
+>         print("______________________________________"):
+>     end do:
+>     print([seq(ifactor(roots_[i]),i=1..numelems(roots_))]);# We are getting roots of lambda polynomial that are not 
+>     # factors of 2,3 and 5;
+>     return convert(M_,list):
+> end proc:
+
+
+> Zippel_Vandermonde_solver:=proc(y::list,terms::integer,roots_::list,lambda_,p::integer)# Correct so far. 
+>     local M,fin_coeff,q,q_lambda_inv,V_inv_b,i,j:
+>     M:=lambda_ mod p:
+>     print("In Zippel_Vandermonde_solver"):
+>     print("y=",y):
+>     print("terms=",terms):
+>     print("roots_=",roots_):
+>     print("lambda_=",lambda_):
+>     print("M=",M):
+>     print("roots=",roots_):
+>     fin_coeff:=Vector(terms,0):
+>     for i from 1 to terms do
+>         q:=quo(M,Z-roots_[i],Z):
+>         # print("q=",q):
+>         q_lambda_inv:= 1/ Eval(q,Z=roots_[i]) mod p:
+>         # print("q_lambda_inv=",q_lambda_inv):
+>         V_inv_b:=0:
+>         for j from 1 to terms do
+>             # print("j=",j):
+>             # print("coeff(q,Z,j-1)=",coeff(q,Z,j-1)):
+>             # print("y[j]=",y[j]):
+>             # print("coeff(q,Z,j-1)*y[j]=",coeff(q,Z,j-1)*y[j] mod p):
+>             V_inv_b:=V_inv_b+coeff(q,Z,j-1)*y[j] mod p:
+>         end do:
+>         print("V_inv_b=",V_inv_b):
+>         fin_coeff[i]:=V_inv_b*q_lambda_inv mod p:
+>     end do:
+>     print("fin_coeff=",fin_coeff):
+>     return convert(fin_coeff,list):
+> end proc:
+
+> construct_final_polynomial:=proc(coeff_,Monomials)
+>     local i,f,n:
+>     f:=0:
+>     for i from 1 to numelems(coeff_) do
+>         f:=f+coeff_[i]*Monomials[i]:
+>     end do:
+>     return f:
+> end proc:
+
+> test_case:="bspline_small_sys_low_deg2":
+> vars,p,T,ff,gg:=data_generator(test_case):
+                              "In data_generator"
+
+                                  "nargs =", 1
+
+                  "test_case =", "bspline_small_sys_low_deg2"
+
+                                "In nargs = 1 "
+
+> num_var:=nops(vars):
+# num_var:=30:
+# num_terms:=32:
+# den_terms:=44:
+# num_var:=21:
+# num_terms:=1033:
+# den_terms:=11:
+# vars,p,T,ff,gg:=data_generator(test_case,num_var,num_terms,den_terms):
+> prime_points:=generate_evaulation_primes(num_var):
+> f:=ff:
+# f:=gg:
+> print("f= ",f):
+                                6       3       2
+                       "f= ", y2  - 2 y2  - 5 y2  + 6 y1
+
+> print("vars= ",vars):
+                               "vars= ", [y1, y2]
+
+> B:=Construct_Blackbox(f,vars);
+                                    B := BB
+
+
+> terms,Lambda,R,Y:=get_num_terms_lambda_roots(B,T,prime_points,num_var,p):
+                        "In get_num_terms_lambda_roots"
+
+                                    "i=", 1
+
+                                    "t=", 4
+
+                           "In generate_prime_powers"
+
+                                    "T=", 4
+
+                            "prime_points=", [2, 3]
+
+"prime_powers=", [[1, 1], [2, 3], [4, 9], [8, 27], [16, 81], [32, 243],
+
+    [64, 729], [128, 2187]]
+
+"Y=",
+
+    [0, 642, 529602, 387377526, 1108083133, 1108445657, 1633982102, 1857440570]
+
+                                   "In BMEA"
+
+"v=",
+
+    [0, 642, 529602, 387377526, 1108083133, 1108445657, 1633982102, 1857440570]
+
+                                    "n=", 4
+
+                                    "m=", 7
+
+                                           8
+                                   "R0=", Z
+
+            6           5              4               3               2
+"R1=", 642 Z  + 529602 Z  + 387377526 Z  + 1108083133 Z  + 1108445657 Z
+
+     + 1633982102 Z + 1857440570
+
+                    4               3          2
+        "Lambda=", Z  + 2147482880 Z  + 28017 Z  + 2147253526 Z + 354294
+
+                                  "terms=", 4
+
+                   "R=", [[729, 1], [2, 1], [9, 1], [27, 1]]
+
+                          "num of roots of lambda=", 4
+
+                                    "i=", 2
+
+                                    "t=", 8
+
+                           "In generate_prime_powers"
+
+                                    "T=", 8
+
+                            "prime_points=", [2, 3]
+
+"prime_powers=", [[1, 1], [2, 3], [4, 9], [8, 27], [16, 81], [32, 243],
+
+    [64, 729], [128, 2187], [256, 6561], [512, 19683], [1024, 59049],
+
+    [2048, 177147], [4096, 531441], [8192, 1594323], [16384, 4782969],
+
+    [32768, 14348907]]
+
+"Y=", [0, 642, 529602, 387377526, 1108083133, 1108445657, 1633982102,
+
+    1857440570, 892973987, 1000032247, 1038453015, 731318716, 531744129,
+
+    1083923141, 1565764503, 173424494]
+
+                                   "In BMEA"
+
+"v=", [0, 642, 529602, 387377526, 1108083133, 1108445657, 1633982102,
+
+    1857440570, 892973987, 1000032247, 1038453015, 731318716, 531744129,
+
+    1083923141, 1565764503, 173424494]
+
+                                    "n=", 8
+
+                                    "m=", 15
+
+                                           16
+                                   "R0=", Z
+
+            14           13              12               11               10
+"R1=", 642 Z   + 529602 Z   + 387377526 Z   + 1108083133 Z   + 1108445657 Z
+
+                   9               8              7               6
+     + 1633982102 Z  + 1857440570 Z  + 892973987 Z  + 1000032247 Z
+
+                   5              4              3               2
+     + 1038453015 Z  + 731318716 Z  + 531744129 Z  + 1083923141 Z
+
+     + 1565764503 Z + 173424494
+
+                    4               3          2
+        "Lambda=", Z  + 2147482880 Z  + 28017 Z  + 2147253526 Z + 354294
+
+                                  "terms=", 4
+
+                   "R=", [[729, 1], [2, 1], [9, 1], [27, 1]]
+
+                          "num of roots of lambda=", 4
+
+                 "IN TERMINATION oF GET_NUM_TERMS_LAMBDA_ROOTS"
+
+
+> print("R=",R):
+                   "R=", [[729, 1], [2, 1], [9, 1], [27, 1]]
+
+> Roots_ := [ seq(r[1], r in R ) ]:
+> print("Roots_=",Roots_):
+                           "Roots_=", [729, 2, 9, 27]
+
+> Monomials:=generate_monomials(Roots_,num_var,prime_points,vars):
+                                    "r=", 4
+
+                                    "i=", 1
+
+                               "roots_[i]=", 729
+
+                                    "j=", 1
+
+                                    "m=", 1
+
+      "-----------------------------------------------------------------"
+
+                                    "j=", 2
+
+                             "prime_points[j]=", 3
+
+                                   "mm=", 243
+
+                                 "counter=", 1
+
+               "================================================"
+
+                             "prime_points[j]=", 3
+
+                                   "mm=", 81
+
+                                 "counter=", 2
+
+               "================================================"
+
+                             "prime_points[j]=", 3
+
+                                   "mm=", 27
+
+                                 "counter=", 3
+
+               "================================================"
+
+                             "prime_points[j]=", 3
+
+                                    "mm=", 9
+
+                                 "counter=", 4
+
+               "================================================"
+
+                             "prime_points[j]=", 3
+
+                                    "mm=", 3
+
+                                 "counter=", 5
+
+               "================================================"
+
+                             "prime_points[j]=", 3
+
+                                    "mm=", 1
+
+                                 "counter=", 6
+
+               "================================================"
+
+                                           6
+                                   "m=", y2
+
+      "-----------------------------------------------------------------"
+
+                                           6
+                                   "m=", y2
+
+                                    "i=", 1
+
+                                             6
+                                  "M[i]=", y2
+
+                    "______________________________________"
+
+                                    "i=", 2
+
+                                "roots_[i]=", 2
+
+                                    "j=", 1
+
+                             "prime_points[j]=", 2
+
+                                    "mm=", 1
+
+                                 "counter=", 1
+
+               "================================================"
+
+                                    "m=", y1
+
+      "-----------------------------------------------------------------"
+
+                                    "j=", 2
+
+                                    "m=", y1
+
+      "-----------------------------------------------------------------"
+
+                                    "m=", y1
+
+                                    "i=", 2
+
+                                  "M[i]=", y1
+
+                    "______________________________________"
+
+                                    "i=", 3
+
+                                "roots_[i]=", 9
+
+                                    "j=", 1
+
+                                    "m=", 1
+
+      "-----------------------------------------------------------------"
+
+                                    "j=", 2
+
+                             "prime_points[j]=", 3
+
+                                    "mm=", 3
+
+                                 "counter=", 1
+
+               "================================================"
+
+                             "prime_points[j]=", 3
+
+                                    "mm=", 1
+
+                                 "counter=", 2
+
+               "================================================"
+
+                                           2
+                                   "m=", y2
+
+      "-----------------------------------------------------------------"
+
+                                           2
+                                   "m=", y2
+
+                                    "i=", 3
+
+                                             2
+                                  "M[i]=", y2
+
+                    "______________________________________"
+
+                                    "i=", 4
+
+                                "roots_[i]=", 27
+
+                                    "j=", 1
+
+                                    "m=", 1
+
+      "-----------------------------------------------------------------"
+
+                                    "j=", 2
+
+                             "prime_points[j]=", 3
+
+                                    "mm=", 9
+
+                                 "counter=", 1
+
+               "================================================"
+
+                             "prime_points[j]=", 3
+
+                                    "mm=", 3
+
+                                 "counter=", 2
+
+               "================================================"
+
+                             "prime_points[j]=", 3
+
+                                    "mm=", 1
+
+                                 "counter=", 3
+
+               "================================================"
+
+                                           3
+                                   "m=", y2
+
+      "-----------------------------------------------------------------"
+
+memory used=3.3MB, alloc=40.3MB, time=0.04
+                                           3
+                                   "m=", y2
+
+                                    "i=", 4
+
+                                             3
+                                  "M[i]=", y2
+
+                    "______________________________________"
+
+                               6            2      3
+                          [ (3) ,  (2),  (3) ,  (3) ]
+
+> print("Monomials=",Monomials):
+                                        6        2    3
+                       "Monomials=", [y2 , y1, y2 , y2 ]
+
+> coeff_:= Zippel_Vandermonde_solver(Y,terms,Roots_,Lambda,p):
+                         "In Zippel_Vandermonde_solver"
+
+"y=", [0, 642, 529602, 387377526, 1108083133, 1108445657, 1633982102,
+
+    1857440570, 892973987, 1000032247, 1038453015, 731318716, 531744129,
+
+    1083923141, 1565764503, 173424494]
+
+                                  "terms=", 4
+
+                           "roots_=", [729, 2, 9, 27]
+
+                    4               3          2
+       "lambda_=", Z  + 2147482880 Z  + 28017 Z  + 2147253526 Z + 354294
+
+                 4               3          2
+          "M=", Z  + 2147482880 Z  + 28017 Z  + 2147253526 Z + 354294
+
+                           "roots=", [729, 2, 9, 27]
+
+                             "V_inv_b=", 367454880
+
+                             "V_inv_b=", 2146720297
+
+                             "V_inv_b=", 2147030047
+
+                               "V_inv_b=", 631800
+
+                                         [         1]
+                                         [          ]
+                                         [         6]
+                           "fin_coeff=", [          ]
+                                         [2147483642]
+                                         [          ]
+                                         [2147483645]
+
+> print("coeff_=",coeff_):    
+                   "coeff_=", [1, 6, 2147483642, 2147483645]
+
+# a:=-62*x^2*z^3+97*x*y^3*z-73*y*z^4-56*x*y*z^2 +87*x*y mod p:
+# a:=2*x*y+3*z+1 mod p:
+> f;
+                             6       3       2
+                           y2  - 2 y2  - 5 y2  + 6 y1
+
+> f1:=construct_final_polynomial(coeff_,Monomials);
+                       6                3                2
+               f1 := y2  + 2147483645 y2  + 2147483642 y2  + 6 y1
+
+> f1-f mod p;
+                                       0
+
+# g:=x+y:
+# Bg:=Construct_Blackbox(g,vars);
+
+# terms_g,Lambda_g,R_g,Y_g:=get_num_terms_lambda_roots(Bg,T,prime_points,num_var,p):
+
+# Roots_g := [ seq(r[1], r in R_g ) ]:
+# Monomials_g:=generate_monomials(Roots_g,num_var,prime_points,vars):
+# coeff_g:= Zippel_Vandermonde_solver(Y_g,terms_g,Roots_g,Lambda_g,p):
+# g1:=construct_final_polynomial(coeff_g,Monomials_g);
+# g1;
+# g1-g;
+> quit
+memory used=3.8MB, alloc=40.3MB, time=0.04

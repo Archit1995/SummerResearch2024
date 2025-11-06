@@ -27,8 +27,8 @@ data_generator := proc(test_case)
             ff:=x^2+3*x*y+5*y*z;
         elif test_case = 3 then 
             ff:=x^2-2*x+3:
-            gg:=x*y-1:
-            var:=[x,y]
+            gg:=x*y-1:var:=[x,y]:
+            # gg:= expand((x-2)*(y-3)*(z-5)): var:=[x,y,z]
         elif test_case = "denominator_zero" then
             ff := x^2*y^2 + 3:
             gg := expand((x-2)*(y-3)*(z-5)) :

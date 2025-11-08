@@ -30,9 +30,9 @@ get_data:=proc(test_case)
 
         elif test_case = 1 then
             print("In test_case = 1 ");
-            ff :=(3/7)*x^2+(1/5)*y:
+            ff := x^2+5*y:
             # gg := 3 + x*y: Vars := [x, y]:
-            gg:= expand((x-(1/2))*(y-(1/3))*(z-(1/5))): Vars:=[x,y,z]:
+            gg:= expand((x-2)*(y-3)*(z-5)): Vars:=[x,y,z]:
             return Vars,ff,gg,numelems(Vars),1,Vars: 
         end if:
     elif nargs > 1 then

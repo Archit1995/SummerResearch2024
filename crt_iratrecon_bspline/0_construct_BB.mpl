@@ -7,8 +7,6 @@ Constuct_Sys_Blackbox:=proc(Sys,Vars,params)
     Lin_BB:=proc(point_,p)option remember:
         local unordered_soln,Soln,soln,var,i,v:
         # print("point_",point_):
-        global counter;
-        counter:=counter+1;
         var:=params:
         Soln:=get_eqn(Sys,Vars):
         unordered_soln:=convert(Soln,list):
@@ -23,8 +21,6 @@ Construct_Rational_Blackbox:=proc(f,g,vars)
     local BB:
     BB:=proc(point_,p)
         local var,num,denom_,a,v;
-        global counter;
-        counter:=counter+1;       
         var:=vars:
         num:=f:
         denom_:=g:
@@ -40,4 +36,12 @@ Construct_Rational_Blackbox:=proc(f,g,vars)
 end proc:
 
 
+Constuct_Vector_Blackbox:=proc(vector_,Vars,params) 
+    local VBB:
+    VBB:=proc(point_,p)option remember:
+    var:=params:
+        return [seq(eval(op(2,vector_[i]),{seq(var[v]=point_[v],v=1..numelems(point_))}),i=1..nops(vector_))] mod p:
+    end proc:
+    return VBB:
+end proc:
 

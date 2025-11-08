@@ -15,18 +15,15 @@ read "./helpers.mpl":
 p:= 2^31 - 1:
 
 # Vars,F,G,num_vars,num_eqn,params := get_data(1):
-# counter := 0:
-# B:= Construct_Rational_Blackbox(F,G,Vars):
 
 
-
-# test_case:="rand":
-# num_var:=3:
-# num_terms:=11:
-# den_terms:=9:
-# Vars,F,G,num_vars,num_eqn,params:=get_data(test_case,num_var,num_terms,den_terms):
-# counter := 0:
-# B:= Construct_Rational_Blackbox(F,G,Vars):
+test_case:="rand":
+num_var:=3:
+num_terms:=11:
+den_terms:=9:
+Vars,F,G,num_vars,num_eqn,params:=get_data(test_case,num_var,num_terms,den_terms):
+counter := 0:
+B:= Construct_Rational_Blackbox(F,G,Vars):
 
 
 
@@ -41,10 +38,10 @@ p:= 2^31 - 1:
 
 # Sys, Vars, params, num_vars, num_eqn := get_data("example"):
 # Sys, Vars, params, num_vars, num_eqn := get_data("small_sys_low_deg"):
-Sys, Vars, params, num_vars, num_eqn := get_data("bspline"):
+# Sys, Vars, params, num_vars, num_eqn := get_data("bspline"):
 # Sys, Vars, params, num_vars, num_eqn:= get_data("small_Sys"):
-counter := 0:
-B := Constuct_Sys_Blackbox(Sys, Vars, params):
+# counter := 0:
+# B := Constuct_Sys_Blackbox(Sys, Vars, params):
 
 
 

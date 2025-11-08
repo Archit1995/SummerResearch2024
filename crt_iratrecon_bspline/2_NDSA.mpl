@@ -44,11 +44,7 @@ NDSA:=proc(B,sigma_,beta_,num_var,p,num_points,num_eqn)
         if row =1 then 
             lin_sys:=false:
             u:=Interp(alpha,Y,x)mod p:
-            print("NDSA: Single equation case - u: ",u):
-            result:=[[MQRFR(m,u,0,1,p)]]:
-            print("result =",result):
-            dq:=result[1][3]:
-            print("NDSA: dq: ",dq):
+            print("NDSA: Single equation case - u: ",u);
         else
             lin_sys:=true: 
             u:=get_u(M,col,alpha,p):
@@ -56,7 +52,10 @@ NDSA:=proc(B,sigma_,beta_,num_var,p,num_points,num_eqn)
         # lprint("NDSA: u: ",u):
         # print("nops u: ",nops(u));  
         
-        if lin_sys = true then  
+        if lin_sys = false then  
+            result:=[MQRFR(m,u,0,1,p)]:
+            dq:=result[1][3]:
+        else 
             for i from 1 to nops(u) do 
             # put a check for MQRFR_done
                 if(MQRFR_done[i]) then 

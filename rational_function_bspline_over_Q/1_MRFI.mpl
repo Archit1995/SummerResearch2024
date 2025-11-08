@@ -41,10 +41,9 @@ MRFI:=proc(B, num_vars::integer, num_eqn::integer, vars::list, p::integer)
     # Initialize hash tables for monomials, coefficients, and final polynomials
     num_mono := table():
     coeff_num := table():
-    final_num := table():
     den_mono := table():
     coeff_den := table():
-    final_den := table():
+ 
 
     # Initialize all entries from 1 to num_eqn
     for i from 1 to num_eqn do
@@ -65,9 +64,9 @@ MRFI:=proc(B, num_vars::integer, num_eqn::integer, vars::list, p::integer)
     # Initial NDSA call
     mqrfr_results, lin_sys := NDSA(B, [seq(1, i=1..num_vars)], shift_, num_vars, p, T,num_eqn):
     
-    if not lin_sys then
-        error "Expected a linear system (vector output)":
-    end if:
+    # if not lin_sys then
+    #     error "Expected a linear system (vector output)":
+    # end if:
     
     # Process initial results
     Numerators := [seq(mqrfr_results[i][1], i=1..nops(mqrfr_results))]:
@@ -109,7 +108,11 @@ MRFI:=proc(B, num_vars::integer, num_eqn::integer, vars::list, p::integer)
         for j from T_old to 2*T-1 do
             sigma_ := [op(sigma_), [seq(Primes[i]^j mod p, i=1..nops(Primes))]]:
             
-            mqrfr_results:= Deterministic_NDSA(B, sigma_[j], shift_, num_vars, p, num_points_mqrfr,max_num_points_mqrfr,num_eqn):
+            if lin_sys then 
+                mqrfr_results:= Deterministic_NDSA(B, sigma_[j], shift_, num_vars, p, num_points_mqrfr,max_num_points_mqrfr,num_eqn):
+            else
+                mqrfr_results,lin_sys:=NDSA(B,sigma_[j],shift_,num_vars,p,max_num_points_mqrfr,max_num_points_mqrfr,1):
+            end if:
             
             Numerators := [seq(mqrfr_results[i][1], i=1..nops(mqrfr_results))]:
             Denominiators := [seq(mqrfr_results[i][2], i=1..nops(mqrfr_results))]:
@@ -260,7 +263,7 @@ MRFI:=proc(B, num_vars::integer, num_eqn::integer, vars::list, p::integer)
         T_old := 2*T:
         T := T*2:
         print("______________________________________________________________________________"):
-        if( T > 2^6) then break; end if; # Safety break to avoid infinite loops during testing
+        # if( T > 2^6) then break; end if; # Safety break to avoid infinite loops during testing
     end do:
     
     # Extract roots and build polynomials
@@ -295,7 +298,6 @@ MRFI:=proc(B, num_vars::integer, num_eqn::integer, vars::list, p::integer)
         coeff_num[k] := Zippel_Vandermonde_solver(num_eval[k], terms_num[k], 
                                      Roots_num_eval[k], lambda_num[k][1], p):
         
-        # final_num[k] := construct_final_polynomial(coeff_num[k], num_mono[k]):
     end do:
     
     print("num_mono: ",num_mono):
@@ -334,17 +336,13 @@ MRFI:=proc(B, num_vars::integer, num_eqn::integer, vars::list, p::integer)
             coeff_den[k] := Zippel_Vandermonde_solver(den_eval[k], terms_den[k],
                                                    Roots_den_eval[k], lambda_den[k][1], p):
             
-            # final_den[k] := construct_final_polynomial(coeff_den[k], den_mono[k]):
+
         end do:
     end if:
     
     # print("den_mono: ",den_mono):
     # print("coeff_den: ",coeff_den):
     # print("final_den: ",final_den):
-    
-    # Normalize - Convert hash tables to lists for final output
-    # final_num_list := [seq(0, i=1..num_eqn)]:
-    # final_den_list := [seq(0, i=1..num_eqn)]:
     
     for k from 1 to num_eqn do
         print("k= ",k):

@@ -1,21 +1,4 @@
-    |\^/|     Maple 2023 (X86 64 LINUX)
-._|\|   |/|_. Copyright (c) Maplesoft, a division of Waterloo Maple Inc. 2023
- \  MAPLE  /  All rights reserved. Maple is a trademark of
- <____ ____>  Waterloo Maple Inc.
-      |       Type ? for help.
-> read "./0_construct_BB.mpl":
-> read "./1_MRFI.mpl":
-> read "./2a_NDSA.mpl":
-> read "./2b_Deterministic_NDSA.mpl":
-> read "./3_projection_phi.mpl":
-> read "./4_MQRFR.mpl":
-> read "./5_BMEA.mpl":
-> read "./6_generate_monomials.mpl":
-> read "./7_zippel_vandermonde_solver.mpl":
-> read "./8_construct_final_polynomial.mpl":
-> read "./9_rvr.mpl":
-> read "./data_gen.mpl":
-> read "./helpers.mpl":
+
 
 > p:= 2^31 - 1:
 

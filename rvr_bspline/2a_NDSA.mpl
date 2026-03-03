@@ -35,7 +35,7 @@ NDSA:=proc(B,sigma_,beta_,num_var,p,num_points,num_eqn)
         print("NDSA: Y = ",Y);
         # M:=convert(Y,Matrix):
         M:=Matrix(Y):
-        # lprint("Matrix M: ",M):
+        lprint("Matrix M: ",M):
         row,col:=Dimension(M):
         lprint("row: ",row, " col: ",col):
         
@@ -51,8 +51,8 @@ NDSA:=proc(B,sigma_,beta_,num_var,p,num_points,num_eqn)
             lin_sys:=true: 
             u:=get_u(M,col,alpha,p):
         end if:
-        # lprint("NDSA: u: ",u):
-        # print("nops u: ",nops(u));  
+        lprint("NDSA: u: ",u):
+        print("nops u: ",nops(u));  
         
         if lin_sys = true then  
             for i from 1 to nops(u) do 

@@ -1,0 +1,989 @@
+    |\^/|     Maple 2023 (X86 64 LINUX)
+._|\|   |/|_. Copyright (c) Maplesoft, a division of Waterloo Maple Inc. 2023
+ \  MAPLE  /  All rights reserved. Maple is a trademark of
+ <____ ____>  Waterloo Maple Inc.
+      |       Type ? for help.
+> read "./0_construct_BB.mpl":
+> read "./1_MRFI.mpl":
+> read "./2a_NDSA.mpl":
+> read "./2b_Deterministic_NDSA.mpl":
+> read "./3_projection_phi.mpl":
+> read "./4_MQRFR.mpl":
+> read "./5_BMEA.mpl":
+> read "./6_generate_monomials.mpl":
+> read "./7_zippel_vandermonde_solver.mpl":
+> read "./8_construct_final_polynomial.mpl":
+> read "./9_rvr.mpl":
+> read "./data_gen.mpl":
+> read "./helpers.mpl":
+
+> p:= 2^31 - 1:
+
+# Vars,F,G,num_vars,num_eqn,params := get_data(1):
+# counter := 0:
+# B:= Construct_Rational_Blackbox(F,G,Vars):
+
+
+
+# test_case:="rand":
+# num_var:=3:
+# num_terms:=11:
+# den_terms:=9:
+# Vars,F,G,num_vars,num_eqn,params,field:=get_data(test_case,num_var,num_terms,den_terms):
+# counter := 0:
+# B:= Construct_Rational_Blackbox(F,G,Vars):
+
+
+# test_case:="rat_rand":
+# num_var:=3:
+# num_terms:=11:
+# den_terms:=9:
+# num_coeff_bound:=20:
+# den_coeff_bound:=20:
+# Vars,F,G,num_vars,num_eqn,params,field:=get_data(test_case,num_var,num_terms,den_terms,num_coeff_bound,den_coeff_bound):
+# counter := 0:
+# B:= Construct_Rational_Blackbox(F,G,Vars):
+
+# lprint("Variables:", Vars):
+# lprint("Numerator F:", F):
+# lprint("Denominator G:", G):
+# print("num_eqn =",num_eqn):
+
+
+
+# test_case:="example":
+# test_case:="small_sys_low_deg":
+# test_case:="bspline":
+> test_case:="small_Sys":
+
+> Sys, Vars, params, num_vars, num_eqn,field:= get_data(test_case):
+                                 "in get_data"
+
+> counter := 0:
+> B := Constuct_Sys_Blackbox(Sys, Vars, params):
+
+
+
+
+# print("Number of equations:", num_eqn):
+# print("Number of parameters:", num_vars):
+# Create black box
+> try
+> NC,DC,NM,DM := MRFI(B, num_vars, num_eqn, params, p):
+>     catch:
+>     lprint("ERROR:", lasterror()):
+> end try:
+"MRFI  ========================================"
+"MRFI Starting MRFI"
+"MRFI Number of parameters:", 2
+"MRFI Number of equations:", 2
+"MRFI ========================================"
+"MRFI numerator_done: ", [false, false]
+"MRFI denominator_done: ", [false, false]
+                                   "In NDSA"
+
+                                   "T:= ", 4
+
+"NDSA: alpha: ", [581869302, 1742863086, 1438850937, 545404204]
+"NDSA:m: ", x^4+2133463412*x^3+979737197*x^2+1646167934*x+737293707
+                           "In projection_image_phi"
+
+                               "sigma_:", [1, 1]
+
+"NDSA:_phi: ", [[581869302, 863483642], [1742863086, 1495387918], [1438850937,
+1661964126], [545404204, 1836247237]]
+"Matrix before Gaussian elimination:  ",
+
+    [        1    581869302    1249554810154435095]
+    [                                             ]
+    [863483642            1    1249554810154435093]
+
+                                                [1    0    1132993867]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    2072841995]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1742863086    3742769974402091559]
+    [                                               ]
+    [1495387918             1    3742769974402091557]
+
+                                                 [1    0     99744409]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    409192309]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1438850937    3089908856239276305]
+    [                                               ]
+    [1661964126             1    3089908856239276303]
+
+                                                [1    0     823239758]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1517247943]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    545404204    1171246608549647787]
+    [                                              ]
+    [1836247237            1    1171246608549647785]
+
+                                                [1    0     472865421]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1360638921]
+
+"NDSA: Y = ", [[1132993867, 2072841995], [99744409, 409192309],
+
+    [823239758, 1517247943], [472865421, 1360638921]]
+
+"row: ", 4, " col: ", 2
+               "NDSA:MQRFR failed. Trying again with more points"
+
+               "NDSA: mqrfr_done before reset: ", [false, false]
+
+"NDSA: Resetting result for equation ", 1
+"NDSA: Resetting result for equation ", 2
+               "_______________________________________________"
+
+                                   "T:= ", 8
+
+"NDSA: alpha: ", [2013771743, 1775435781, 949333985, 568478650, 1323567403, 
+418932835, 202810917, 1196140740]
+"NDSA:m: ", x^8+141462534*x^7+1227062277*x^6+859660274*x^5+1540470734*x^4+
+1919811045*x^3+1748478035*x^2+1772651389*x+1939003098
+                           "In projection_image_phi"
+
+                               "sigma_:", [1, 1]
+
+"NDSA:_phi: ", [[2013771743, 375437604], [1775435781, 766986592], [949333985, 
+1858195153], [568478650, 1136680131], [1323567403, 1863798943], [418932835, 
+1019136105], [202810917, 1166011425], [1196140740, 382373024]]
+"Matrix before Gaussian elimination:  ",
+
+    [        1    2013771743    4324541884869414981]
+    [                                              ]
+    [375437604             1    4324541884869414979]
+
+                                                [1    0    1976730525]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1741167135]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1775435781    3812719304220737529]
+    [                                              ]
+    [766986592             1    3812719304220737527]
+
+                                                 [1    0    169405997]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1     35823857]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    949333985    2038679207379509313]
+    [                                              ]
+    [1858195153            1    2038679207379509311]
+
+                                                [1    0    1835294965]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1964317868]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    568478650    1220798603975157903]
+    [                                              ]
+    [1136680131            1    1220798603975157901]
+
+                                                [1    0    1954645384]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     399325970]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1323567403    2842339352321191341]
+    [                                               ]
+    [1863798943             1    2842339352321191339]
+
+                                                [1    0    1912575430]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1389734206]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    418932835    899651411934916413]
+    [                                             ]
+    [1019136105            1    899651411934916411]
+
+                                                 [1    0    335863469]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    153811893]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    202810917    435533127487763385]
+    [                                             ]
+    [1166011425            1    435533127487763383]
+
+                                                [1    0    1692147941]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1138199074]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1196140740    2568692677464338043]
+    [                                              ]
+    [382373024             1    2568692677464338041]
+
+                                                [1    0     596832665]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1370365723]
+
+"NDSA: Y = ", [[1976730525, 1741167135], [169405997, 35823857],
+
+    [1835294965, 1964317868], [1954645384, 399325970], [1912575430, 1389734206],
+
+    [335863469, 153811893], [1692147941, 1138199074], [596832665, 1370365723]]
+
+"row: ", 8, " col: ", 2
+                   "NDSA: MQRFR successful for equation ", 1
+
+                   "NDSA: MQRFR successful for equation ", 2
+
+                       "NDSA: Termination condition met"
+
+                       "MRFI num_points_mqrfr: ", [6, 6]
+
+                        "MRFI max_num_points_mqrfr: ", 6
+
+"MRFI Common denominator:", true
+  "______________________________________________________________________________"
+
+                       "in main evaluation loop of MRFI"
+
+"MRFI T_old=", 1
+"MRFI T=", 4
+                            "In Deterministic_NDSA"
+
+                           "In projection_image_phi"
+
+                               "sigma_:", [2, 3]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1618188852    3475034095809514395]
+    [                                               ]
+    [1312161917             1    3475034095809514393]
+
+                                                 [1    0    544290175]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    967350861]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    402709182    864811382439037575]
+    [                                             ]
+    [1940769890            1    864811382439037573]
+
+                                                [1    0     990357604]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1207170837]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    2086334497    4480369212393136065]
+    [                                              ]
+    [501898053             1    4480369212393136063]
+
+                                                 [1    0    332176836]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1     60899870]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1782470095    3827825378496566373]
+    [                                              ]
+    [588284016             1    3827825378496566371]
+
+                                                [1    0     892313063]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    2146907297]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    2117086665    4546408990252180593]
+    [                                               ]
+    [2011535468             1    4546408990252180591]
+
+                                                [1    0    1399907212]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1487934534]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1845878451    3963993786026312349]
+    [                                              ]
+    [189350272             1    3963993786026312347]
+
+                                                [1    0    1873595216]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1749837346]
+
+  "______________________________________________________________________________"
+
+                            "In Deterministic_NDSA"
+
+                           "In projection_image_phi"
+
+                               "sigma_:", [4, 9]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1869985269    4015762783438410777]
+    [                                              ]
+    [769517018             1    4015762783438410775]
+
+                                                [1    0    1832242963]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     754104076]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1353886018    2907448082203061631]
+    [                                               ]
+    [1891542682             1    2907448082203061629]
+
+                                                [1    0     701051285]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1958386864]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1939941922    4165993551684807615]
+    [                                               ]
+    [1265986806             1    4165993551684807613]
+
+                                                [1    0    1132194488]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     375727311]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1894877543    4069218534765161781]
+    [                                              ]
+    [240336235             1    4069218534765161779]
+
+                                                [1    0    1562765969]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     299968014]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1985217135    4263221331171474213]
+    [                                               ]
+    [2097889630             1    4263221331171474211]
+
+                                                [1    0      61891040]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1305713329]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1779550549    3821555701207821657]
+    [                                              ]
+    [907502944             1    3821555701207821655]
+
+                                                [1    0    1651506090]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1539737769]
+
+  "______________________________________________________________________________"
+
+                            "In Deterministic_NDSA"
+
+                           "In projection_image_phi"
+
+                               "sigma_:", [8, 27]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    943705252    2026591595314308795]
+    [                                             ]
+    [422012584            1    2026591595314308793]
+
+                                                [1    0    1089262679]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1790374544]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    2021861425    4341914344665755553]
+    [                                               ]
+    [2022477802             1    4341914344665755551]
+
+                                                [1    0    1393266693]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1082548019]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    413226163    887396427141830301]
+    [                                            ]
+    [657405513            1    887396427141830299]
+
+                                                 [1    0    926967532]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    638421393]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    431905977    927511022217152145]
+    [                                            ]
+    [781444089            1    927511022217152143]
+
+                                                [1    0     932582188]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1137365309]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    403979895    867540217825297173]
+    [                                            ]
+    [216569394            1    867540217825297171]
+
+                                                [1    0    1728272845]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1249548833]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1218794424    2617341093375989907]
+    [                                               ]
+    [1945480519             1    2617341093375989905]
+
+                                                [1    0     704505964]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1651999403]
+
+  "______________________________________________________________________________"
+
+                            "In Deterministic_NDSA"
+
+                           "In projection_image_phi"
+
+                              "sigma_:", [16, 81]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    41089818    88239712172116431]
+    [                                          ]
+    [820456613           1    88239712172116429]
+
+                                                 [1    0    462022981]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    298408822]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1475418211    3168436479133077309]
+    [                                              ]
+    [633810480             1    3168436479133077307]
+
+                                                [1    0    1603551573]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1782369231]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    966062836    2074604141318380059]
+    [                                              ]
+    [1985379603            1    2074604141318380057]
+
+                                                [1    0    1806208800]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1119726407]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1423657309    3057280788585868617]
+    [                                               ]
+    [2002796907             1    3057280788585868615]
+
+                                                [1    0    1999878711]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1634873294]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1200558094    2578178872937930727]
+    [                                               ]
+    [1409363046             1    2578178872937930725]
+
+                                                [1    0    1885397503]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1933538379]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    362558163    778587725766302301]
+    [                                            ]
+    [457435570            1    778587725766302299]
+
+                                                [1    0    1591204339]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1126382873]
+
+  "______________________________________________________________________________"
+
+                            "In Deterministic_NDSA"
+
+                           "In projection_image_phi"
+
+                              "sigma_:", [32, 243]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1103210843    2369127243432373581]
+    [                                              ]
+    [201708174             1    2369127243432373579]
+
+                                                [1    0      79477138]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1426701081]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1799526231    3864453151620518229]
+    [                                               ]
+    [1242448553             1    3864453151620518227]
+
+                                                [1    0     268912781]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1547577981]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    31462160    67564474067835363]
+    [                                          ]
+    [360336797           1    67564474067835361]
+
+                                                [1    0    1967937664]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1459653639]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1337802392    2872908758399681235]
+    [                                               ]
+    [2026712118             1    2872908758399681233]
+
+                                                [1    0    1702058158]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1      60515274]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    411703669    884126896175697177]
+    [                                            ]
+    [716796592            1    884126896175697175]
+
+                                                [1    0    1576552367]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     436474796]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    306760990    658764209255769543]
+    [                                             ]
+    [1195870101            1    658764209255769541]
+
+                                                [1    0    1627277245]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1534363469]
+
+  "______________________________________________________________________________"
+
+                            "In Deterministic_NDSA"
+
+                           "In projection_image_phi"
+
+                              "sigma_:", [64, 729]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    956008193    2053011959909511681]
+    [                                              ]
+    [2097315780            1    2053011959909511679]
+
+                                                [1    0    1175158622]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1222818444]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    851514251    1828612928358439149]
+    [                                              ]
+    [1139290078            1    1828612928358439147]
+
+                                                [1    0     749832453]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1608789735]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1820416152    3909313915334250195]
+    [                                               ]
+    [1210608393             1    3909313915334250193]
+
+                                                [1    0    1866612842]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1509273524]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1580489947    3394076313849906765]
+    [                                              ]
+    [965574307             1    3394076313849906763]
+
+                                                [1    0    1457462648]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1729326308]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1557866572    3345492986020081515]
+    [                                              ]
+    [507632735             1    3345492986020081513]
+
+                                                [1    0     709582276]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1540697831]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1535323318    3297081716727457431]
+    [                                               ]
+    [2098092950             1    3297081716727457429]
+
+                                                [1    0    1002319971]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1360058746]
+
+  "______________________________________________________________________________"
+
+                            "In Deterministic_NDSA"
+
+                           "In projection_image_phi"
+
+                             "sigma_:", [128, 2187]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1277654157    2743741407401416425]
+    [                                              ]
+    [725588201             1    2743741407401416423]
+
+                                                [1    0    1662294498]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1419912846]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    66487173    142780116686272761]
+    [                                            ]
+    [1184848455           1    142780116686272759]
+
+                                                 [1    0    434664638]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    255389419]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    2067144090    4439158127200552143]
+    [                                              ]
+    [939300282             1    4439158127200552141]
+
+                                                [1    0     150781529]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1607693015]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    2088492024    4485002466341439507]
+    [                                               ]
+    [1395045211             1    4485002466341439505]
+
+                                                [1    0    1714660362]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     966095761]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1930662365    4146065854785182793]
+    [                                               ]
+    [1414755437             1    4146065854785182791]
+
+                                                 [1    0    168022380]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    835340834]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1221720797    2623625431535585865]
+    [                                              ]
+    [433788390             1    2623625431535585863]
+
+                                                [1    0     374356633]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    2145777189]
+
+  "______________________________________________________________________________"
+
+"MRFI num_eval: ", [[2382990515, 353260302, 1295287774, 1710457840, 960225754,
+
+    1727407298, 1594935015, 1105099906], [4059460426, 1676469911, 706520604,
+
+    40054023, 1968980260, 1524372496, 1983793406, 142850631]]
+
+"MRFI den_eval: ", [[2147483647, 1558716477, 173597104, 452815454, 2128125554,
+
+    1442567919, 1624189403, 566434660], [2147483647, 1558716477, 173597104,
+
+    452815454, 2128125554, 1442567919, 1624189403, 566434660]]
+
+  "______________________________________________________________________________"
+
+                       "numerator_done: ", [false, false]
+
+                      "denominator_done: ", [false, false]
+
+  "--------------------------------------------------------------------------------"
+
+"MRFI k=", 1
+"MRFI numerator_done[", 1, "]=", false
+  "______________________________________________________________________________"
+
+                                   "In BMEA"
+
+"v=", [2382990515, 353260302, 1295287774, 1710457840, 960225754, 1727407298, 
+1594935015, 1105099906]
+"MRFI temp (numerator)=", Z^3+2147483640*Z^2+14*Z+2147483639
+"MRFI lambda_num: ", [Z^3+2147483640*Z^2+14*Z+2147483639]
+"MRFI terms_num: ", 3
+"MRFI R_num: ", [[1, 1], [2, 1], [4, 1]]
+  "--------------------------------------------------------------------------------"
+
+                 "Checking termination condition for numerator"
+
+                          "nops(R_num[", 1, "]): ", 3
+
+                  "R_num[", 1, "]: ", [[1, 1], [2, 1], [4, 1]]
+
+                           "terms_num[", 1, "]: ", 3
+
+                                    "T: ", 4
+
+                 "MRFI Numerator component ", 1, " recovered!"
+
+  "____________________________________________________________________________"
+
+"MRFI k=", 2
+"MRFI numerator_done[", 2, "]=", false
+  "______________________________________________________________________________"
+
+                                   "In BMEA"
+
+"v=", [4059460426, 1676469911, 706520604, 40054023, 1968980260, 1524372496, 
+1983793406, 142850631]
+"MRFI temp (numerator)=", Z^4+2147483635*Z^3+47*Z^2+2147483575*Z+36
+"MRFI lambda_num: ", [Z^4+2147483635*Z^3+47*Z^2+2147483575*Z+36]
+"MRFI terms_num: ", 4
+"MRFI R_num: ", [[1, 1], [2, 1], [3, 1], [6, 1]]
+  "--------------------------------------------------------------------------------"
+
+                 "Checking termination condition for numerator"
+
+                          "nops(R_num[", 2, "]): ", 4
+
+              "R_num[", 2, "]: ", [[1, 1], [2, 1], [3, 1], [6, 1]]
+
+                           "terms_num[", 2, "]: ", 4
+
+                                    "T: ", 4
+
+                 "MRFI Numerator component ", 2, " recovered!"
+
+  "____________________________________________________________________________"
+
+  "===================================================================================="
+
+                       "MFRI processing denominators now"
+
+"MRFI den_eval: ", [[2147483647, 1558716477, 173597104, 452815454, 2128125554,
+1442567919, 1624189403, 566434660], [2147483647, 1558716477, 173597104, 
+452815454, 2128125554, 1442567919, 1624189403, 566434660]]
+"MRFI common_den_flag: ", true
+"In common_den_flag"
+  "______________________________________________________________________________"
+
+                                   "In BMEA"
+
+"v=", [2147483647, 1558716477, 173597104, 452815454, 2128125554, 1442567919, 
+1624189403, 566434660]
+"MRFI temp (denominator)=", Z^2+2147483640*Z+6
+"MRFI lambda_den: ", [Z^2+2147483640*Z+6]
+"MRFI terms_den: ", 2
+"MRFI R_den: ", [[1, 1], [6, 1]]
+  "--------------------------------------------------------------------------------"
+
+                       "BMEA done status: ", [true, true]
+
+                           "All done status: ", true
+
+"MRFI All components recovered!"
+               "MRFI Roots_num_eval: ", [[1, 2, 4], [1, 2, 3, 6]]
+
+                   "MRFI Roots_den_eval: ", [[1, 6], [1, 6]]
+
+                             3               2
+"lambda_num: ", table([1 = [Z  + 2147483640 Z  + 14 Z + 2147483639],
+
+          4               3       2
+    2 = [Z  + 2147483635 Z  + 47 Z  + 2147483575 Z + 36]
+
+    ])
+
+                                       2
+          "lambda_den: ", table([1 = [Z  + 2147483640 Z + 6], 2 = []])
+
+                     "-----------------------------------"
+
+                            "In generate_monomials"
+
+                              "roots_=", [1, 2, 4]
+
+                                                 2
+                             "temp= ", [1, y1, y1 ]
+
+                                                         2
+                    "MRFI num_mono[", 1, "]:", [1, y1, y1 ]
+
+                                    3               2
+     "MRFI lambda_num[", 1, "]:", [Z  + 2147483640 Z  + 14 Z + 2147483639]
+
+"In Zippel_Vandermonde_solver"
+                     "-----------------------------------"
+
+                            "In generate_monomials"
+
+                            "roots_=", [1, 2, 3, 6]
+
+                          "temp= ", [1, y1, y2, y1 y2]
+
+                 "MRFI num_mono[", 2, "]:", [1, y1, y2, y1 y2]
+
+                                4               3       2
+ "MRFI lambda_num[", 2, "]:", [Z  + 2147483635 Z  + 47 Z  + 2147483575 Z + 36]
+
+"In Zippel_Vandermonde_solver"
+                                           2
+        "num_mono: ", table([1 = [1, y1, y1 ], 2 = [1, y1, y2, y1 y2]])
+
+"coeff_num: ", table([1 = [353260302, 1911976779, 117753434],
+
+    2 = [117753434, 2029730213, 1794223345, 117753434]
+
+    ])
+
+                            "In generate_monomials"
+
+                               "roots_=", [1, 6]
+
+"In Zippel_Vandermonde_solver"
+                        "In construct_final_polynomial"
+
+                                    "k= ", 1
+
+                              "After normalizing"
+
+               "coeff_num[", 1, "]", [2147483644, 2, 2147483646]
+
+                     "coeff_den[", 1, "]", [2147483646, 1]
+
+                                    "k= ", 2
+
+                              "After normalizing"
+
+              "coeff_num[", 2, "]", [2147483646, 1, 3, 2147483646]
+
+                     "coeff_den[", 2, "]", [2147483646, 1]
+
+"MRFI ========================================"
+"MRFI RECOVERY COMPLETE"
+"MRFI ========================================"
+
+
+> print("Displaying the results"):
+                            "Displaying the results"
+
+
+> if(num_eqn >1)then 
+>     og_soln:=get_eqn(Sys,Vars):
+>     # og_unordered_soln:=convert(og_soln,list):
+>     # og_soln:=reording(og_unordered_soln,nops(Sys)):
+>     # fin_rat_recon:=Vector(convert(Rat_recon,list)):
+>     fin_rat_recon:=convert(og_soln,list):
+>     for i from 1 to num_eqn do 
+>         print("x",i,"="):
+>         N_Fin[i]:=construct_final_polynomial(NCQ[i],NM[i]):
+>         D_Fin[i]:=construct_final_polynomial(DCQ[i],DM[i]):
+>         Rat_recon[i]:=N_Fin[i]/D_Fin[i]:
+>         lprint("Rat_recon= ",Rat_recon[i]):
+>         lprint("original_soln =",op(2,og_soln[i])):
+>         print("f",i,"/g",i,"-","ff",i,"/gg",i,"=",simplify(Rat_recon[i]-op(2,og_soln[i])));
+>     end do:
+>     elif num_eqn =1 then 
+>         N_Fin[1]:=construct_final_polynomial(NCQ[1],NM[1]):
+>         D_Fin[1]:=construct_final_polynomial(DCQ[1],DM[1]):
+>         Rat_recon[1]:=N_Fin[1]/D_Fin[1]:
+>         MRFI_B:= Construct_Rational_Blackbox(N_Fin[1],D_Fin[1],Vars):
+>         print("Black box for interpolated rational polynomial: MFRI_B"):
+>         # fin_rat_recon:=Vector(convert(Rat_recon,list)):
+>         # lprint("Rat_recon= ",sort(Rat_recon[1],Vars)):
+>         lprint("Rat_recon= ",sort(Rat_recon[1],Vars)):
+>     # print("lcoeff g = ",lcoeff(g,))
+>         lprint("Original equation =",sort(F/G,Vars)):
+>         R:=rand(p):
+>         testing_point:=[seq(R(),i=1..num_vars)]:
+>         print("testing_point = ",testing_point):
+>         print("B(testing_point,p)-MRFI_B(testing_point,p) = ", B(testing_point,p)-MRFI_B(testing_point,p)):
+>         print("field = ",field):
+> end if:
+                                  "in get_eqn"
+
+                                  "x", 1, "="
+
+                        "In construct_final_polynomial"
+
+                        "In construct_final_polynomial"
+
+"Rat_recon= ", (-y1^2+2*y1-3)/(y1*y2-1)
+"original_soln =", -(y1^2-2*y1+3)/(y1*y2-1)
+                "f", 1, "/g", 1, "-", "ff", 1, "/gg", 1, "=", 0
+
+                                  "x", 2, "="
+
+                        "In construct_final_polynomial"
+
+                        "In construct_final_polynomial"
+
+"Rat_recon= ", (-y1*y2+y1+3*y2-1)/(y1*y2-1)
+"original_soln =", -(y1*y2-y1-3*y2+1)/(y1*y2-1)
+                "f", 2, "/g", 2, "-", "ff", 2, "/gg", 2, "=", 0
+
+
+> print("======================================================"):
+            "======================================================"
+
+
+> lprint("Total Black Box Calls:", counter):
+"Total Black Box Calls:", 54

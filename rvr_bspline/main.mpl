@@ -29,15 +29,15 @@ p:= 2^31 - 1:
 # B:= Construct_Rational_Blackbox(F,G,Vars):
 
 
-test_case:="rat_rand":
-num_var:=3:
-num_terms:=11:
-den_terms:=9:
-num_coeff_bound:=20:
-den_coeff_bound:=20:
-Vars,F,G,num_vars,num_eqn,params,field:=get_data(test_case,num_var,num_terms,den_terms,num_coeff_bound,den_coeff_bound):
-counter := 0:
-B:= Construct_Rational_Blackbox(F,G,Vars):
+# test_case:="rat_rand":
+# num_var:=3:
+# num_terms:=11:
+# den_terms:=9:
+# num_coeff_bound:=20:
+# den_coeff_bound:=20:
+# Vars,F,G,num_vars,num_eqn,params,field:=get_data(test_case,num_var,num_terms,den_terms,num_coeff_bound,den_coeff_bound):
+# counter := 0:
+# B:= Construct_Rational_Blackbox(F,G,Vars):
 
 # lprint("Variables:", Vars):
 # lprint("Numerator F:", F):
@@ -49,11 +49,12 @@ B:= Construct_Rational_Blackbox(F,G,Vars):
 # test_case:="example":
 # test_case:="small_sys_low_deg":
 # test_case:="bspline":
-# test_case:="small_Sys":
+test_case:="small_Sys":
 
-# Sys, Vars, params, num_vars, num_eqn,field:= get_data(test_case):
-# counter := 0:
-# B := Constuct_Sys_Blackbox(Sys, Vars, params):
+Sys, Vars, params, num_vars, num_eqn,field:= get_data(test_case):
+counter := 0:
+B := Constuct_Sys_Blackbox(Sys, Vars, params):
+
 
 
 
@@ -93,8 +94,8 @@ if(num_eqn >1)then
         N_Fin[i]:=construct_final_polynomial(NCQ[i],NM[i]):
         D_Fin[i]:=construct_final_polynomial(DCQ[i],DM[i]):
         Rat_recon[i]:=N_Fin[i]/D_Fin[i]:
-        print("Rat_recon= ",Rat_recon[i]):
-        print("original_soln =",og_soln[i]):
+        lprint("Rat_recon= ",Rat_recon[i]):
+        lprint("original_soln =",og_soln[i]):
     end do:
     elif num_eqn =1 then 
         N_Fin[1]:=construct_final_polynomial(NCQ[1],NM[1]):
@@ -116,3 +117,19 @@ end if:
 print("======================================================"):
 
 lprint("Total Black Box Calls:", counter):
+
+param1:=6:
+param2:=2:
+debug_point:=B([param1,param2],p):
+print("B([",param1,",",param2,"],p) = ",debug_point):
+# For param1=6, param2=2 we get "B([", 6, ",", 2, "],p) = ", [976128928, 195225786] where
+# igcd(976128928, 195225786) = 2 and the reduced form is [488064464, 97612893]
+# For 0_lin_solve_MRFI_Vector/main.mpl that uses LinearSolve(p,A,1), we get
+# "B([", 6, ",", 2, "],p) = ", [1366580498, 1561806289] where igcd(1366580498, 1561806289)=1
+
+# LEts try 111
+# param1:=111:
+# param2:=111:
+# debug_point:=B([param1,param2],p):
+# print("B([",param1,",",param2,"],p) = ",debug_point):
+# print("igcd(debug_point[1], debug_point[2]) = ", igcd(debug_point[1], debug_point[2]) mod p):

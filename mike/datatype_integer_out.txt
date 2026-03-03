@@ -1,0 +1,908 @@
+    |\^/|     Maple 2023 (X86 64 LINUX)
+._|\|   |/|_. Copyright (c) Maplesoft, a division of Waterloo Maple Inc. 2023
+ \  MAPLE  /  All rights reserved. Maple is a trademark of
+ <____ ____>  Waterloo Maple Inc.
+      |       Type ? for help.
+> read "./0_construct_BB.mpl":
+> read "./1_MRFI.mpl":
+> read "./2a_NDSA.mpl":
+> read "./2b_Deterministic_NDSA.mpl":
+> read "./3_projection_phi.mpl":
+> read "./4_MQRFR.mpl":
+> read "./5_BMEA.mpl":
+> read "./6_generate_monomials.mpl":
+> read "./7_zippel_vandermonde_solver.mpl":
+> read "./8_construct_final_polynomial.mpl":
+> read "./9_rvr.mpl":
+> read "./data_gen.mpl":
+> read "./helpers.mpl":
+
+> p:= 2^31 - 1:
+
+# Vars,F,G,num_vars,num_eqn,params := get_data(1):
+# counter := 0:
+# B:= Construct_Rational_Blackbox(F,G,Vars):
+
+
+
+# test_case:="rand":
+# num_var:=3:
+# num_terms:=11:
+# den_terms:=9:
+# Vars,F,G,num_vars,num_eqn,params,field:=get_data(test_case,num_var,num_terms,den_terms):
+# counter := 0:
+# B:= Construct_Rational_Blackbox(F,G,Vars):
+
+
+# test_case:="rat_rand":
+# num_var:=3:
+# num_terms:=11:
+# den_terms:=9:
+# num_coeff_bound:=20:
+# den_coeff_bound:=20:
+# Vars,F,G,num_vars,num_eqn,params,field:=get_data(test_case,num_var,num_terms,den_terms,num_coeff_bound,den_coeff_bound):
+# counter := 0:
+# B:= Construct_Rational_Blackbox(F,G,Vars):
+
+# lprint("Variables:", Vars):
+# lprint("Numerator F:", F):
+# lprint("Denominator G:", G):
+# print("num_eqn =",num_eqn):
+
+
+
+# test_case:="example":
+# test_case:="small_sys_low_deg":
+# test_case:="bspline":
+> test_case:="small_Sys":
+
+> Sys, Vars, params, num_vars, num_eqn,field:= get_data(test_case):
+                                 "in get_data"
+
+> counter := 0:
+> B := Constuct_Sys_Blackbox(Sys, Vars, params):
+
+
+
+
+# print("Number of equations:", num_eqn):
+# print("Number of parameters:", num_vars):
+# Create black box
+> try
+> NC,DC,NM,DM := MRFI(B, num_vars, num_eqn, params, p):
+>     catch:
+>     lprint("ERROR:", lasterror()):
+> end try:
+"MRFI  ========================================"
+"MRFI Starting MRFI"
+"MRFI Number of parameters:", 2
+"MRFI Number of equations:", 2
+"MRFI ========================================"
+"MRFI numerator_done: ", [false, false]
+"MRFI denominator_done: ", [false, false]
+                                   "In NDSA"
+
+                                   "T:= ", 4
+
+"NDSA: alpha: ", [581869302, 1742863086, 1438850937, 545404204]
+"NDSA:m: ", x^4+2133463412*x^3+979737197*x^2+1646167934*x+737293707
+                           "In projection_image_phi"
+
+                               "sigma_:", [1, 1]
+
+"NDSA:_phi: ", [[581869302, 863483642], [1742863086, 1495387918], [1438850937,
+1661964126], [545404204, 1836247237]]
+"Matrix before Gaussian elimination:  ",
+
+    [        1    581869302    1249554810154435095]
+    [                                             ]
+    [863483642            1    1249554810154435093]
+
+                                                 [1    0    742409776]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    500112256]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1742863086    3742769974402091559]
+    [                                               ]
+    [1495387918             1    3742769974402091557]
+
+                                                [1    0     611612939]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1166441002]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1438850937    3089908856239276305]
+    [                                               ]
+    [1661964126             1    3089908856239276303]
+
+                                                [1    0     167060846]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1002837786]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    545404204    1171246608549647787]
+    [                                              ]
+    [1836247237            1    1171246608549647785]
+
+                                                [1    0    1527629236]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1375726159]
+
+"NDSA: Y = ", [[742409776, 500112256], [611612939, 1166441002],
+
+    [167060846, 1002837786], [1527629236, 1375726159]]
+
+"row: ", 4, " col: ", 2
+               "NDSA:MQRFR failed. Trying again with more points"
+
+               "NDSA: mqrfr_done before reset: ", [false, false]
+
+"NDSA: Resetting result for equation ", 1
+"NDSA: Resetting result for equation ", 2
+               "_______________________________________________"
+
+                                   "T:= ", 8
+
+"NDSA: alpha: ", [2013771743, 1775435781, 949333985, 568478650, 1323567403, 
+418932835, 202810917, 1196140740]
+"NDSA:m: ", x^8+141462534*x^7+1227062277*x^6+859660274*x^5+1540470734*x^4+
+1919811045*x^3+1748478035*x^2+1772651389*x+1939003098
+                           "In projection_image_phi"
+
+                               "sigma_:", [1, 1]
+
+"NDSA:_phi: ", [[2013771743, 375437604], [1775435781, 766986592], [949333985, 
+1858195153], [568478650, 1136680131], [1323567403, 1863798943], [418932835, 
+1019136105], [202810917, 1166011425], [1196140740, 382373024]]
+"Matrix before Gaussian elimination:  ",
+
+    [        1    2013771743    4324541884869414981]
+    [                                              ]
+    [375437604             1    4324541884869414979]
+
+                                                [1    0    1927069691]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1391491141]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1775435781    3812719304220737529]
+    [                                              ]
+    [766986592             1    3812719304220737527]
+
+                                                 [1    0    152991872]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    261767463]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    949333985    2038679207379509313]
+    [                                              ]
+    [1858195153            1    2038679207379509311]
+
+                                                [1    0    1346917176]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1863858565]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    568478650    1220798603975157903]
+    [                                              ]
+    [1136680131            1    1220798603975157901]
+
+                                                 [1    0    905102210]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    871300760]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1323567403    2842339352321191341]
+    [                                               ]
+    [1863798943             1    2842339352321191339]
+
+                                                [1    0     457954411]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1843917517]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    418932835    899651411934916413]
+    [                                             ]
+    [1019136105            1    899651411934916411]
+
+                                                [1    0    1003619181]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     181316935]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    202810917    435533127487763385]
+    [                                             ]
+    [1166011425            1    435533127487763383]
+
+                                                [1    0     827396856]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    2040786546]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1196140740    2568692677464338043]
+    [                                              ]
+    [382373024             1    2568692677464338041]
+
+                                                [1    0    2079438260]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1771099102]
+
+"NDSA: Y = ", [[1927069691, 1391491141], [152991872, 261767463],
+
+    [1346917176, 1863858565], [905102210, 871300760], [457954411, 1843917517],
+
+    [1003619181, 181316935], [827396856, 2040786546], [2079438260, 1771099102]]
+
+"row: ", 8, " col: ", 2
+               "NDSA:MQRFR failed. Trying again with more points"
+
+               "NDSA: mqrfr_done before reset: ", [false, false]
+
+"NDSA: Resetting result for equation ", 1
+"NDSA: Resetting result for equation ", 2
+               "_______________________________________________"
+
+                                   "T:= ", 16
+
+"NDSA: alpha: ", [809094426, 201354591, 2116909072, 1964976871, 2132285156, 
+1996681049, 2008734458, 676943009, 969970961, 2021180595, 2066350391, 
+1963517098, 471852626, 2084672536, 1280354905, 1289694812]
+"NDSA:m: ", x^16+1715231208*x^15+1199817441*x^14+995460137*x^13+313066908*x^12+
+1795730843*x^11+148136834*x^10+316663532*x^9+713717693*x^8+1649509093*x^7+
+1801568023*x^6+671442121*x^5+1803526489*x^4+1134558405*x^3+1507226303*x^2+
+883912787*x+1586318661
+                           "In projection_image_phi"
+
+                               "sigma_:", [1, 1]
+
+"NDSA:_phi: ", [[809094426, 656080958], [201354591, 2044126768], [2116909072, 
+250949026], [1964976871, 1367883831], [2132285156, 2079509557], [1996681049, 
+1168416959], [2008734458, 662744646], [676943009, 1223757478], [969970961, 
+910979540], [2021180595, 1471896078], [2066350391, 1326930952], [1963517098, 
+731737609], [471852626, 1044964701], [2084672536, 1845197310], [1280354905, 
+88919342], [1289694812, 150938630]]
+"Matrix before Gaussian elimination:  ",
+
+    [        1    809094426    1737517047904757199]
+    [                                             ]
+    [656080958            1    1737517047904757197]
+
+                                                [1    0    1708966805]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     268111910]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    201354591    432405691219518789]
+    [                                             ]
+    [2044126768            1    432405691219518787]
+
+                                                [1    0    1849464527]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     127473675]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    2116909072    4546027612189036515]
+    [                                              ]
+    [250949026             1    4546027612189036513]
+
+                                                [1    0    1269743086]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     617520690]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1964976871    4219755695240751669]
+    [                                               ]
+    [1367883831             1    4219755695240751667]
+
+                                                [1    0     449004077]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1508477641]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    2132285156    4579047501118558779]
+    [                                               ]
+    [2079509557             1    4579047501118558777]
+
+                                                [1    0    1680826595]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1967425797]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1996681049    4287839899005624657]
+    [                                               ]
+    [1168416959             1    4287839899005624655]
+
+                                                [1    0    1642133863]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1908615704]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    2008734458    4313724397711673871]
+    [                                              ]
+    [662744646             1    4313724397711673869]
+
+                                                [1    0    1456787110]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     453779267]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    676943009    1453724041101530817]
+    [                                              ]
+    [1223757478            1    1453724041101530815]
+
+                                                 [1    0    955670360]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    990188565]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    969970961    2082996775842403809]
+    [                                             ]
+    [910979540            1    2082996775842403807]
+
+                                                [1    0    2041394275]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1247054309]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    2021180595    4340452273375049373]
+    [                                               ]
+    [1471896078             1    4340452273375049371]
+
+                                                [1    0     515715957]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1084774423]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    2066350391    4437453671578205589]
+    [                                               ]
+    [1326930952             1    4437453671578205587]
+
+                                                [1    0    1994139499]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     665592763]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1963517098    4216620856596379311]
+    [                                              ]
+    [731737609             1    4216620856596379309]
+
+                                                [1    0    2062901096]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1468166565]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    471852626    1013295797657154399]
+    [                                              ]
+    [1044964701            1    1013295797657154397]
+
+                                                [1    0    1267082497]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     462575667]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    2084672536    4476800178325346259]
+    [                                               ]
+    [1845197310             1    4476800178325346257]
+
+                                                [1    0     585299187]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1343233014]
+
+"Matrix before Gaussian elimination:  ",
+
+    [       1    1280354905    2749541219563383633]
+    [                                             ]
+    [88919342             1    2749541219563383631]
+
+                                                [1    0    1418797682]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     142981283]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1289694812    2769598517101044555]
+    [                                              ]
+    [150938630             1    2769598517101044553]
+
+                                                 [1    0    970910676]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    721956951]
+
+"NDSA: Y = ", [[1708966805, 268111910], [1849464527, 127473675],
+
+    [1269743086, 617520690], [449004077, 1508477641], [1680826595, 1967425797],
+
+    [1642133863, 1908615704], [1456787110, 453779267], [955670360, 990188565],
+
+    [2041394275, 1247054309], [515715957, 1084774423], [1994139499, 665592763],
+
+    [2062901096, 1468166565], [1267082497, 462575667], [585299187, 1343233014],
+
+    [1418797682, 142981283], [970910676, 721956951]]
+
+"row: ", 16, " col: ", 2
+               "NDSA:MQRFR failed. Trying again with more points"
+
+               "NDSA: mqrfr_done before reset: ", [false, false]
+
+"NDSA: Resetting result for equation ", 1
+"NDSA: Resetting result for equation ", 2
+               "_______________________________________________"
+
+                                   "T:= ", 32
+
+"NDSA: alpha: ", [1275731771, 609397212, 20544909, 1811450929, 483031418, 
+1785570478, 600279047, 1255020905, 1625347245, 1973504939, 15731080, 668901196,
+1279593658, 153380495, 1551745920, 1499498949, 910208076, 1863986797, 778933286
+, 767661659, 1712568902, 1106985410, 1033572045, 1044246012, 2039073006, 
+1684602222, 1812852786, 667772468, 746745227, 735241234, 1296707006, 884961191]
+memory used=8.5MB, alloc=73.3MB, time=0.09
+"NDSA:m: ", x^32+812374521*x^31+290639516*x^30+1071909444*x^29+1603830776*x^28+
+1976394630*x^27+1634825144*x^26+1017771229*x^25+1604634853*x^24+1280650188*x^23
++292599962*x^22+364125773*x^21+505879297*x^20+70294158*x^19+1778092774*x^18+
+1993824516*x^17+1648529401*x^16+114037028*x^15+1517570360*x^14+1109423851*x^13+
+140480282*x^12+1444045916*x^11+342292868*x^10+2059957568*x^9+1798105964*x^8+
+641908699*x^7+1347337457*x^6+1833137264*x^5+30493920*x^4+614587460*x^3+
+218072597*x^2+237090329*x+955577180
+                           "In projection_image_phi"
+
+                               "sigma_:", [1, 1]
+
+"NDSA:_phi: ", [[1275731771, 942243106], [609397212, 732956845], [20544909, 
+1282389427], [1811450929, 115324537], [483031418, 1864850922], [1785570478, 
+1873559574], [600279047, 503100820], [1255020905, 27137082], [1625347245, 
+2123162427], [1973504939, 1569790793], [15731080, 1128734915], [668901196, 
+888180752], [1279593658, 233222989], [153380495, 1546501567], [1551745920, 
+1076293294], [1499498949, 597280443], [910208076, 1706681424], [1863986797, 
+1584164381], [778933286, 1355193595], [767661659, 1076681879], [1712568902, 
+1769792507], [1106985410, 1999422634], [1033572045, 802906724], [1044246012, 
+2104521012], [2039073006, 2114376125], [1684602222, 550150778], [1812852786, 
+591059120], [667772468, 1130933285], [746745227, 202464502], [735241234, 
+1704531123], [1296707006, 516217517], [884961191, 160699779]]
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1275731771    2739613114905117069]
+    [                                              ]
+    [942243106             1    2739613114905117067]
+
+                                                [1    0     729479882]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1225850454]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    609397212    1308670546687994955]
+    [                                             ]
+    [732956845            1    1308670546687994953]
+
+                                                 [1    0    392423366]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    870504925]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    20544909    44119856086058217]
+    [                                           ]
+    [1282389427           1    44119856086058215]
+
+                                                [1    0      71883330]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1071248396]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1811450929    3890061245559007137]
+    [                                              ]
+    [115324537             1    3890061245559007135]
+
+                                                [1    0     997133320]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1973931672]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    483031418    1037302070659190031]
+    [                                              ]
+    [1864850922            1    1037302070659190029]
+
+                                                [1    0    1590903340]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    2017109930]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1785570478    3834483400285402791]
+    [                                               ]
+    [1873559574             1    3834483400285402789]
+
+                                                 [1    0    667814290]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    991130734]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    600279047    1289089436468965365]
+    [                                             ]
+    [503100820            1    1289089436468965363]
+
+                                                 [1    0    260618209]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    430358637]
+
+"Matrix before Gaussian elimination:  ",
+
+    [       1    1255020905    2695136868875619633]
+    [                                             ]
+    [27137082             1    2695136868875619631]
+
+                                                [1    0    1642098746]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     917452056]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1625347245    3490406627708655273]
+    [                                               ]
+    [2123162427             1    3490406627708655271]
+
+                                                [1    0    1316039631]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     190244361]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1973504939    4238069581802727597]
+    [                                               ]
+    [1569790793             1    4238069581802727595]
+
+                                                [1    0       7088471]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1576004602]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    15731080    33782237033917683]
+    [                                           ]
+    [1128734915           1    33782237033917681]
+
+                                                 [1    0    312531038]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    221314169]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    668901196    1436454379199840619]
+    [                                             ]
+    [888180752            1    1436454379199840617]
+
+                                                 [1    0    199631462]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    309903150]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1279593658    2747906454080317071]
+    [                                              ]
+    [233222989             1    2747906454080317069]
+
+                                                [1    0     819763837]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1388448160]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    153380495    329382104627884773]
+    [                                             ]
+    [1546501567            1    329382104627884771]
+
+                                                 [1    0     18398467]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1    284899468]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1551745920    3332348985947224323]
+    [                                               ]
+    [1076293294             1    3332348985947224321]
+
+                                                [1    0    1896667844]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    2038416214]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1499498949    3220149470171688057]
+    [                                              ]
+    [597280443             1    3220149470171688055]
+
+                                                 [1    0    292573910]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1      3998208]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    910208076    1954656957667125099]
+    [                                              ]
+    [1706681424            1    1954656957667125097]
+
+                                                [1    0    1057160549]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     988706659]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1863986797    4002881162917421865]
+    [                                               ]
+    [1584164381             1    4002881162917421863]
+
+                                                [1    0     734723214]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1963405418]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    778933286    1672746493010040759]
+    [                                              ]
+    [1355193595            1    1672746493010040757]
+
+                                                 [1    0    772961852]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1     80730869]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    767661659    1648540858363728717]
+    [                                              ]
+    [1076681879            1    1648540858363728715]
+
+                                                [1    0    1802784387]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1912009776]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1712568902    3677713709693176695]
+    [                                               ]
+    [1769792507             1    3677713709693176693]
+
+                                                [1    0     778293284]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1323315154]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1106985410    2377233064335604863]
+    [                                               ]
+    [1999422634             1    2377233064335604861]
+
+                                                [1    0    2136927308]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     266223843]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1033572045    2219579063600276073]
+    [                                              ]
+    [802906724             1    2219579063600276071]
+
+                                                 [1    0    511774319]
+          "Matrix after Gaussian elimination: ", [                   ]
+                                                 [0    1     75864981]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    1044246012    2242501233170719755]
+    [                                               ]
+    [2104521012             1    2242501233170719753]
+
+                                                [1    0    1429817890]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1254255330]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    2039073006    4378875933385059879]
+    [                                               ]
+    [2114376125             1    4378875933385059877]
+
+                                                [1    0    1100766241]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1167076009]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1684602222    3617655721760261415]
+    [                                              ]
+    [550150778             1    3617655721760261413]
+
+                                                [1    0    1599887967]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     642776317]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1812852786    3893071710540537759]
+    [                                              ]
+    [591059120             1    3893071710540537757]
+
+                                                [1    0    2104113394]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1295356453]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    667772468    1434030454279058331]
+    [                                              ]
+    [1130933285            1    1434030454279058329]
+
+                                                [1    0     324436893]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1081452706]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    746745227    1603623162711057645]
+    [                                             ]
+    [202464502            1    1603623162711057643]
+
+                                                [1    0    1642881420]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1     192015017]
+
+"Matrix before Gaussian elimination:  ",
+
+    [         1    735241234    1578918525879859167]
+    [                                              ]
+    [1704531123            1    1578918525879859165]
+
+                                                [1    0    1717926569]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    2001831981]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    1296707006    2784657089038623879]
+    [                                              ]
+    [516217517             1    2784657089038623877]
+
+                                                [1    0       4666051]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1867213749]
+
+"Matrix before Gaussian elimination:  ",
+
+    [        1    884961191    1900439685017182389]
+    [                                             ]
+    [160699779            1    1900439685017182387]
+
+                                                [1    0     296337016]
+         "Matrix after Gaussian elimination: ", [                    ]
+                                                [0    1    1296363196]
+
+"NDSA: Y = ", [[729479882, 1225850454], [392423366, 870504925],
+
+    [71883330, 1071248396], [997133320, 1973931672], [1590903340, 2017109930],
+
+    [667814290, 991130734], [260618209, 430358637], [1642098746, 917452056],
+
+    [1316039631, 190244361], [7088471, 1576004602], [312531038, 221314169],
+
+    [199631462, 309903150], [819763837, 1388448160], [18398467, 284899468],
+
+    [1896667844, 2038416214], [292573910, 3998208], [1057160549, 988706659],
+
+    [734723214, 1963405418], [772961852, 80730869], [1802784387, 1912009776],
+
+    [778293284, 1323315154], [2136927308, 266223843], [511774319, 75864981],
+
+    [1429817890, 1254255330], [1100766241, 1167076009], [1599887967, 642776317],
+
+    [2104113394, 1295356453], [324436893, 1081452706], [1642881420, 192015017],
+
+    [1717926569, 2001831981], [4666051, 1867213749], [296337016, 1296363196]]
+
+"row: ", 32, " col: ", 2
+               "NDSA:MQRFR failed. Trying again with more points"
+
+               "NDSA: mqrfr_done before reset: ", [false, false]
+
+"NDSA: Resetting result for equation ", 1
+"NDSA: Resetting result for equation ", 2
+               "_______________________________________________"
+
+"ERROR:", "mismatched multiple assignment of %1 variables on the left side and \
+1 value on the right side"(), 2
+
+
+
+> print("======================================================"):
+            "======================================================"
+
+> print("Displaying the results"):
+                            "Displaying the results"
+
+
+> if(num_eqn >1)then 
+>     og_soln:=get_eqn(Sys,Vars):
+>     # og_unordered_soln:=convert(og_soln,list):
+>     # og_soln:=reording(og_unordered_soln,nops(Sys)):
+>     # fin_rat_recon:=Vector(convert(Rat_recon,list)):
+>     fin_rat_recon:=convert(og_soln,list):
+>     for i from 1 to num_eqn do 
+>         print("x",i,"="):
+>         N_Fin[i]:=construct_final_polynomial(NCQ[i],NM[i]):
+>         D_Fin[i]:=construct_final_polynomial(DCQ[i],DM[i]):
+>         Rat_recon[i]:=N_Fin[i]/D_Fin[i]:
+>         lprint("Rat_recon= ",Rat_recon[i]):
+>         lprint("original_soln =",op(2,og_soln[i])):
+>         print("f",i,"/g",i,"-","ff",i,"/gg",i,"=",simplify(Rat_recon[i]-op(2,og_soln[i])));
+>     end do:
+>     elif num_eqn =1 then 
+>         N_Fin[1]:=construct_final_polynomial(NCQ[1],NM[1]):
+>         D_Fin[1]:=construct_final_polynomial(DCQ[1],DM[1]):
+>         Rat_recon[1]:=N_Fin[1]/D_Fin[1]:
+>         MRFI_B:= Construct_Rational_Blackbox(N_Fin[1],D_Fin[1],Vars):
+>         print("Black box for interpolated rational polynomial: MFRI_B"):
+>         # fin_rat_recon:=Vector(convert(Rat_recon,list)):
+>         # lprint("Rat_recon= ",sort(Rat_recon[1],Vars)):
+>         lprint("Rat_recon= ",sort(Rat_recon[1],Vars)):
+>     # print("lcoeff g = ",lcoeff(g,))
+>         lprint("Original equation =",sort(F/G,Vars)):
+>         R:=rand(p):
+>         testing_point:=[seq(R(),i=1..num_vars)]:
+>         print("testing_point = ",testing_point):
+>         print("B(testing_point,p)-MRFI_B(testing_point,p) = ", B(testing_point,p)-MRFI_B(testing_point,p)):
+>         print("field = ",field):
+> end if:
+                                  "in get_eqn"
+
+                                  "x", 1, "="
+
+                        "In construct_final_polynomial"
+
+Error, (in construct_final_polynomial) invalid input: numelems expects its 1st
+argument, t, to be of type indexable, but received NCQ[1]
+|8_construct_final_polynomial.mpl:5|
+
+> print("======================================================"):
+            "======================================================"
+
+
+> lprint("Total Black Box Calls:", counter):
+"Total Black Box Calls:", 60
+
+# param1:=6:
+# param2:=2:
+# debug_point:=B([param1,param2],p):
+
+#With datatype=integer[8]
+"B([", 6, ",", 2, "],p) = ", [1366580498, 1561806289]
+
+# Without datatype=integer[8]
+ "B([", 6, ",", 2, "],p) = ", [976128928, 195225786]
+
+memory used=13.7MB, alloc=73.3MB, time=0.12
